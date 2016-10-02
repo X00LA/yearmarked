@@ -47,14 +47,14 @@
 					<include>**/*.properties</include>
 				</includes>
 				<excludes>
-					<exclude>plugin.yml</exclude>
+					<exclude>**/*.yml</exclude>
 				</excludes>
 			</resource>
 			<resource>
 				<filtering>false</filtering>
 				<directory>${basedir}/src/main/resources</directory>
 				<includes>
-					<include>plugin.yml</include>
+					<include>**/*.yml</include>
 				</includes>
 				<excludes>
 					<exclude>**/*.properties</exclude>
