@@ -12,7 +12,7 @@ Worttag: Only netherwart grows, but it grows faster
 public enum MinecraftDayOfWeekEnum {
 	MONSOONDAY(1, "MONSOONDAY", "Monsoonday"),
 	EARTHDAY(2, "EARTHDAY", "Earthday"),
-	SNOWDAY(3, "SNOWDAY", "Snowday"),
+	DIAMONDAY(3, "DIAMONDAY", "Diamonday"),
 	TWILIGHTNESS(4, "TWILIGHTNESS", "Twilightness"),
 	LIGHTNESS(5, "LIGHTNESS", "Ligness"),
 	DONNERSTAG(6, "DONNERSTAG", "Donnerstag"),

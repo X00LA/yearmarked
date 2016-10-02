@@ -4,29 +4,21 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 import java.util.ResourceBundle;
 
-import org.bukkit.CropState;
-import org.bukkit.Material;
-import org.bukkit.WeatherType;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.Crops;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.blocktyper.localehelper.LocaleHelper;
+import com.blocktyper.yearmarked.listeners.DiamondayListener;
+import com.blocktyper.yearmarked.listeners.EarthdayListener;
 
 public class YearmarkedPlugin extends JavaPlugin implements Listener {
-
-	private Random random = new Random();
 
 	public static String KEY_WORLDS = "yearmarked-worlds";
 	private String LOCALIZED_KEY_WORLD = "yearmarked.world";
@@ -50,6 +42,13 @@ public class YearmarkedPlugin extends JavaPlugin implements Listener {
 			worlds.add("world");
 		}
 
+		startWorldMonitors();
+
+		registerListeners();
+
+	}
+
+	private void startWorldMonitors() {
 		for (String world : worlds) {
 			getLogger().info(getLocalizedMessage(LOCALIZED_KEY_WORLD) + ": " + world);
 			TimeMonitor timeMonitor = new TimeMonitor(this, world);
@@ -63,46 +62,11 @@ public class YearmarkedPlugin extends JavaPlugin implements Listener {
 			this.getLogger().info("Checking time every " + checkTimeInterval + "sec.");
 			timeMonitor.runTaskTimer(this, checkTimeInterval, checkTimeInterval * 20L);
 		}
-
 	}
 
-	@EventHandler
-	public void onCropsBreak(BlockBreakEvent event) {
-		event.getPlayer().sendMessage("block broken");
-		final Block block = event.getBlock();
-		
-		
-		/*
-		 * case CARROT:
-        case POTATO:
-            return blockState.getRawData() == CropState.RIPE.getData();
-
-        case CROPS:
-            return ((Crops) blockState.getData()).getState() == CropState.RIPE;
-		 */
-		
-		if (block.getType() == Material.CROPS && ((Crops) block.getState().getData()).getState() == CropState.RIPE) {
-			event.getPlayer().sendMessage("crops");
-			MinecraftCalendar cal = new MinecraftCalendar(block.getWorld());
-			if (cal.getDayOfWeekEnum().equals(MinecraftDayOfWeekEnum.EARTHDAY)) {
-				
-				event.getPlayer().sendMessage("reward");
-				int rewardCount = random.nextInt(3) + 1;
-				event.getPlayer().sendMessage("count: " + rewardCount);
-				rewardWheat(block, rewardCount);
-			}else{
-				event.getPlayer().sendMessage("blockState:" + block.getState());
-				event.getPlayer().sendMessage(cal.getDayOfWeek() + "-" + cal.getDayOfWeekEnum().getDisplayName());
-			}
-		}else{
-			event.getPlayer().sendMessage("blockState:" + (block.getState() != null ? block.getState().toString() : "null"));
-		}
-		event.getPlayer().sendMessage("end.");
-	}
-
-	private void rewardWheat(Block block, int rewardCount) {
-
-		block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.WHEAT, rewardCount));
+	private void registerListeners() {
+		new EarthdayListener(this);
+		new DiamondayListener(this);
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = false)
@@ -114,15 +78,10 @@ public class YearmarkedPlugin extends JavaPlugin implements Listener {
 	public void playerChangedWorld(PlayerChangedWorldEvent event) {
 		initPlayer(event.getPlayer());
 	}
-	
-	private void initPlayer(Player player){
+
+	private void initPlayer(Player player) {
 		MinecraftCalendar cal = new MinecraftCalendar(player.getWorld().getFullTime());
 		sendPlayerDayInfo(player, cal);
-		if(MinecraftDayOfWeekEnum.MONSOONDAY.equals(cal.getDayOfWeekEnum())){
-			player.setPlayerWeather(WeatherType.DOWNFALL);
-		}else{
-			player.setPlayerWeather(WeatherType.CLEAR);
-		}
 	}
 
 	private void sendPlayerDayInfo(Player player, MinecraftCalendar cal) {
