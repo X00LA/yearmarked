@@ -7,12 +7,15 @@ import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.blocktyper.yearmarked.MinecraftCalendar;
 import com.blocktyper.yearmarked.MinecraftDayOfWeekEnum;
 import com.blocktyper.yearmarked.YearmarkedPlugin;
+
+import net.md_5.bungee.api.ChatColor;
 
 public class DiamondayListener extends AbstractListener {
 
@@ -22,11 +25,11 @@ public class DiamondayListener extends AbstractListener {
 		super(plugin);
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = false)
 	public void onDiamondBlockBreak(BlockBreakEvent event) {
 		final Block block = event.getBlock();
 
-		if (block.getType() != Material.DIAMOND) {
+		if (!block.getType().equals(Material.DIAMOND_ORE)) {
 			return;
 		}
 
@@ -41,13 +44,8 @@ public class DiamondayListener extends AbstractListener {
 			return;
 		}
 
-		event.getPlayer().sendMessage("reward");
-		int rewardCount = random.nextInt(1) + 1;
-		event.getPlayer().sendMessage("reward[x" + rewardCount + "] " + block.getType().toString());
-		reward(block, rewardCount);
-	}
-
-	private void reward(Block block, int rewardCount) {
+		int rewardCount = random.nextInt(2) + 1;
+		event.getPlayer().sendMessage(ChatColor.BLUE + "bonus[x" + rewardCount + "] " + block.getType().toString());
 		block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.DIAMOND, rewardCount));
 	}
 }

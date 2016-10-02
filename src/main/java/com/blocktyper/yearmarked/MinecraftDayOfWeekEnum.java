@@ -1,22 +1,13 @@
 package com.blocktyper.yearmarked;
 
-/*
- * Monsoonday: It rains all day
-Earthday: Things grow faster
-Snowday: It snows all day
-Twilightness: It is dark all day
-Lightness: It is light all day
-Donnerstag: It storms with lightning all day
-Worttag: Only netherwart grows, but it grows faster
- */
 public enum MinecraftDayOfWeekEnum {
 	MONSOONDAY(1, "MONSOONDAY", "Monsoonday"),
 	EARTHDAY(2, "EARTHDAY", "Earthday"),
-	DIAMONDAY(3, "DIAMONDAY", "Diamonday"),
-	TWILIGHTNESS(4, "TWILIGHTNESS", "Twilightness"),
-	LIGHTNESS(5, "LIGHTNESS", "Ligness"),
-	DONNERSTAG(6, "DONNERSTAG", "Donnerstag"),
-	WORTTAG(7, "WORTTAG", "Worttag"),
+	WORTAG(3, "WORTAG", "Wortag"),
+	DONNERSTAG(4, "DONNERSTAG", "Donnerstag"),
+	FISHFRYDAY(5, "FISHFRYDAY", "Fishfryday"),
+	DIAMONDAY(6, "DIAMONDAY", "Diamonday"),
+	FEATHERSDAY(7, "FEATHERSDAY", "Feathersday"),
 	UNDEFINED(-1, "UNDEFINED", "UNDEFINED");
 
 	private int dayOfWeek;

@@ -17,6 +17,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.blocktyper.localehelper.LocaleHelper;
 import com.blocktyper.yearmarked.listeners.DiamondayListener;
 import com.blocktyper.yearmarked.listeners.EarthdayListener;
+import com.blocktyper.yearmarked.listeners.FeathersdayListener;
+import com.blocktyper.yearmarked.listeners.FishfrydayListener;
+import com.blocktyper.yearmarked.listeners.MonsoondayListener;
+import com.blocktyper.yearmarked.listeners.WortagListener;
 
 public class YearmarkedPlugin extends JavaPlugin implements Listener {
 
@@ -65,8 +69,13 @@ public class YearmarkedPlugin extends JavaPlugin implements Listener {
 	}
 
 	private void registerListeners() {
+		new MonsoondayListener(this);
 		new EarthdayListener(this);
+		new WortagListener(this);
+		new FishfrydayListener(this);
+		//Donnerstag is handled by logic in TimeMonitor
 		new DiamondayListener(this);
+		new FeathersdayListener(this);
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = false)
