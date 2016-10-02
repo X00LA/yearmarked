@@ -6,6 +6,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Yearmarked</name>
 
+
 	<repositories>
 		<repository>
 			<id>spigot-repo</id>
@@ -27,6 +28,7 @@
 			<version>1.10.2-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>com.blocktyper.localehelper</groupId>
 			<artifactId>localehelper</artifactId>
@@ -36,8 +38,31 @@
 	</dependencies>
 
 	<build>
+		<resources>
+			<resource>
+				<targetPath>com/blocktyper/yearmarked/resources</targetPath>
+				<filtering>false</filtering>
+				<directory>${basedir}/src/main/resources</directory>
+				<includes>
+					<include>**/*.properties</include>
+				</includes>
+				<excludes>
+					<exclude>plugin.yml</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<filtering>false</filtering>
+				<directory>${basedir}/src/main/resources</directory>
+				<includes>
+					<include>plugin.yml</include>
+				</includes>
+				<excludes>
+					<exclude>**/*.properties</exclude>
+				</excludes>
+			</resource>
+		</resources>
+
 		<plugins>
-			<!-- any other plugins -->
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<executions>
@@ -56,4 +81,5 @@
 			</plugin>
 		</plugins>
 	</build>
+
 </project>
