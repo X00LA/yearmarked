@@ -10,7 +10,7 @@ We will later come up with special features for the months and years, but the ma
 - Donnerstag: Lightning will strike in your vicinity all day
 - Fishfryday: Double XP fishing all day with the chance of bonus rewards
 - Diamonday: Bonus diamonds dropped when mining diamond ore
-- Feathersday: No fal. damage all day
+- Feathersday: No fall. damage all day
 
 
 Version 1.0.0 will track the days of the week and inform the user when the day changes. When the day changes the, special features for that day become active, as described below (now more explicitly than ever!)
