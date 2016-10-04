@@ -44,11 +44,17 @@ public class TimeMonitor extends BukkitRunnable {
 
 	// BEGIN Public Utility Methods
 	public void sendDayInfo(MinecraftCalendar cal, List<Player> players) {
+		String todayIs = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_TODAY_IS);
+		String itIsDayNumber = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_IT_IS_DAY_NUMBER);
+		String ofMonthNumber = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_OF_MONTH_NUMBER);
+		String ofYearNumber = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_OF_YEAR_NUMBER);
+
 		StringBuilder dayMessage = new StringBuilder(
-				ChatColor.YELLOW + "Today is " + cal.getDayOfWeekEnum().getDisplayName());
-		StringBuilder dayOfMonthMessage = new StringBuilder(ChatColor.GREEN + "It is day " + cal.getDayOfMonth());
-		dayOfMonthMessage.append(" of month " + cal.getMonthOfYear());
-		dayOfMonthMessage.append(" of year " + cal.getYear() + ".");
+				ChatColor.YELLOW + todayIs + " " + cal.getDayOfWeekEnum().getDisplayName());
+		StringBuilder dayOfMonthMessage = new StringBuilder(
+				ChatColor.GREEN + itIsDayNumber + " " + cal.getDayOfMonth());
+		dayOfMonthMessage.append(" " + ofMonthNumber + " " + cal.getMonthOfYear());
+		dayOfMonthMessage.append(" " + ofYearNumber + " " + cal.getYear() + ".");
 		if (players != null && !players.isEmpty()) {
 			for (Player player : players) {
 				player.sendMessage(dayMessage.toString());

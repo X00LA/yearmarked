@@ -28,7 +28,8 @@ public class FeathersdayListener extends AbstractListener {
 		}
 		Player player = (Player) event.getEntity();
 		if (event.getCause() == DamageCause.FALL) {
-			player.sendMessage(ChatColor.YELLOW + "Fall damage prevented.");
+			String fallDamagePrevented = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_BONUS);
+			player.sendMessage(ChatColor.YELLOW + fallDamagePrevented);
 			event.setCancelled(true);
 			return;
 		}

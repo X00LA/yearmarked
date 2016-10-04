@@ -22,7 +22,8 @@ public class FishfrydayListener extends AbstractListener {
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerCatchFish(PlayerFishEvent event) {
 		if (event.getState().equals(PlayerFishEvent.State.CAUGHT_FISH)) {
-			event.getPlayer().sendMessage(ChatColor.DARK_GREEN + "Double XP!");
+			String doubleXp = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_DOUBLE_XP);
+			event.getPlayer().sendMessage(ChatColor.DARK_GREEN + doubleXp);
 			event.setExpToDrop(event.getExpToDrop() * 2);
 
 			Material reward = null;
@@ -30,11 +31,11 @@ public class FishfrydayListener extends AbstractListener {
 			ChatColor color = null;
 			if (random.nextInt(100) == 50) {
 				reward = Material.DIAMOND;
-				message = "This fish had a diamond caught in its mouth!";
+				message = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_FISH_HAD_DIAMOND);
 				color = ChatColor.BLUE;
 			} else if (random.nextInt(10) == 5) {
 				reward = Material.EMERALD;
-				message = "This fish had an emerald caught in its mouth!";
+				message = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_FISH_HAD_EMERALD);
 				color = ChatColor.GREEN;
 			}
 

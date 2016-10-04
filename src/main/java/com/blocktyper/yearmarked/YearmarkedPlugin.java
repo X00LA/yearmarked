@@ -25,7 +25,20 @@ import com.blocktyper.yearmarked.listeners.WortagListener;
 public class YearmarkedPlugin extends JavaPlugin implements Listener {
 
 	public static String KEY_WORLDS = "yearmarked-worlds";
-	private String LOCALIZED_KEY_WORLD = "yearmarked.world";
+	
+	public static String LOCALIZED_KEY_WORLD = "yearmarked.world";
+	public static String LOCALIZED_KEY_BONUS = "yearmarked.bonus";
+	public static String LOCALIZED_KEY_FALL_DAMAGE_PREVENTED = "yearmarked.fall.damage.prevented";
+	public static String LOCALIZED_KEY_DOUBLE_XP = "yearmarked.double.xp";
+	public static String LOCALIZED_KEY_FISH_HAD_DIAMOND = "yearmarked.fish.had.diamond";
+	public static String LOCALIZED_KEY_FISH_HAD_EMERALD = "yearmarked.fish.had.emerald";
+	public static String LOCALIZED_KEY_TODAY_IS = "yearmarked.today.is";
+	
+	public static String LOCALIZED_KEY_IT_IS_DAY_NUMBER = "yearmarked.it.is.day.number";
+	public static String LOCALIZED_KEY_OF_MONTH_NUMBER = "yearmarked.of.month.number";
+	public static String LOCALIZED_KEY_OF_YEAR_NUMBER = "yearmarked.of.year.number";
+	
+	
 
 	int checkTimeInterval = 5;// sec
 

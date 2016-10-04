@@ -49,7 +49,8 @@ public class EarthdayListener extends AbstractListener {
 		}
 
 		int rewardCount = random.nextInt(3) + 1;
-		event.getPlayer().sendMessage(ChatColor.DARK_GREEN + "bonus[x" + rewardCount + "] " + block.getType().toString());
+		String bonus = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_BONUS);
+		event.getPlayer().sendMessage(ChatColor.DARK_GREEN + bonus + "[x" + rewardCount + "] " + block.getType().toString());
 		reward(block, rewardCount);
 	}
 

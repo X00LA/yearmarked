@@ -45,7 +45,8 @@ public class DiamondayListener extends AbstractListener {
 		}
 
 		int rewardCount = random.nextInt(2) + 1;
-		event.getPlayer().sendMessage(ChatColor.BLUE + "bonus[x" + rewardCount + "] " + block.getType().toString());
+		String bonus = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_FALL_DAMAGE_PREVENTED);
+		event.getPlayer().sendMessage(ChatColor.BLUE + bonus + "[x" + rewardCount + "] " + block.getType().toString());
 		block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.DIAMOND, rewardCount));
 	}
 }

@@ -41,9 +41,9 @@ public class WortagListener extends AbstractListener {
 			return;
 		}
 
-		event.getPlayer().sendMessage("reward");
 		int rewardCount = random.nextInt(3) + 1;
-		event.getPlayer().sendMessage(ChatColor.DARK_PURPLE + "reward[x" + rewardCount + "] " + block.getType().toString());
+		String bonus = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_BONUS);
+		event.getPlayer().sendMessage(ChatColor.DARK_PURPLE + bonus + "[x" + rewardCount + "] " + block.getType().toString());
 		block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.NETHER_WARTS, rewardCount));
 	}
 }

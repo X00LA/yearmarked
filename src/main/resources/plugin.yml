@@ -1,5 +1,5 @@
 name: Yearmarked
-version: 0.1
+version: 1.0.1
 main:  com.blocktyper.yearmarked.YearmarkedPlugin
 author: spaarkimus
 website: blocktyper.com
