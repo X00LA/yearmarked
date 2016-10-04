@@ -1,20 +1,17 @@
 # yearmarked
-Bukkit/Spigot for keeping track of days/months/years and triggering special events in game
+Bukkit/Spigot mod for tracking each passing day and dividing the time into days of the week and months of the year and triggering special events in game
 
-
-Yearmarked
-This mod will track each passing day and divide the time into days of the week and months of the year.
 
 We will later come up with special features for the months and years, but the main pitch that LadyDeath360 (http://www.minecraftforum.net/) worked out is the days of the week which would have the following names and follow a given rule:
 
-Monsoonday: It rains all day
-Earthday: Bonus crops granted upon harvest
-Wortag: Bonus netherwart granted upon harvest
-Donnerstag: Lightning will strike in your vicinity all day
-Fishfryday: Double XP fishing all day with the chance of bonus rewards
-Diamonday: Bonus diamonds dropped when mining diamond ore
-Feathersday: No fal. damage all day
-Painstaking detail
+- Monsoonday: It rains all day
+- Earthday: Bonus crops granted upon harvest
+- Wortag: Bonus netherwart granted upon harvest
+- Donnerstag: Lightning will strike in your vicinity all day
+- Fishfryday: Double XP fishing all day with the chance of bonus rewards
+- Diamonday: Bonus diamonds dropped when mining diamond ore
+- Feathersday: No fal. damage all day
+
 
 Version 1.0.0 will track the days of the week and inform the user when the day changes. When the day changes the, special features for that day become active, as described below (now more explicitly than ever!)
 
