@@ -24,8 +24,10 @@ import com.blocktyper.yearmarked.listeners.WortagListener;
 
 public class YearmarkedPlugin extends JavaPlugin implements Listener {
 
+	public static String DEFAULT_WORLD = "world";
+
 	public static String KEY_WORLDS = "yearmarked-worlds";
-	
+
 	public static String LOCALIZED_KEY_WORLD = "yearmarked.world";
 	public static String LOCALIZED_KEY_BONUS = "yearmarked.bonus";
 	public static String LOCALIZED_KEY_FALL_DAMAGE_PREVENTED = "yearmarked.fall.damage.prevented";
@@ -33,12 +35,10 @@ public class YearmarkedPlugin extends JavaPlugin implements Listener {
 	public static String LOCALIZED_KEY_FISH_HAD_DIAMOND = "yearmarked.fish.had.diamond";
 	public static String LOCALIZED_KEY_FISH_HAD_EMERALD = "yearmarked.fish.had.emerald";
 	public static String LOCALIZED_KEY_TODAY_IS = "yearmarked.today.is";
-	
+
 	public static String LOCALIZED_KEY_IT_IS_DAY_NUMBER = "yearmarked.it.is.day.number";
 	public static String LOCALIZED_KEY_OF_MONTH_NUMBER = "yearmarked.of.month.number";
 	public static String LOCALIZED_KEY_OF_YEAR_NUMBER = "yearmarked.of.year.number";
-	
-	
 
 	int checkTimeInterval = 5;// sec
 
@@ -53,32 +53,82 @@ public class YearmarkedPlugin extends JavaPlugin implements Listener {
 		resourceName = "com.blocktyper.yearmarked.resources.YearmarkedMessages";
 		locale = new LocaleHelper(getLogger(), getFile() != null ? getFile().getParentFile() : null).getLocale();
 
+		getLogger().info("loaded worlds");
 		worlds = getConfig().getStringList(KEY_WORLDS);
+		if (worlds != null) {
+			if (worlds.isEmpty()) {
+				getLogger().info("[empty]");
+			} else {
+				for (String world : worlds) {
+					getLogger().info("   -" + world);
+				}
+			}
+
+		} else {
+			getLogger().info("[null]");
+		}
 
 		if (worlds == null || worlds.isEmpty()) {
+			getLogger().info("adding default world: " + DEFAULT_WORLD);
 			worlds.add("world");
 		}
 
-		startWorldMonitors();
+		getLogger().info("starting world monitors");
 
+		startWorldMonitors();
 		registerListeners();
 
 	}
 
 	private void startWorldMonitors() {
+
 		for (String world : worlds) {
-			getLogger().info(getLocalizedMessage(LOCALIZED_KEY_WORLD) + ": " + world);
-			TimeMonitor timeMonitor = new TimeMonitor(this, world);
-
-			MinecraftCalendar cal = new MinecraftCalendar(timeMonitor.getWorld());
-
-			timeMonitor.sendDayInfo(cal, timeMonitor.getWorld().getPlayers());
-
-			timeMonitor.checkForDayChange(cal);
-
-			this.getLogger().info("Checking time every " + checkTimeInterval + "sec.");
-			timeMonitor.runTaskTimer(this, checkTimeInterval, checkTimeInterval * 20L);
+			try {
+				startWorldMonitor(world);
+			} catch (IllegalArgumentException e) {
+				getLogger().warning("IllegalArgumentException while starting world moniror[" + world + "]. Message: "
+						+ e.getMessage());
+				// e.printStackTrace();
+				continue;
+			} catch (IllegalStateException e) {
+				getLogger().warning("IllegalArgumentException while starting world moniror[" + world + "]. Message: "
+						+ e.getMessage());
+				// e.printStackTrace();
+				continue;
+			} catch (Exception e) {
+				getLogger().warning(
+						"General Exception while starting world moniror[" + world + "]. Message: " + e.getMessage());
+				// e.printStackTrace();
+				continue;
+			}
 		}
+	}
+
+	private void startWorldMonitor(String world) {
+		getLogger().info("Loading World" + ": " + world);
+		TimeMonitor timeMonitor = new TimeMonitor(this, world);
+
+		if (timeMonitor.getWorld() == null) {
+			getLogger().warning( "   -" + world + " was no recognized");
+			return;
+		}else{
+			getLogger().info( "   -" + world + " was loaded");
+		}
+
+		MinecraftCalendar cal = new MinecraftCalendar(timeMonitor.getWorld());
+
+		try {
+			timeMonitor.sendDayInfo(cal, timeMonitor.getWorld().getPlayers());
+		} catch (Exception e) {
+			this.getLogger().warning("Errors while sending day info. Message: " + e.getMessage());
+			return;
+			// e.printStackTrace();
+		}
+
+		timeMonitor.checkForDayChange(cal);
+
+		this.getLogger().info("Checking time every " + checkTimeInterval + " sec.");
+		timeMonitor.runTaskTimer(this, checkTimeInterval, checkTimeInterval * 20L);
 	}
 
 	private void registerListeners() {
@@ -86,7 +136,7 @@ public class YearmarkedPlugin extends JavaPlugin implements Listener {
 		new EarthdayListener(this);
 		new WortagListener(this);
 		new FishfrydayListener(this);
-		//Donnerstag is handled by logic in TimeMonitor
+		// Donnerstag is handled by logic in TimeMonitor
 		new DiamondayListener(this);
 		new FeathersdayListener(this);
 	}

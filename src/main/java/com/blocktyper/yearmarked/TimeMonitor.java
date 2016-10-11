@@ -1,5 +1,6 @@
 package com.blocktyper.yearmarked;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Random;
 
@@ -44,21 +45,16 @@ public class TimeMonitor extends BukkitRunnable {
 
 	// BEGIN Public Utility Methods
 	public void sendDayInfo(MinecraftCalendar cal, List<Player> players) {
-		String todayIs = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_TODAY_IS);
-		String itIsDayNumber = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_IT_IS_DAY_NUMBER);
-		String ofMonthNumber = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_OF_MONTH_NUMBER);
-		String ofYearNumber = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_OF_YEAR_NUMBER);
+		
 
-		StringBuilder dayMessage = new StringBuilder(
-				ChatColor.YELLOW + todayIs + " " + cal.getDayOfWeekEnum().getDisplayName());
-		StringBuilder dayOfMonthMessage = new StringBuilder(
-				ChatColor.GREEN + itIsDayNumber + " " + cal.getDayOfMonth());
-		dayOfMonthMessage.append(" " + ofMonthNumber + " " + cal.getMonthOfYear());
-		dayOfMonthMessage.append(" " + ofYearNumber + " " + cal.getYear() + ".");
+		String todayIs =  String.format(plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_TODAY_IS), cal.getDayOfWeekEnum().getDisplayName());
+		String dayOfMonthMessage = new MessageFormat(plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_IT_IS_DAY_NUMBER)).format(new Object[]{cal.getDayOfMonth()+"", cal.getMonthOfYear()+"", cal.getYear()+""});
+		
+
 		if (players != null && !players.isEmpty()) {
 			for (Player player : players) {
-				player.sendMessage(dayMessage.toString());
-				player.sendMessage(dayOfMonthMessage.toString());
+				player.sendMessage(ChatColor.YELLOW + todayIs);
+				player.sendMessage(dayOfMonthMessage);
 			}
 		}
 	}

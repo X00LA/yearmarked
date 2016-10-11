@@ -45,6 +45,6 @@ public enum MinecraftDayOfWeekEnum {
 			if (minecraftDay.getCode().equals(code))
 				return minecraftDay;
 		}
-		return null;
+		return UNDEFINED;
 	}
 }
