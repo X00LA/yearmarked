@@ -3,8 +3,8 @@ package com.blocktyper.yearmarked;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,18 +12,22 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import com.blocktyper.localehelper.LocaleHelper;
+import com.blocktyper.plugin.BlockTyperPlugin;
 import com.blocktyper.yearmarked.listeners.DiamondayListener;
 import com.blocktyper.yearmarked.listeners.EarthdayListener;
 import com.blocktyper.yearmarked.listeners.FeathersdayListener;
 import com.blocktyper.yearmarked.listeners.FishfrydayListener;
 import com.blocktyper.yearmarked.listeners.MonsoondayListener;
+import com.blocktyper.yearmarked.listeners.ThordfishListener;
 import com.blocktyper.yearmarked.listeners.WortagListener;
 
-public class YearmarkedPlugin extends JavaPlugin implements Listener {
+public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 
+	
+	public static final String RESOURCE_NAME = "com.blocktyper.yearmarked.resources.YearmarkedMessages";
+	
+	
 	public static String DEFAULT_WORLD = "world";
 
 	public static String KEY_WORLDS = "yearmarked-worlds";
@@ -43,37 +47,53 @@ public class YearmarkedPlugin extends JavaPlugin implements Listener {
 	int checkTimeInterval = 5;// sec
 
 	List<String> worlds;
+	
+	Set<String> playersExemptFromLightning = null;
+	
+	
+	
+	
+	
+	// begin localization
+	private ResourceBundle bundle = null;
+
+	public ResourceBundle getBundle() {
+		if (bundle == null)
+			bundle = ResourceBundle.getBundle(RESOURCE_NAME, locale);
+		return bundle;
+	}
+	// end localization
+		
+		
 
 	public void onEnable() {
+		super.onEnable();
 		createConfig();
 
 		getServer().getPluginManager().registerEvents(this, this);
 
-		saveDefaultConfig();
-		resourceName = "com.blocktyper.yearmarked.resources.YearmarkedMessages";
-		locale = new LocaleHelper(getLogger(), getFile() != null ? getFile().getParentFile() : null).getLocale();
-
-		getLogger().info("loaded worlds");
+	
+		info("loaded worlds");
 		worlds = getConfig().getStringList(KEY_WORLDS);
 		if (worlds != null) {
 			if (worlds.isEmpty()) {
-				getLogger().info("[empty]");
+				info("[empty]");
 			} else {
 				for (String world : worlds) {
-					getLogger().info("   -" + world);
+					info("   -" + world);
 				}
 			}
 
 		} else {
-			getLogger().info("[null]");
+			info("[null]");
 		}
 
 		if (worlds == null || worlds.isEmpty()) {
-			getLogger().info("adding default world: " + DEFAULT_WORLD);
+			info("adding default world: " + DEFAULT_WORLD);
 			worlds.add("world");
 		}
 
-		getLogger().info("starting world monitors");
+		info("starting world monitors");
 
 		startWorldMonitors();
 		registerListeners();
@@ -86,17 +106,17 @@ public class YearmarkedPlugin extends JavaPlugin implements Listener {
 			try {
 				startWorldMonitor(world);
 			} catch (IllegalArgumentException e) {
-				getLogger().warning("IllegalArgumentException while starting world moniror[" + world + "]. Message: "
+				warning("IllegalArgumentException while starting world moniror[" + world + "]. Message: "
 						+ e.getMessage());
 				// e.printStackTrace();
 				continue;
 			} catch (IllegalStateException e) {
-				getLogger().warning("IllegalArgumentException while starting world moniror[" + world + "]. Message: "
+				warning("IllegalArgumentException while starting world moniror[" + world + "]. Message: "
 						+ e.getMessage());
 				// e.printStackTrace();
 				continue;
 			} catch (Exception e) {
-				getLogger().warning(
+				warning(
 						"General Exception while starting world moniror[" + world + "]. Message: " + e.getMessage());
 				// e.printStackTrace();
 				continue;
@@ -105,14 +125,14 @@ public class YearmarkedPlugin extends JavaPlugin implements Listener {
 	}
 
 	private void startWorldMonitor(String world) {
-		getLogger().info("Loading World" + ": " + world);
+		info("Loading World" + ": " + world);
 		TimeMonitor timeMonitor = new TimeMonitor(this, world);
 
 		if (timeMonitor.getWorld() == null) {
-			getLogger().warning( "   -" + world + " was no recognized");
+			warning( "   -" + world + " was no recognized");
 			return;
 		}else{
-			getLogger().info( "   -" + world + " was loaded");
+			info( "   -" + world + " was loaded");
 		}
 
 		MinecraftCalendar cal = new MinecraftCalendar(timeMonitor.getWorld());
@@ -120,14 +140,14 @@ public class YearmarkedPlugin extends JavaPlugin implements Listener {
 		try {
 			timeMonitor.sendDayInfo(cal, timeMonitor.getWorld().getPlayers());
 		} catch (Exception e) {
-			this.getLogger().warning("Errors while sending day info. Message: " + e.getMessage());
+			this.warning("Errors while sending day info. Message: " + e.getMessage());
 			return;
 			// e.printStackTrace();
 		}
 
 		timeMonitor.checkForDayChange(cal);
 
-		this.getLogger().info("Checking time every " + checkTimeInterval + " sec.");
+		this.info("Checking time every " + checkTimeInterval + " sec.");
 		timeMonitor.runTaskTimer(this, checkTimeInterval, checkTimeInterval * 20L);
 	}
 
@@ -135,8 +155,8 @@ public class YearmarkedPlugin extends JavaPlugin implements Listener {
 		new MonsoondayListener(this);
 		new EarthdayListener(this);
 		new WortagListener(this);
+		new ThordfishListener(this);// Donnerstag is handled by logic in TimeMonitor.  ThorsdayListener is only for paying attention to when a user hits a tree with a Thordfish
 		new FishfrydayListener(this);
-		// Donnerstag is handled by logic in TimeMonitor
 		new DiamondayListener(this);
 		new FeathersdayListener(this);
 	}
@@ -157,9 +177,9 @@ public class YearmarkedPlugin extends JavaPlugin implements Listener {
 	}
 
 	private void sendPlayerDayInfo(Player player, MinecraftCalendar cal) {
-		getLogger().info("sending day info to " + player.getName());
+		info("sending day info to " + player.getName());
 		if (worlds.contains(player.getWorld().getName())) {
-			getLogger().info("really sending day info to " + player.getName());
+			info("really sending day info to " + player.getName());
 			List<Player> playerInAList = new ArrayList<Player>();
 			playerInAList.add(player);
 			TimeMonitor timeMonitor = new TimeMonitor(this, player.getWorld().getName());
@@ -176,53 +196,17 @@ public class YearmarkedPlugin extends JavaPlugin implements Listener {
 	}
 	// end config file initialization
 
-	private Locale locale = null;
-	private ResourceBundle bundle = null;
-	private boolean bundleLoadFailed = false;
 
-	private String resourceName;
 
-	public String getLocalizedMessage(String key) {
-
-		String value = key;
-		try {
-			if (bundle == null) {
-
-				if (locale == null) {
-					getLogger().info("Using default locale.");
-					locale = Locale.getDefault();
-				}
-
-				try {
-					bundle = ResourceBundle.getBundle(resourceName, locale);
-				} catch (Exception e) {
-					getLogger().warning(resourceName + " bundle did not load successfully.");
-				}
-
-				if (bundle == null) {
-					getLogger().warning(
-							"Messages will appear as dot separated key names.  Please remove this plugin from your plugin folder if this behaviour is not desired.");
-					bundleLoadFailed = true;
-					return key;
-				} else {
-					getLogger().info(resourceName + " bundle loaded successfully.");
-				}
-			}
-
-			if (bundleLoadFailed) {
-				return key;
-			}
-
-			value = bundle.getString(key);
-
-			value = key != null ? (value != null && !value.trim().isEmpty() ? value : key) : "null key";
-		} catch (Exception e) {
-			getLogger().warning(
-					"Unexpected error getting localized string for key(" + key + "). Message: " + e.getMessage());
-		}
-		return value;
+	public Set<String> getPlayersExemptFromLightning() {
+		return playersExemptFromLightning;
 	}
 
-	// end localization
 
+
+	public void setPlayersExemptFromLightning(Set<String> playersExemptFromLightning) {
+		this.playersExemptFromLightning = playersExemptFromLightning;
+	}
+	
+	
 }

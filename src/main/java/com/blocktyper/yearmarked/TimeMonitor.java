@@ -1,6 +1,7 @@
 package com.blocktyper.yearmarked;
 
 import java.text.MessageFormat;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -34,7 +35,7 @@ public class TimeMonitor extends BukkitRunnable {
 	public void run() {
 
 		if (plugin.getConfig().getBoolean("debug")) {
-			plugin.getLogger().info(this.getWorld().getName() + "[fulltime]: " + this.getWorld().getFullTime());
+			plugin.debugInfo(this.getWorld().getName() + "[fulltime]: " + this.getWorld().getFullTime());
 		}
 
 		MinecraftCalendar cal = new MinecraftCalendar(world.getFullTime());
@@ -72,6 +73,7 @@ public class TimeMonitor extends BukkitRunnable {
 
 		previousDay = cal.getDay();
 		sendDayInfo(cal, world.getPlayers());
+		plugin.setPlayersExemptFromLightning(new HashSet<String>());
 
 		boolean isMonsoonday = cal.getDayOfWeekEnum().equals(MinecraftDayOfWeekEnum.MONSOONDAY);
 
@@ -93,17 +95,19 @@ public class TimeMonitor extends BukkitRunnable {
 		if (world.getPlayers() == null) {
 			return;
 		}
-		boolean strinkeForOddPlayers = random.nextBoolean();
+		boolean strikeForOddPlayers = random.nextBoolean();
 		int i = 0;
 		for (Player player : world.getPlayers()) {
 			i++;
-			boolean doStrike = (strinkeForOddPlayers && i % 2 > 0) || (!strinkeForOddPlayers && i % 2 == 0);
-			if (doStrike) {
-				Location loc = player.getLocation();
-				int x = loc.getBlockX() + random.nextInt(15) * (random.nextBoolean() ? -1 : 1);
-				int z = loc.getBlockZ() + random.nextInt(15) * (random.nextBoolean() ? -1 : 1);
-				Location newLocation = new Location(world, x, loc.getBlockY(), z);
-				world.strikeLightning(newLocation);
+			if(plugin.getPlayersExemptFromLightning() == null || !plugin.getPlayersExemptFromLightning().contains(player.getName())){
+				boolean doStrike = (strikeForOddPlayers && i % 2 > 0) || (!strikeForOddPlayers && i % 2 == 0);
+				if (doStrike) {
+					Location loc = player.getLocation();
+					int x = loc.getBlockX() + random.nextInt(15) * (random.nextBoolean() ? -1 : 1);
+					int z = loc.getBlockZ() + random.nextInt(15) * (random.nextBoolean() ? -1 : 1);
+					Location newLocation = new Location(world, x, loc.getBlockY(), z);
+					world.strikeLightning(newLocation);
+				}
 			}
 		}
 	}

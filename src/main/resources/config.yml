@@ -1,3 +1,53 @@
 yearmarked-worlds: 
    - world
 yearmarked-test: true
+yearmarked.op.luck: true
+debug: false 
+
+recipes: 
+  - thord-fish
+  - fishy-sword
+  - fishy-arrow
+  
+  
+#Thordfish
+recipe.thord-fish.name: Thordfish
+recipe.thord-fish.rows: 
+  - FAF
+  - AAA
+  - FAF
+recipe.thord-fish.mats: 
+  - F=RAW_FISH
+  - A=AIR
+recipe.thord-fish.output: RAW_FISH
+recipe.thord-fish.op.only: false
+
+#FISHY SWORD
+recipe.fishy-sword.name: Fishy Sword
+recipe.fishy-sword.rows: 
+  - AFA
+  - AFA
+  - ASA
+recipe.fishy-sword.mats: 
+  - F=RAW_FISH
+  - A=AIR
+  - S=STICK
+recipe.fishy-sword.output: WOOD_SWORD
+recipe.fishy-sword.item.starts.with: 
+  - 4=Thordfish
+
+#FISHY ARROW
+recipe.fishy-arrow.name: Fishy Arrow
+recipe.fishy-arrow.rows: 
+  - AAA
+  - AFA
+  - ASA
+recipe.fishy-arrow.mats: 
+  - F=RAW_FISH
+  - A=AIR
+  - S=STICK
+recipe.fishy-arrow.output: ARROW
+recipe.fishy-arrow.amount: 16
+recipe.fishy-arrow.item.starts.with: 
+  - 4=Thordfish
+  
