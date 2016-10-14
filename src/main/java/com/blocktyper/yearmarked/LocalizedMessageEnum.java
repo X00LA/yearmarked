@@ -3,6 +3,7 @@ package com.blocktyper.yearmarked;
 public enum LocalizedMessageEnum {
 	
 	WORLD("yearmarked.world"),
+	WORLDS("yearmarked.worlds"),
 	WORLD_NOT_ENABLED("yearmarked.word.not.enabled"),
 	ONLY_FOR_OP("yearmarked.only.for.op"),
 	YM_COMMAND_NOT_A_VALID_NUMBER("yearmarked.ym.command.not.a.valid.number"),

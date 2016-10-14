@@ -111,18 +111,24 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 		super.onEnable();
 		createConfig();
 		
-		info(getLocalizedMessage(CONFIG_KEY_MONSOONDAY));
+		info("MONSOONDAY=" + getConfig().getString(CONFIG_KEY_MONSOONDAY));
+		info("EARTHDAY=" + getConfig().getString(CONFIG_KEY_EARTHDAY));
+		info("WORTAG=" + getConfig().getString(CONFIG_KEY_WORTAG));
+		info("DONNERSTAG=" + getConfig().getString(CONFIG_KEY_DONNERSTAG));
+		info("FISHFRYDAY=" + getConfig().getString(CONFIG_KEY_FISHFRYDAY));
+		info("DIAMONDAY=" + getConfig().getString(CONFIG_KEY_DIAMONDAY));
+		info("FEATHERSDAY=" + getConfig().getString(CONFIG_KEY_FEATHERSDAY));
 
 		getServer().getPluginManager().registerEvents(this, this);
 
-		info("worlds: ");
+		info(getLocalizedMessage(LocalizedMessageEnum.WORLDS.getKey()) + ": ");
 		worlds = getConfig().getStringList(CONFIG_KEY_WORLDS);
 		if (worlds != null) {
 			if (worlds.isEmpty()) {
 				info("[empty]");
 			} else {
 				for (String world : worlds) {
-					info("  - " + getLocalizedMessage(LocalizedMessageEnum.WORLD.getKey()) + ": " + world);
+					info("  - " + ": " + world);
 				}
 			}
 
@@ -172,7 +178,7 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 	}
 
 	private void startWorldMonitor(String world) {
-		info("Loading World" + ": " + world);
+		info(getLocalizedMessage("LOADING... " + LocalizedMessageEnum.WORLD.getKey()) + ": " + world);
 		TimeMonitor timeMonitor = new TimeMonitor(this, world);
 
 		if (timeMonitor.getWorld() == null) {
