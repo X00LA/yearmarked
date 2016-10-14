@@ -128,7 +128,7 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 				info("[empty]");
 			} else {
 				for (String world : worlds) {
-					info("  - " + ": " + world);
+					info("  - " + world);
 				}
 			}
 
@@ -178,7 +178,7 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 	}
 
 	private void startWorldMonitor(String world) {
-		info(getLocalizedMessage("LOADING... " + LocalizedMessageEnum.WORLD.getKey()) + ": " + world);
+		info("LOADING... " + getLocalizedMessage(LocalizedMessageEnum.WORLD.getKey()) + "(" + world + ")");
 		TimeMonitor timeMonitor = new TimeMonitor(this, world);
 
 		if (timeMonitor.getWorld() == null) {
