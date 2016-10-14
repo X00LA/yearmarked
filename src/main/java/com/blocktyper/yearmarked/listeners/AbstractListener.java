@@ -25,7 +25,7 @@ public class AbstractListener implements Listener {
 	}
 
 	protected void dropItemsInStacks(Location location, Material mat, int amount, String customDisplayName) {
-		// world permissions shoudl not be checked at this low level
+		// world permissions should not be checked at this low level
 		if (amount > mat.getMaxStackSize()) {
 			dropItemsInStacks(location, mat, mat.getMaxStackSize(), customDisplayName);
 			dropItemsInStacks(location, mat, amount - mat.getMaxStackSize(), customDisplayName);
