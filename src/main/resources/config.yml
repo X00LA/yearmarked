@@ -1,6 +1,6 @@
-debug: true
+debug: false
 data.backup.frequency.sec: -1
-locale: de
+locale: en
 
 yearmarked-worlds: 
   - world
@@ -67,7 +67,8 @@ yearmarked-feathersday-bounce-xz-multiplier: 2.5
 
 
 
-
+recipes-worlds: 
+  - world
 
 recipes: 
   - thord-fish
