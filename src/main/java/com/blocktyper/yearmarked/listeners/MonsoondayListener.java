@@ -28,6 +28,9 @@ public class MonsoondayListener extends AbstractListener {
 	}
 
 	private void initPlayer(Player player) {
+		if (!worldEnabled(player.getWorld().getName(), plugin.getConfig().getString(DayOfWeekEnum.MONSOONDAY.getDisplayKey()))) {
+			return;
+		}
 		if (!plugin.getConfig().getBoolean(YearmarkedPlugin.CONFIG_KEY_MONSOONDAY_RAIN, true)) {
 			plugin.debugInfo(YearmarkedPlugin.CONFIG_KEY_MONSOONDAY_RAIN + ": false");
 			return;

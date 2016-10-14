@@ -37,8 +37,8 @@ public class EarthdayListener extends AbstractListener {
 		if (!cal.getDayOfWeekEnum().equals(DayOfWeekEnum.EARTHDAY)) {
 			return;
 		}
-		
-		if(!plugin.getConfig().getBoolean(YearmarkedPlugin.CONFIG_KEY_EARTHDAY_BONUS_CROPS, true)){
+
+		if (!plugin.getConfig().getBoolean(YearmarkedPlugin.CONFIG_KEY_EARTHDAY_BONUS_CROPS, true)) {
 			plugin.debugInfo(YearmarkedPlugin.CONFIG_KEY_EARTHDAY_BONUS_CROPS + ": false");
 			return;
 		}
@@ -49,27 +49,34 @@ public class EarthdayListener extends AbstractListener {
 		}
 
 		if (((Crops) block.getState().getData()).getState() != CropState.RIPE) {
+			plugin.debugInfo("Ripe " + block.getType() + " on earthday.");
 			return;
 		}
 
-		int high = plugin.getConfig().getInt(YearmarkedPlugin.CONFIG_KEY_EARTHDAY_BONUS_CROPS_RANGE_HIGH, 3);
-		int low = plugin.getConfig().getInt(YearmarkedPlugin.CONFIG_KEY_EARTHDAY_BONUS_CROPS_RANGE_LOW, 1);
-		
-		int rewardCount = random.nextInt(high + 1);
-		
-		if(rewardCount < low){
-			rewardCount = low;
+		if (!worldEnabled(block.getWorld().getName(), plugin.getConfig().getString(DayOfWeekEnum.EARTHDAY.getDisplayKey()))) {
+			return;
 		}
 		
-		if(rewardCount > 0){
+
+		int high = plugin.getConfig().getInt(YearmarkedPlugin.CONFIG_KEY_EARTHDAY_BONUS_CROPS_RANGE_HIGH, 3);
+		int low = plugin.getConfig().getInt(YearmarkedPlugin.CONFIG_KEY_EARTHDAY_BONUS_CROPS_RANGE_LOW, 1);
+
+		int rewardCount = random.nextInt(high + 1);
+
+		if (rewardCount < low) {
+			rewardCount = low;
+		}
+
+		if (rewardCount > 0) {
 			String bonus = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_BONUS);
-			event.getPlayer().sendMessage(ChatColor.DARK_GREEN + bonus + "[x" + rewardCount + "] " + block.getType().toString());
+			event.getPlayer()
+					.sendMessage(ChatColor.DARK_GREEN + bonus + "[x" + rewardCount + "] " + block.getType().toString());
 			reward(block, rewardCount);
-		}else{
+		} else {
 			plugin.debugInfo("No luck on Earthday");
 			event.getPlayer().sendMessage(ChatColor.RED + ":(");
 		}
-		
+
 	}
 
 	private void reward(Block block, int rewardCount) {

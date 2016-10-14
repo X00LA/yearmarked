@@ -97,13 +97,13 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 
 	int checkTimeInterval = 5;// sec
 
-	List<String> worlds;
+	private List<String> worlds;
 
-	Set<String> playersExemptFromLightning = null;
+	private Set<String> playersExemptFromLightning = null;
 
-	String nameOfThordfish = null;
-	String nameOfFishSword = null;
-	String nameOfFishArrow = null;
+	private String nameOfThordfish = null;
+	private String nameOfFishSword = null;
+	private String nameOfFishArrow = null;
 
 	
 	public void onEnable() {
@@ -128,6 +128,7 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 		}
 
 		if (worlds == null || worlds.isEmpty()) {
+			worlds = worlds != null ? worlds : new ArrayList<String>();
 			info("adding default world: " + DEFAULT_WORLD);
 			worlds.add("world");
 		}
@@ -150,17 +151,17 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 			try {
 				startWorldMonitor(world);
 			} catch (IllegalArgumentException e) {
-				warning("IllegalArgumentException while starting world moniror[" + world + "]. Message: "
+				warning("IllegalArgumentException while starting world monitor[" + world + "]. Message: "
 						+ e.getMessage());
 				// e.printStackTrace();
 				continue;
 			} catch (IllegalStateException e) {
-				warning("IllegalArgumentException while starting world moniror[" + world + "]. Message: "
+				warning("IllegalArgumentException while starting world monitor[" + world + "]. Message: "
 						+ e.getMessage());
 				// e.printStackTrace();
 				continue;
 			} catch (Exception e) {
-				warning("General Exception while starting world moniror[" + world + "]. Message: " + e.getMessage());
+				warning("General Exception while starting world monitor[" + world + "]. Message: " + e.getMessage());
 				// e.printStackTrace();
 				continue;
 			}
@@ -269,7 +270,9 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 	public String getNameOfFishArrow() {
 		return nameOfFishArrow;
 	}
-
+	
+	
+	//public helpers
 	public boolean rollIsLucky(double percentChanceOfTrue) {
 		if (percentChanceOfTrue <= 0 || (percentChanceOfTrue < 100 && random.nextDouble() > percentChanceOfTrue)) {
 			return false;
@@ -281,8 +284,9 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 		return false;
 	}
 	
-	
-	
+	public boolean worldEnabled(String world){
+		return worlds != null && worlds.contains(world);
+	}
 	
 	
 	

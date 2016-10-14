@@ -42,6 +42,10 @@ public class DiamondayListener extends AbstractListener {
 			plugin.debugInfo(YearmarkedPlugin.CONFIG_KEY_DIAMONDAY_BONUS_DIAMONDS + ": false");
 			return;
 		}
+		
+		if (!worldEnabled(block.getWorld().getName(), plugin.getConfig().getString(DayOfWeekEnum.DIAMONDAY.getDisplayKey()))) {
+			return;
+		}
 
 		ItemStack inhand = event.getPlayer().getEquipment().getItemInMainHand();
 		final Enchantment SILK_TOUCH = new EnchantmentWrapper(33);

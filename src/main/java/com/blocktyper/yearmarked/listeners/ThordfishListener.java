@@ -33,6 +33,10 @@ public class ThordfishListener extends AbstractListener {
 			plugin.debugInfo("There is no recipe defined for " + YearmarkedPlugin.RECIPE_THORDFISH);
 			return;
 		}
+		
+		if (!worldEnabled(event.getPlayer().getWorld().getName(), plugin.getNameOfThordfish())) {
+			return;
+		}
 
 		MinecraftCalendar cal = new MinecraftCalendar(event.getPlayer().getWorld());
 		DayOfWeekEnum dayOfWeekEnum = cal.getDayOfWeekEnum();

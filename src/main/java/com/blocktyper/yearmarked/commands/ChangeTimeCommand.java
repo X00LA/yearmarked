@@ -24,6 +24,12 @@ public class ChangeTimeCommand implements CommandExecutor {
 			}
 
 			Player player = (Player) sender;
+			
+			if(!plugin.worldEnabled(player.getWorld().getName())){
+				plugin.debugInfo("no time commands. world not enabled.");
+				player.sendMessage("world not enabled");
+				return false;
+			}
 
 			if (!player.isOp()) {
 				player.sendMessage("Only for OP users.");

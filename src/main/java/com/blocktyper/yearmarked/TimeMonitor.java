@@ -34,6 +34,10 @@ public class TimeMonitor extends BukkitRunnable {
 
 	// BEGIN BukkitRunnable
 	public void run() {
+		if(!plugin.worldEnabled(world.getName())){
+			plugin.debugInfo("no time monitor. world not enabled.");
+			return;
+		}
 
 		plugin.debugInfo(this.getWorld().getName() + "[fulltime]: " + this.getWorld().getFullTime());
 

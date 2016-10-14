@@ -40,6 +40,10 @@ public class WortagListener extends AbstractListener {
 			return;
 		}
 
+		if (!worldEnabled(event.getPlayer().getWorld().getName(), DayOfWeekEnum.WORTAG.getDisplayKey())) {
+			return;
+		}
+		
 		int high = plugin.getConfig().getInt(YearmarkedPlugin.CONFIG_KEY_WORTAG_BONUS_CROPS_RANGE_HIGH, 3);
 		int low = plugin.getConfig().getInt(YearmarkedPlugin.CONFIG_KEY_WORTAG_BONUS_CROPS_RANGE_LOW, 1);
 

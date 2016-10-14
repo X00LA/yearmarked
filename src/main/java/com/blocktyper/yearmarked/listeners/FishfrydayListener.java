@@ -26,6 +26,10 @@ public class FishfrydayListener extends AbstractListener {
 		if (!cal.getDayOfWeekEnum().equals(DayOfWeekEnum.FISHFRYDAY)) {
 			return;
 		}
+		
+		if (!worldEnabled(event.getPlayer().getWorld().getName(), plugin.getConfig().getString(DayOfWeekEnum.FISHFRYDAY.getDisplayKey()))) {
+			return;
+		}
 
 		if (event.getState().equals(PlayerFishEvent.State.CAUGHT_FISH)) {
 			String doubleXp = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_DOUBLE_XP);

@@ -38,6 +38,10 @@ public class FeathersdayListener extends AbstractListener {
 				return;
 			}
 			
+			if (!worldEnabled(player.getWorld().getName(), plugin.getConfig().getString(DayOfWeekEnum.FEATHERSDAY.getDisplayKey()))) {
+				return;
+			}
+			
 			String fallDamagePrevented = plugin
 					.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_FALL_DAMAGE_PREVENTED);
 			player.sendMessage(ChatColor.YELLOW + fallDamagePrevented);

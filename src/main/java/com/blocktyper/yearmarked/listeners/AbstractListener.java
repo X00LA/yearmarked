@@ -23,21 +23,30 @@ public class AbstractListener implements Listener {
 	protected void info(String msg) {
 		plugin.getLogger().info(msg);
 	}
-	
-	protected void dropItemsInStacks(Location location, Material mat, int amount, String customDisplayName){
-		if(amount > mat.getMaxStackSize()){
+
+	protected void dropItemsInStacks(Location location, Material mat, int amount, String customDisplayName) {
+		// world permissions shoudl not be checked at this low level
+		if (amount > mat.getMaxStackSize()) {
 			dropItemsInStacks(location, mat, mat.getMaxStackSize(), customDisplayName);
 			dropItemsInStacks(location, mat, amount - mat.getMaxStackSize(), customDisplayName);
-			
-		}else{
+
+		} else {
 			ItemStack item = new ItemStack(mat, amount);
-			if(customDisplayName != null){
+			if (customDisplayName != null) {
 				ItemMeta itemMeta = item.getItemMeta();
 				itemMeta.setDisplayName(customDisplayName);
 				item.setItemMeta(itemMeta);
 			}
 			location.getWorld().dropItemNaturally(location, item);
 		}
+	}
+
+	protected boolean worldEnabled(String worldName, String rewardNameToLog) {
+		boolean enabled = plugin.worldEnabled(worldName);
+		if (!enabled && rewardNameToLog != null)
+			plugin.debugInfo("No " + rewardNameToLog + " rewards enabled in the current world: " + worldName);
+
+		return enabled;
 	}
 
 }

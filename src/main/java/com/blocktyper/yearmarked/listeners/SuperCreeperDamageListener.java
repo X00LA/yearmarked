@@ -29,11 +29,14 @@ public class SuperCreeperDamageListener extends AbstractListener {
 		}
 
 		Player player = (Player) event.getEntity();
+		
+		if (!worldEnabled(player.getWorld().getName(), plugin.getNameOfFishArrow())) {
+			return;
+		}
 
 		ItemStack firstArrowStack = null;
 
 		if (player.getInventory().getStorageContents() != null) {
-			player.sendMessage("Items: ");
 			int i = 0;
 			for (ItemStack item : player.getInventory().getStorageContents()) {
 				i++;
@@ -76,6 +79,10 @@ public class SuperCreeperDamageListener extends AbstractListener {
 	public void playerKillSuperCreeper(EntityDamageByEntityEvent event) {
 
 		plugin.debugInfo("EntityDamageByEntityEvent");
+		
+		if (!worldEnabled(event.getDamager().getWorld().getName(), "Super Creeper hit")) {
+			return;
+		}
 
 		Player player = null;
 		boolean fishArrowDamage = false;
