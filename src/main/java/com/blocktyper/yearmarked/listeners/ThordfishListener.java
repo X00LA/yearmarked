@@ -15,7 +15,7 @@ import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.blocktyper.yearmarked.DayOfWeekEnum;
-import com.blocktyper.yearmarked.MinecraftCalendar;
+import com.blocktyper.yearmarked.YearmarkedCalendar;
 import com.blocktyper.yearmarked.YearmarkedPlugin;
 
 public class ThordfishListener extends AbstractListener {
@@ -38,7 +38,7 @@ public class ThordfishListener extends AbstractListener {
 			return;
 		}
 
-		MinecraftCalendar cal = new MinecraftCalendar(event.getPlayer().getWorld());
+		YearmarkedCalendar cal = new YearmarkedCalendar(event.getPlayer().getWorld());
 		DayOfWeekEnum dayOfWeekEnum = cal.getDayOfWeekEnum();
 		if (!dayOfWeekEnum.equals(DayOfWeekEnum.MONSOONDAY) && !dayOfWeekEnum.equals(DayOfWeekEnum.DONNERSTAG)) {
 			plugin.debugInfo("Not " + DayOfWeekEnum.MONSOONDAY + " or " + DayOfWeekEnum.DONNERSTAG);

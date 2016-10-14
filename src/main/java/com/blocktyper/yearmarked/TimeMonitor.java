@@ -41,14 +41,14 @@ public class TimeMonitor extends BukkitRunnable {
 
 		plugin.debugInfo(this.getWorld().getName() + "[fulltime]: " + this.getWorld().getFullTime());
 
-		MinecraftCalendar cal = new MinecraftCalendar(world.getFullTime());
+		YearmarkedCalendar cal = new YearmarkedCalendar(world.getFullTime());
 		checkForDayChange(cal);
 		checkForConstantLightning(cal);
 	}
 	// END BukkitRunnable
 
 	// BEGIN Public Utility Methods
-	public void sendDayInfo(MinecraftCalendar cal, List<Player> players) {
+	public void sendDayInfo(YearmarkedCalendar cal, List<Player> players) {
 
 		plugin.debugInfo("sendDayInfo --> displayKey: " + cal.getDayOfWeekEnum().getDisplayKey());
 		String dayName = plugin.getConfig().getString(cal.getDayOfWeekEnum().getDisplayKey(), "A DAY");
@@ -66,7 +66,7 @@ public class TimeMonitor extends BukkitRunnable {
 		}
 	}
 
-	public void checkForDayChange(MinecraftCalendar cal) {
+	public void checkForDayChange(YearmarkedCalendar cal) {
 		if (cal.getDay() != previousDay) {
 			changeDay(cal);
 		}
@@ -75,7 +75,7 @@ public class TimeMonitor extends BukkitRunnable {
 	// END Public Utility Methods
 
 	// BEGIN Private Utility Methods
-	private void changeDay(MinecraftCalendar cal) {
+	private void changeDay(YearmarkedCalendar cal) {
 
 		previousDay = cal.getDay();
 		sendDayInfo(cal, world.getPlayers());
@@ -97,7 +97,7 @@ public class TimeMonitor extends BukkitRunnable {
 		}
 	}
 
-	private void checkForConstantLightning(MinecraftCalendar cal) {
+	private void checkForConstantLightning(YearmarkedCalendar cal) {
 		if (!cal.getDayOfWeekEnum().equals(DayOfWeekEnum.DONNERSTAG)) {
 			return;
 		}

@@ -2,7 +2,7 @@ package com.blocktyper.yearmarked;
 
 import org.bukkit.World;
 
-public class MinecraftCalendar {
+public class YearmarkedCalendar {
 	
 	private Long day;
 	private Long week;
@@ -12,15 +12,15 @@ public class MinecraftCalendar {
 	private int dayOfMonth;
 	private int dayOfWeek;
 	
-	public MinecraftCalendar(){
+	public YearmarkedCalendar(){
 		calc(0L);
 	}
 	
-	public MinecraftCalendar(World world){
+	public YearmarkedCalendar(World world){
 		this(world.getFullTime());
 	}
 
-	public MinecraftCalendar(long fullTime){
+	public YearmarkedCalendar(long fullTime){
 		calc(fullTime);
 	}
 	

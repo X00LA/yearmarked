@@ -11,7 +11,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.material.Crops;
 
 import com.blocktyper.yearmarked.DayOfWeekEnum;
-import com.blocktyper.yearmarked.MinecraftCalendar;
+import com.blocktyper.yearmarked.YearmarkedCalendar;
 import com.blocktyper.yearmarked.YearmarkedPlugin;
 
 import net.md_5.bungee.api.ChatColor;
@@ -33,7 +33,7 @@ public class EarthdayListener extends AbstractListener {
 			return;
 		}
 
-		MinecraftCalendar cal = new MinecraftCalendar(block.getWorld());
+		YearmarkedCalendar cal = new YearmarkedCalendar(block.getWorld());
 		if (!cal.getDayOfWeekEnum().equals(DayOfWeekEnum.EARTHDAY)) {
 			return;
 		}

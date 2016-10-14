@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.blocktyper.yearmarked.DayOfWeekEnum;
-import com.blocktyper.yearmarked.MinecraftCalendar;
+import com.blocktyper.yearmarked.YearmarkedCalendar;
 import com.blocktyper.yearmarked.YearmarkedPlugin;
 
 public class FishfrydayListener extends AbstractListener {
@@ -22,7 +22,7 @@ public class FishfrydayListener extends AbstractListener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerCatchFish(PlayerFishEvent event) {
-		MinecraftCalendar cal = new MinecraftCalendar(event.getPlayer().getWorld());
+		YearmarkedCalendar cal = new YearmarkedCalendar(event.getPlayer().getWorld());
 		if (!cal.getDayOfWeekEnum().equals(DayOfWeekEnum.FISHFRYDAY)) {
 			return;
 		}

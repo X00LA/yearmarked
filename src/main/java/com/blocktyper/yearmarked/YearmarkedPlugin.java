@@ -179,7 +179,7 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 			info("   -" + world + " was loaded");
 		}
 
-		MinecraftCalendar cal = new MinecraftCalendar(timeMonitor.getWorld());
+		YearmarkedCalendar cal = new YearmarkedCalendar(timeMonitor.getWorld());
 
 		try {
 			timeMonitor.sendDayInfo(cal, timeMonitor.getWorld().getPlayers());
@@ -227,11 +227,11 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 	}
 
 	private void initPlayer(Player player) {
-		MinecraftCalendar cal = new MinecraftCalendar(player.getWorld().getFullTime());
+		YearmarkedCalendar cal = new YearmarkedCalendar(player.getWorld().getFullTime());
 		sendPlayerDayInfo(player, cal);
 	}
 
-	private void sendPlayerDayInfo(Player player, MinecraftCalendar cal) {
+	private void sendPlayerDayInfo(Player player, YearmarkedCalendar cal) {
 		info("sending day info to " + player.getName());
 		if (worlds.contains(player.getWorld().getName())) {
 			info("really sending day info to " + player.getName());

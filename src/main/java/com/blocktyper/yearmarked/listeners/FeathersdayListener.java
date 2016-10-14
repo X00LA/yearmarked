@@ -10,7 +10,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import com.blocktyper.yearmarked.MinecraftCalendar;
+import com.blocktyper.yearmarked.YearmarkedCalendar;
 import com.blocktyper.yearmarked.DayOfWeekEnum;
 import com.blocktyper.yearmarked.YearmarkedPlugin;
 
@@ -23,7 +23,7 @@ public class FeathersdayListener extends AbstractListener {
 	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = false)
 	public void onPlayerFallDamageEvent(final EntityDamageEvent event) {
-		MinecraftCalendar cal = new MinecraftCalendar(event.getEntity().getWorld());
+		YearmarkedCalendar cal = new YearmarkedCalendar(event.getEntity().getWorld());
 		if (!cal.getDayOfWeekEnum().equals(DayOfWeekEnum.FEATHERSDAY)) {
 			return;
 		}

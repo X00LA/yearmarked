@@ -12,7 +12,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.material.Crops;
 
 import com.blocktyper.yearmarked.DayOfWeekEnum;
-import com.blocktyper.yearmarked.MinecraftCalendar;
+import com.blocktyper.yearmarked.YearmarkedCalendar;
 import com.blocktyper.yearmarked.YearmarkedPlugin;
 
 public class WortagListener extends AbstractListener {
@@ -27,7 +27,7 @@ public class WortagListener extends AbstractListener {
 	public void onCropsBreak(BlockBreakEvent event) {
 		final Block block = event.getBlock();
 
-		MinecraftCalendar cal = new MinecraftCalendar(block.getWorld());
+		YearmarkedCalendar cal = new YearmarkedCalendar(block.getWorld());
 		if (!cal.getDayOfWeekEnum().equals(DayOfWeekEnum.WORTAG)) {
 			return;
 		}

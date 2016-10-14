@@ -11,7 +11,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.blocktyper.yearmarked.MinecraftCalendar;
+import com.blocktyper.yearmarked.YearmarkedCalendar;
 import com.blocktyper.yearmarked.DayOfWeekEnum;
 import com.blocktyper.yearmarked.YearmarkedPlugin;
 
@@ -33,7 +33,7 @@ public class DiamondayListener extends AbstractListener {
 			return;
 		}
 
-		MinecraftCalendar cal = new MinecraftCalendar(block.getWorld());
+		YearmarkedCalendar cal = new YearmarkedCalendar(block.getWorld());
 		if (!cal.getDayOfWeekEnum().equals(DayOfWeekEnum.DIAMONDAY)) {
 			return;
 		}
