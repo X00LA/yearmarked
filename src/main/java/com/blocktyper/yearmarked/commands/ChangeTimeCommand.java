@@ -31,12 +31,19 @@ public class ChangeTimeCommand implements CommandExecutor {
 			}
 
 			double daysToProgress = 1.0;
+			boolean isRelative = false;
 
 			if (args != null && args.length > 0) {
 
 				String daysToProgressString = args[0];
 
 				if (daysToProgressString != null) {
+					
+					if(daysToProgressString.startsWith("(") && daysToProgressString.endsWith(")")){
+						isRelative = true;
+						daysToProgressString = daysToProgressString.substring(1, daysToProgressString.length()-1);
+					}
+					
 					try {
 						daysToProgress = Double.parseDouble(daysToProgressString);
 					} catch (Exception e) {
@@ -44,16 +51,42 @@ public class ChangeTimeCommand implements CommandExecutor {
 								ChatColor.RED + daysToProgressString + " was not recognized as a valid number.");
 						return false;
 					}
+					
 				}
 			}
+			
+			int ticksInDay = 24000;
 
-			Double valueToProgress = daysToProgress * 24000;
+			Double valueToProgress = daysToProgress * ticksInDay;
+			
+			if(isRelative){
 
-			Long fullTime = Long.valueOf(valueToProgress.longValue());
+				if(player.getWorld().getFullTime() < ticksInDay){
+					if(valueToProgress < 0){
+						valueToProgress = player.getWorld().getFullTime()*-1.0;
+					}else{
+						valueToProgress = valueToProgress - player.getWorld().getFullTime();
+					}
+				}else{
+					double remainder = player.getWorld().getFullTime()%ticksInDay;
+					valueToProgress = valueToProgress - remainder;
+				}
+			}
+			
+			
 
-			player.getWorld().setFullTime(player.getWorld().getFullTime() + fullTime);
+			Long fullTime = player.getWorld().getFullTime() + Long.valueOf(valueToProgress.longValue());
+			
+			if(fullTime < 0){
+				fullTime = 0L;
+			}
 
-			player.sendMessage("time progressed " + daysToProgress + " days.");
+			player.getWorld().setFullTime(fullTime);
+
+			player.sendMessage("/time set " + fullTime);
+			
+			player.sendMessage("time progressed: " + valueToProgress/ticksInDay + " days"+(isRelative?" (Relative)" : "")+".");
+			
 
 			return true;
 		} catch (Exception e) {

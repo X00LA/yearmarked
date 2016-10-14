@@ -196,8 +196,8 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 
 	private void registerCommands() {
 		ChangeTimeCommand changeTimeCommand = new ChangeTimeCommand(this);
-		this.getCommand("change-time").setExecutor(changeTimeCommand);
-		this.getCommand("chtm").setExecutor(changeTimeCommand);
+		this.getCommand("yearmarked").setExecutor(changeTimeCommand);
+		this.getCommand("ym").setExecutor(changeTimeCommand);
 		getLogger().info("'/change-time' registered to ChangeTimeCommand");
 	}
 

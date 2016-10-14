@@ -7,7 +7,7 @@ database: false
 description: Keeps track of days/months/years and triggers special events in game
 
 commands:
-  change-time:
-    description: changes time forward or backward by the amount provided by the foirst argument
-  chtm: 
-    description: changes time forward or backward by the amount provided by the foirst argument
+  yearmarked: 
+    description: changes time according to the arguments provided
+  ym: 
+    description: changes time according to the arguments provided
