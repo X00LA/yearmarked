@@ -9,11 +9,10 @@ import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Crops;
 
+import com.blocktyper.yearmarked.DayOfWeekEnum;
 import com.blocktyper.yearmarked.MinecraftCalendar;
-import com.blocktyper.yearmarked.MinecraftDayOfWeekEnum;
 import com.blocktyper.yearmarked.YearmarkedPlugin;
 
 public class WortagListener extends AbstractListener {
@@ -29,7 +28,7 @@ public class WortagListener extends AbstractListener {
 		final Block block = event.getBlock();
 
 		MinecraftCalendar cal = new MinecraftCalendar(block.getWorld());
-		if (!cal.getDayOfWeekEnum().equals(MinecraftDayOfWeekEnum.WORTAG)) {
+		if (!cal.getDayOfWeekEnum().equals(DayOfWeekEnum.WORTAG)) {
 			return;
 		}
 
@@ -41,9 +40,27 @@ public class WortagListener extends AbstractListener {
 			return;
 		}
 
-		int rewardCount = random.nextInt(3) + 1;
-		String bonus = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_BONUS);
-		event.getPlayer().sendMessage(ChatColor.DARK_PURPLE + bonus + "[x" + rewardCount + "] " + block.getType().toString());
-		block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.NETHER_WARTS, rewardCount));
+		int high = plugin.getConfig().getInt(YearmarkedPlugin.CONFIG_KEY_WORTAG_BONUS_CROPS_RANGE_HIGH, 3);
+		int low = plugin.getConfig().getInt(YearmarkedPlugin.CONFIG_KEY_WORTAG_BONUS_CROPS_RANGE_LOW, 1);
+
+		int rewardCount = random.nextInt(high + 1);
+
+		if (rewardCount < low) {
+			rewardCount = low;
+		}
+
+		if (rewardCount > 0) {
+			String bonus = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_BONUS);
+			event.getPlayer().sendMessage(
+					ChatColor.DARK_PURPLE + bonus + "[x" + rewardCount + "] " + block.getType().toString());
+			dropItemsInStacks(block.getLocation(), Material.NETHER_WARTS, rewardCount,
+					plugin.getConfig().getString(YearmarkedPlugin.CONFIG_KEY_EARTHDAY) + " "
+							+ Material.NETHER_WARTS.name());
+		} else {
+			plugin.debugInfo("No luck on Wortag");
+			event.getPlayer().sendMessage(ChatColor.RED + ":(");
+		}
+
 	}
+
 }

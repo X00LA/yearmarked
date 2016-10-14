@@ -1,53 +1,124 @@
+debug: false
+data.backup.frequency.sec: -1
+
 yearmarked-worlds: 
-   - world
-yearmarked-test: true
-yearmarked.op.luck: true
-debug: false 
+  - world
+
+
+#MONSOONDAY
+yearmarked-monsoonday: Monsoonday
+yearmarked-monsoonday-rain: true
+yearmarked-monsoonday-allow-rain-toggle-with-thordfish: true
+yearmarked-monsoonday-rain-toggle-on-with-thordfish-cost: 0
+yearmarked-monsoonday-rain-toggle-off-with-thordfish-cost: 0
+
+
+#EARTHDAY
+yearmarked-earthday: Earthday
+yearmarked-earthday-bonus-crops: true
+yearmarked-earthday-bonus-crops-range-high: 3
+yearmarked-earthday-bonus-crops-range-low: 1
+
+#WORTTAG
+yearmarked-wortag: Wortag
+yearmarked-wortag-bonus-crops: true
+yearmarked-wortag-bonus-crops-range-high: 3
+yearmarked-wortag-bonus-crops-range-low: 1
+
+
+#DONNERSTAG
+yearmarked-donnerstag: Donnerstag
+yearmarked-donnerstag-lightning: true
+yearmarked-donnerstag-allow-lightning-toggle-with-thordfish: true
+yearmarked-donnerstag-lightning-toggle-on-with-thordfish-cost: 0
+yearmarked-donnerstag-lightning-toggle-off-with-thordfish-cost: 1
+yearmarked-donnerstag-allow-super-creeper-spawn-with-fish-sword: true
+yearmarked-donnerstag-super-creeper-spawn-with-fish-sword-percent-chance: 100
+yearmarked-donnerstag-super-creeper-drops-diamond-percent-chance: 5
+yearmarked-donnerstag-super-creeper-drops-emerald-percent-chance: 10
+yearmarked-donnerstag-super-creeper-drops-thordfish-percent-chance: 15
+
+
+#FISHFRYTAG
+yearmarked-fishfryday-donnerstag-super-creeper-op-luck: true
+yearmarked-fishfryday: Fishfryday
+yearmarked-fishfryday-bonus-xp-multiplier: 2
+yearmarked-fishfryday-percent-chance-diamond: 1
+yearmarked-fishfryday-percent-chance-emerald: 10
+yearmarked-fishfryday-percent-chance-grass: 15
+yearmarked-fishfryday-percent-chance-thordfish: 10
+yearmarked-fishfryday-op-luck: true
+
+
+#DIAMONDAY
+yearmarked-diamonday: Diamonday
+yearmarked-diamonday-bonus-diamonds: true
+yearmarked-diamonday-bonus-diamonds-range-high: 3
+yearmarked-diamonday-bonus-diamonds-range-low: 1
+
+#FEATHERSDAY
+yearmarked-feathersday: Feathersday
+yearmarked-feathersday-prevent-fall-damage: true
+yearmarked-feathersday-bounce: true
+yearmarked-feathersday-bounce-xz-multiplier: 2.5
+
+
+
+
+
+
 
 recipes: 
   - thord-fish
-  - fishy-sword
-  - fishy-arrow
+  - fish-sword
+  - fish-arrow
   
-  
-#Thordfish
 recipe.thord-fish.name: Thordfish
+
 recipe.thord-fish.rows: 
   - FAF
   - AAA
   - FAF
+  
 recipe.thord-fish.mats: 
   - F=RAW_FISH
   - A=AIR
+  
 recipe.thord-fish.output: RAW_FISH
+
 recipe.thord-fish.op.only: false
 
-#FISHY SWORD
-recipe.fishy-sword.name: Fishy Sword
-recipe.fishy-sword.rows: 
+recipe.fish-sword.name: Needle
+
+recipe.fish-sword.rows: 
   - AFA
   - AFA
   - ASA
-recipe.fishy-sword.mats: 
+  
+recipe.fish-sword.mats: 
   - F=RAW_FISH
   - A=AIR
   - S=STICK
-recipe.fishy-sword.output: WOOD_SWORD
-recipe.fishy-sword.item.starts.with: 
-  - 4=Thordfish
+  
+recipe.fish-sword.output: STONE_SWORD
 
-#FISHY ARROW
-recipe.fishy-arrow.name: Fishy Arrow
-recipe.fishy-arrow.rows: 
+recipe.fish-sword.item.starts.with:
+  - 4=Thordfish
+  
+#FISH ARROW
+recipe.fish-arrow.name: Fishbone Arrow
+
+recipe.fish-arrow.rows: 
   - AAA
   - AFA
   - ASA
-recipe.fishy-arrow.mats: 
+  
+recipe.fish-arrow.mats: 
   - F=RAW_FISH
   - A=AIR
   - S=STICK
-recipe.fishy-arrow.output: ARROW
-recipe.fishy-arrow.amount: 16
-recipe.fishy-arrow.item.starts.with: 
+recipe.fish-arrow.output: ARROW
+recipe.fish-arrow.amount: 16
+recipe.fish-arrow.item.starts.with: 
   - 4=Thordfish
   

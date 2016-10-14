@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.blocktyper.yearmarked.MinecraftCalendar;
-import com.blocktyper.yearmarked.MinecraftDayOfWeekEnum;
+import com.blocktyper.yearmarked.DayOfWeekEnum;
 import com.blocktyper.yearmarked.YearmarkedPlugin;
 
 public class MonsoondayListener extends AbstractListener {
@@ -28,8 +28,12 @@ public class MonsoondayListener extends AbstractListener {
 	}
 
 	private void initPlayer(Player player) {
+		if (!plugin.getConfig().getBoolean(YearmarkedPlugin.CONFIG_KEY_MONSOONDAY_RAIN, true)) {
+			plugin.debugInfo(YearmarkedPlugin.CONFIG_KEY_MONSOONDAY_RAIN + ": false");
+			return;
+		}
 		MinecraftCalendar cal = new MinecraftCalendar(player.getWorld().getFullTime());
-		if (MinecraftDayOfWeekEnum.MONSOONDAY.equals(cal.getDayOfWeekEnum())) {
+		if (DayOfWeekEnum.MONSOONDAY.equals(cal.getDayOfWeekEnum())) {
 			player.setPlayerWeather(WeatherType.DOWNFALL);
 		} else {
 			player.setPlayerWeather(WeatherType.CLEAR);

@@ -63,8 +63,8 @@ public class MinecraftCalendar {
 		return dayOfWeek;
 	}
 	
-	public MinecraftDayOfWeekEnum getDayOfWeekEnum(){
-		return MinecraftDayOfWeekEnum.findByNumber(dayOfWeek);
+	public DayOfWeekEnum getDayOfWeekEnum(){
+		return DayOfWeekEnum.findByNumber(dayOfWeek);
 	}
 	
 	

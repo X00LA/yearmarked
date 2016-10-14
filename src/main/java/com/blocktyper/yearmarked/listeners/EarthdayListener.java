@@ -8,11 +8,10 @@ import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Crops;
 
+import com.blocktyper.yearmarked.DayOfWeekEnum;
 import com.blocktyper.yearmarked.MinecraftCalendar;
-import com.blocktyper.yearmarked.MinecraftDayOfWeekEnum;
 import com.blocktyper.yearmarked.YearmarkedPlugin;
 
 import net.md_5.bungee.api.ChatColor;
@@ -35,7 +34,12 @@ public class EarthdayListener extends AbstractListener {
 		}
 
 		MinecraftCalendar cal = new MinecraftCalendar(block.getWorld());
-		if (!cal.getDayOfWeekEnum().equals(MinecraftDayOfWeekEnum.EARTHDAY)) {
+		if (!cal.getDayOfWeekEnum().equals(DayOfWeekEnum.EARTHDAY)) {
+			return;
+		}
+		
+		if(!plugin.getConfig().getBoolean(YearmarkedPlugin.CONFIG_KEY_EARTHDAY_BONUS_CROPS, true)){
+			plugin.debugInfo(YearmarkedPlugin.CONFIG_KEY_EARTHDAY_BONUS_CROPS + ": false");
 			return;
 		}
 
@@ -48,10 +52,24 @@ public class EarthdayListener extends AbstractListener {
 			return;
 		}
 
-		int rewardCount = random.nextInt(3) + 1;
-		String bonus = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_BONUS);
-		event.getPlayer().sendMessage(ChatColor.DARK_GREEN + bonus + "[x" + rewardCount + "] " + block.getType().toString());
-		reward(block, rewardCount);
+		int high = plugin.getConfig().getInt(YearmarkedPlugin.CONFIG_KEY_EARTHDAY_BONUS_CROPS_RANGE_HIGH, 3);
+		int low = plugin.getConfig().getInt(YearmarkedPlugin.CONFIG_KEY_EARTHDAY_BONUS_CROPS_RANGE_LOW, 1);
+		
+		int rewardCount = random.nextInt(high + 1);
+		
+		if(rewardCount < low){
+			rewardCount = low;
+		}
+		
+		if(rewardCount > 0){
+			String bonus = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_BONUS);
+			event.getPlayer().sendMessage(ChatColor.DARK_GREEN + bonus + "[x" + rewardCount + "] " + block.getType().toString());
+			reward(block, rewardCount);
+		}else{
+			plugin.debugInfo("No luck on Earthday");
+			event.getPlayer().sendMessage(ChatColor.RED + ":(");
+		}
+		
 	}
 
 	private void reward(Block block, int rewardCount) {
@@ -67,6 +85,7 @@ public class EarthdayListener extends AbstractListener {
 			reward = Material.GRASS;
 		}
 
-		block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(reward, rewardCount));
+		dropItemsInStacks(block.getLocation(), reward, rewardCount,
+				plugin.getConfig().getString(YearmarkedPlugin.CONFIG_KEY_EARTHDAY) + " " + reward.name());
 	}
 }
