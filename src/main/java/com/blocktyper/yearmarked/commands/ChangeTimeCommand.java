@@ -1,11 +1,14 @@
 package com.blocktyper.yearmarked.commands;
 
+import java.text.MessageFormat;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.blocktyper.yearmarked.LocalizedMessageEnum;
 import com.blocktyper.yearmarked.YearmarkedPlugin;
 
 public class ChangeTimeCommand implements CommandExecutor {
@@ -27,12 +30,14 @@ public class ChangeTimeCommand implements CommandExecutor {
 			
 			if(!plugin.worldEnabled(player.getWorld().getName())){
 				plugin.debugInfo("no time commands. world not enabled.");
-				player.sendMessage("world not enabled");
+				String message = plugin.getLocalizedMessage(LocalizedMessageEnum.WORLD_NOT_ENABLED.getKey());
+				player.sendMessage(new MessageFormat(message).format(new Object[]{player.getWorld().getName()}));
 				return false;
 			}
 
 			if (!player.isOp()) {
-				player.sendMessage("Only for OP users.");
+				String message = plugin.getLocalizedMessage(LocalizedMessageEnum.ONLY_FOR_OP.getKey());
+				player.sendMessage(message);
 				return true;
 			}
 
@@ -53,8 +58,9 @@ public class ChangeTimeCommand implements CommandExecutor {
 					try {
 						daysToProgress = Double.parseDouble(daysToProgressString);
 					} catch (Exception e) {
+						String message = plugin.getLocalizedMessage(LocalizedMessageEnum.YM_COMMAND_NOT_A_VALID_NUMBER.getKey());
 						sender.sendMessage(
-								ChatColor.RED + daysToProgressString + " was not recognized as a valid number.");
+								ChatColor.RED + new MessageFormat(message).format(new Object[]{daysToProgressString}));
 						return false;
 					}
 					
@@ -90,9 +96,6 @@ public class ChangeTimeCommand implements CommandExecutor {
 			player.getWorld().setFullTime(fullTime);
 
 			player.sendMessage("/time set " + fullTime);
-			
-			player.sendMessage("time progressed: " + valueToProgress/ticksInDay + " days"+(isRelative?" (Relative)" : "")+".");
-			
 
 			return true;
 		} catch (Exception e) {

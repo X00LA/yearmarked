@@ -35,6 +35,7 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 
 	public static String CONFIG_KEY_WORLDS = "yearmarked-worlds";
 	
+	
 
 	// MONSOONDAY
 	public static final String CONFIG_KEY_MONSOONDAY = "yearmarked-monsoonday";
@@ -109,17 +110,19 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 	public void onEnable() {
 		super.onEnable();
 		createConfig();
+		
+		info(getLocalizedMessage(CONFIG_KEY_MONSOONDAY));
 
 		getServer().getPluginManager().registerEvents(this, this);
 
-		info("loaded worlds");
+		info("worlds: ");
 		worlds = getConfig().getStringList(CONFIG_KEY_WORLDS);
 		if (worlds != null) {
 			if (worlds.isEmpty()) {
 				info("[empty]");
 			} else {
 				for (String world : worlds) {
-					info("   -" + world);
+					info("  - " + getLocalizedMessage(LocalizedMessageEnum.WORLD.getKey()) + ": " + world);
 				}
 			}
 
@@ -199,7 +202,8 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 		ChangeTimeCommand changeTimeCommand = new ChangeTimeCommand(this);
 		this.getCommand("yearmarked").setExecutor(changeTimeCommand);
 		this.getCommand("ym").setExecutor(changeTimeCommand);
-		getLogger().info("'/change-time' registered to ChangeTimeCommand");
+		getLogger().info("'/yearmarked' registered to ChangeTimeCommand");
+		getLogger().info("'/ym' registered to ChangeTimeCommand");
 	}
 
 	private void registerListeners() {
@@ -292,39 +296,6 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	///////////////////////////
-	// begin localization /////
-	///////////////////////////
-	
-	public static String LOCALIZED_KEY_WORLD = "yearmarked.world";
-	public static String LOCALIZED_KEY_BONUS = "yearmarked.bonus";
-	public static String LOCALIZED_KEY_FALL_DAMAGE_PREVENTED = "yearmarked.fall.damage.prevented";
-	public static String LOCALIZED_KEY_DOUBLE_XP = "yearmarked.double.xp";
-	public static String LOCALIZED_KEY_FISH_HAD_DIAMOND = "yearmarked.fish.had.diamond";
-	public static String LOCALIZED_KEY_FISH_HAD_EMERALD = "yearmarked.fish.had.emerald";
-	public static String LOCALIZED_KEY_TODAY_IS = "yearmarked.today.is";
-
-	public static String LOCALIZED_KEY_SUPER_CREEPER_HAD_DIAMOND = "yearmarked.super.creeper.had.diamond";
-	public static String LOCALIZED_KEY_SUPER_CREEPER_HAD_EMERALD = "yearmarked.super.creeper.had.emerald";
-	public static String LOCALIZED_KEY_SUPER_CREEPER_HAD_THORDFISH = "yearmarked.super.creeper.had.thordfish";
-
-	public static String LOCALIZED_KEY_IT_IS_DAY_NUMBER = "yearmarked.it.is.day.number";
-	public static String LOCALIZED_KEY_OF_MONTH_NUMBER = "yearmarked.of.month.number";
-	public static String LOCALIZED_KEY_OF_YEAR_NUMBER = "yearmarked.of.year.number";
-	
-	public static String LOCALIZED_KEY_SUPER_CREEPER_HAD_A_DIAMOND = "yearmarked.super.creeper.had.diamond";
-	public static String LOCALIZED_KEY_SUPER_CREEPER_HAD_AN_EMERALD = "yearmarked.super.creeper.had.emerald";
-	public static String LOCALIZED_KEY_SUPER_CREEPER_HAD_A_THORDFISH = "yearmarked.super.creeper.had.thordfish";
-	
-	public static String LOCALIZED_KEY_TOGGLE_EFFECT_WITH_THORDFISH_CANT_AFFORD = "yearmarked.toggle.effect.with.thorfish.cant.afford";
 	
 	private ResourceBundle bundle = null;
 

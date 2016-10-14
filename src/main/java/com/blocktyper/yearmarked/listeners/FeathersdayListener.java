@@ -12,6 +12,7 @@ import org.bukkit.util.Vector;
 
 import com.blocktyper.yearmarked.YearmarkedCalendar;
 import com.blocktyper.yearmarked.DayOfWeekEnum;
+import com.blocktyper.yearmarked.LocalizedMessageEnum;
 import com.blocktyper.yearmarked.YearmarkedPlugin;
 
 public class FeathersdayListener extends AbstractListener {
@@ -43,7 +44,7 @@ public class FeathersdayListener extends AbstractListener {
 			}
 			
 			String fallDamagePrevented = plugin
-					.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_FALL_DAMAGE_PREVENTED);
+					.getLocalizedMessage(LocalizedMessageEnum.FALL_DAMAGE_PREVENTED.getKey());
 			player.sendMessage(ChatColor.YELLOW + fallDamagePrevented);
 			event.setCancelled(true);
 

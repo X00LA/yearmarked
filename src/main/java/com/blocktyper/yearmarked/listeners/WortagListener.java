@@ -12,6 +12,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.material.Crops;
 
 import com.blocktyper.yearmarked.DayOfWeekEnum;
+import com.blocktyper.yearmarked.LocalizedMessageEnum;
 import com.blocktyper.yearmarked.YearmarkedCalendar;
 import com.blocktyper.yearmarked.YearmarkedPlugin;
 
@@ -54,7 +55,7 @@ public class WortagListener extends AbstractListener {
 		}
 
 		if (rewardCount > 0) {
-			String bonus = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_BONUS);
+			String bonus = plugin.getLocalizedMessage(LocalizedMessageEnum.BONUS.getKey());
 			event.getPlayer().sendMessage(
 					ChatColor.DARK_PURPLE + bonus + "[x" + rewardCount + "] " + block.getType().toString());
 			dropItemsInStacks(block.getLocation(), Material.NETHER_WARTS, rewardCount,

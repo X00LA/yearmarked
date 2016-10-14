@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.blocktyper.yearmarked.DayOfWeekEnum;
+import com.blocktyper.yearmarked.LocalizedMessageEnum;
 import com.blocktyper.yearmarked.YearmarkedCalendar;
 import com.blocktyper.yearmarked.YearmarkedPlugin;
 
@@ -32,7 +33,7 @@ public class FishfrydayListener extends AbstractListener {
 		}
 
 		if (event.getState().equals(PlayerFishEvent.State.CAUGHT_FISH)) {
-			String doubleXp = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_DOUBLE_XP);
+			String doubleXp = plugin.getLocalizedMessage(LocalizedMessageEnum.DOUBLE_XP.getKey());
 			event.getPlayer().sendMessage(ChatColor.DARK_GREEN + doubleXp);
 			event.setExpToDrop(event.getExpToDrop() * 2);
 
@@ -49,14 +50,14 @@ public class FishfrydayListener extends AbstractListener {
 					.getInt(YearmarkedPlugin.CONFIG_KEY_FISHFRYDAY_PERCENT_CHANCE_THORDFISH, 10);
 
 			if (isOpLucky || plugin.rollIsLucky(percentChanceOfDiamond)) {
-				String message = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_FISH_HAD_DIAMOND);
+				String message = plugin.getLocalizedMessage(LocalizedMessageEnum.FISH_HAD_DIAMOND.getKey());
 				doReward(event.getPlayer(), Material.DIAMOND, message, ChatColor.BLUE,
 						plugin.getConfig().getString(YearmarkedPlugin.CONFIG_KEY_FISHFRYDAY) + " "
 								+ Material.DIAMOND.name());
 			}
 
 			if (isOpLucky || plugin.rollIsLucky(percentChanceOfEmerald)) {
-				String message = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_FISH_HAD_EMERALD);
+				String message = plugin.getLocalizedMessage(LocalizedMessageEnum.FISH_HAD_EMERALD.getKey());
 				doReward(event.getPlayer(), Material.EMERALD, message, ChatColor.GREEN,
 						plugin.getConfig().getString(YearmarkedPlugin.CONFIG_KEY_FISHFRYDAY) + " "
 								+ Material.EMERALD.name());

@@ -11,6 +11,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.material.Crops;
 
 import com.blocktyper.yearmarked.DayOfWeekEnum;
+import com.blocktyper.yearmarked.LocalizedMessageEnum;
 import com.blocktyper.yearmarked.YearmarkedCalendar;
 import com.blocktyper.yearmarked.YearmarkedPlugin;
 
@@ -68,7 +69,7 @@ public class EarthdayListener extends AbstractListener {
 		}
 
 		if (rewardCount > 0) {
-			String bonus = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_BONUS);
+			String bonus = plugin.getLocalizedMessage(LocalizedMessageEnum.BONUS.getKey());
 			event.getPlayer()
 					.sendMessage(ChatColor.DARK_GREEN + bonus + "[x" + rewardCount + "] " + block.getType().toString());
 			reward(block, rewardCount);

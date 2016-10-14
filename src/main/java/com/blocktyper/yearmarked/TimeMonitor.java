@@ -53,9 +53,9 @@ public class TimeMonitor extends BukkitRunnable {
 		plugin.debugInfo("sendDayInfo --> displayKey: " + cal.getDayOfWeekEnum().getDisplayKey());
 		String dayName = plugin.getConfig().getString(cal.getDayOfWeekEnum().getDisplayKey(), "A DAY");
 		plugin.debugInfo("sendDayInfo --> dayName: " + dayName);
-		String todayIs = String.format(plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_TODAY_IS), dayName);
+		String todayIs = String.format(plugin.getLocalizedMessage(LocalizedMessageEnum.TODAY_IS.getKey()), dayName);
 		String dayOfMonthMessage = new MessageFormat(
-				plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_IT_IS_DAY_NUMBER)).format(
+				plugin.getLocalizedMessage(LocalizedMessageEnum.IT_IS_DAY_NUMBER.getKey())).format(
 						new Object[] { cal.getDayOfMonth() + "", cal.getMonthOfYear() + "", cal.getYear() + "" });
 
 		if (players != null && !players.isEmpty()) {

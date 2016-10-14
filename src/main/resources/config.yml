@@ -1,5 +1,6 @@
-debug: false
+debug: true
 data.backup.frequency.sec: -1
+locale: de
 
 yearmarked-worlds: 
   - world

@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.blocktyper.yearmarked.YearmarkedCalendar;
 import com.blocktyper.yearmarked.DayOfWeekEnum;
+import com.blocktyper.yearmarked.LocalizedMessageEnum;
 import com.blocktyper.yearmarked.YearmarkedPlugin;
 
 import net.md_5.bungee.api.ChatColor;
@@ -62,7 +63,7 @@ public class DiamondayListener extends AbstractListener {
 			rewardCount = low;
 		}
 		
-		String bonus = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_BONUS);
+		String bonus = plugin.getLocalizedMessage(LocalizedMessageEnum.BONUS.getKey());
 		
 		if(rewardCount > 0){
 			event.getPlayer().sendMessage(ChatColor.BLUE + bonus + "[x" + rewardCount + "] " + block.getType().toString());

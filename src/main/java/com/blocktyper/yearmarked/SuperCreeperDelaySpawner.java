@@ -27,7 +27,7 @@ public class SuperCreeperDelaySpawner extends BukkitRunnable{
 			return;
 		}
 
-		String message = new MessageFormat("Spawning zombie in world {0} a ({1},{2},{3})").format(new Object[]{world.getName(), location.getBlockX(), location.getBlockY(), location.getBlockZ()});
+		String message = new MessageFormat("Spawning zombie in world {0} a ({1},{2},{3}").format(new Object[]{world.getName(), location.getBlockX(), location.getBlockY(), location.getBlockZ()});
 		plugin.debugInfo(message);
 		Creeper creeper = (Creeper)world.spawnEntity(location, EntityType.CREEPER);
 		creeper.setPowered(true);

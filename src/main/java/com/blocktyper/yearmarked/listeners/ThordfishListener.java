@@ -15,6 +15,7 @@ import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.blocktyper.yearmarked.DayOfWeekEnum;
+import com.blocktyper.yearmarked.LocalizedMessageEnum;
 import com.blocktyper.yearmarked.YearmarkedCalendar;
 import com.blocktyper.yearmarked.YearmarkedPlugin;
 
@@ -71,7 +72,7 @@ public class ThordfishListener extends AbstractListener {
 			return;
 		}
 		
-		String localizedAndTokenizedAffordMessage = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_TOGGLE_EFFECT_WITH_THORDFISH_CANT_AFFORD);
+		String localizedAndTokenizedAffordMessage = plugin.getLocalizedMessage(LocalizedMessageEnum.TOGGLE_EFFECT_WITH_THORDFISH_CANT_AFFORD.getKey());
 
 		if (dayOfWeekEnum.equals(DayOfWeekEnum.MONSOONDAY)) {
 			if (event.getPlayer().getPlayerWeather().equals(WeatherType.CLEAR)) {

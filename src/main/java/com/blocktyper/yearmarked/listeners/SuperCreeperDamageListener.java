@@ -13,6 +13,7 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.blocktyper.yearmarked.LocalizedMessageEnum;
 import com.blocktyper.yearmarked.YearmarkedPlugin;
 
 public class SuperCreeperDamageListener extends AbstractListener {
@@ -170,20 +171,20 @@ public class SuperCreeperDamageListener extends AbstractListener {
 
 		if (isOpLucky || plugin.rollIsLucky(dropDiamondPercent)) {
 			Material reward = Material.DIAMOND;
-			String message = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_SUPER_CREEPER_HAD_DIAMOND);
+			String message = plugin.getLocalizedMessage(LocalizedMessageEnum.SUPER_CREEPER_HAD_DIAMOND.getKey());
 			ChatColor color = ChatColor.BLUE;
 			doReward(creeper, player, reward, message, color);
 		}
 		if (isOpLucky || plugin.rollIsLucky(dropEmeraldPercent)) {
 			Material reward = Material.EMERALD;
-			String message = plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_SUPER_CREEPER_HAD_EMERALD);
+			String message = plugin.getLocalizedMessage(LocalizedMessageEnum.SUPER_CREEPER_HAD_EMERALD.getKey());
 			ChatColor color = ChatColor.GREEN;
 			doReward(creeper, player, reward, message, color);
 		}
 		if (isOpLucky || plugin.rollIsLucky(dropThordfishPercent)) {
 			if (plugin.getNameOfThordfish() != null) {
 				String message = String.format(
-						plugin.getLocalizedMessage(YearmarkedPlugin.LOCALIZED_KEY_SUPER_CREEPER_HAD_THORDFISH),
+						plugin.getLocalizedMessage(LocalizedMessageEnum.SUPER_CREEPER_HAD_THORDFISH.getKey()),
 						plugin.getNameOfThordfish());
 				doReward(creeper, player, Material.RAW_FISH, message, ChatColor.DARK_GREEN,
 						plugin.getNameOfThordfish());
