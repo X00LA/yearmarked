@@ -32,69 +32,7 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 	public static final String RESOURCE_NAME = "com.blocktyper.yearmarked.resources.YearmarkedMessages";
 
 	public static String DEFAULT_WORLD = "world";
-
-	public static String CONFIG_KEY_WORLDS = "yearmarked-worlds";
 	
-	
-
-	// MONSOONDAY
-	public static final String CONFIG_KEY_MONSOONDAY = "yearmarked-monsoonday";
-	public static final String CONFIG_KEY_MONSOONDAY_RAIN = "yearmarked-monsoonday-rain";
-	public static final String CONFIG_KEY_MONSOONDAY_ALLOW_RAIN_TOGGLE_WITH_THORDFISH = "yearmarked-monsoonday-allow-rain-toggle-with-thordfish";
-	public static final String CONFIG_KEY_MONSOONDAY_RAIN_TOGGLE_OFF_WITH_THORDFISH_COST = "yearmarked-monsoonday-rain-toggle-off-with-thordfish-cost";
-	public static final String CONFIG_KEY_MONSOONDAY_RAIN_TOGGLE_ON_WITH_THORDFISH_COST = "yearmarked-monsoonday-rain-toggle-on-with-thordfish-cost";
-
-	// EARTHDAY
-	public static final String CONFIG_KEY_EARTHDAY = "yearmarked-earthday";
-	public static final String CONFIG_KEY_EARTHDAY_BONUS_CROPS = "yearmarked-earthday-bonus-crops";
-	public static final String CONFIG_KEY_EARTHDAY_BONUS_CROPS_RANGE_HIGH = "yearmarked-earthday-bonus-crops-range-high";
-	public static final String CONFIG_KEY_EARTHDAY_BONUS_CROPS_RANGE_LOW = "yearmarked-earthday-bonus-crops-range-low";
-
-	// WORTAG 
-	public static final String CONFIG_KEY_WORTAG = "yearmarked-wortag";
-	public static final String CONFIG_KEY_WORTAG_BONUS_CROPS = "yearmarked-wortag-bonus-crops";
-	public static final String CONFIG_KEY_WORTAG_BONUS_CROPS_RANGE_HIGH = "yearmarked-wortag-bonus-crops-range-high";
-	public static final String CONFIG_KEY_WORTAG_BONUS_CROPS_RANGE_LOW = "yearmarked-wortag-bonus-crops-range-low";
-
-	// DONNERSTAG
-	public static final String CONFIG_KEY_DONNERSTAG = "yearmarked-donnerstag";
-	public static final String CONFIG_KEY_DONNERSTAG_LIGHTNING = "yearmarked-donnerstag-lightning";
-	public static final String CONFIG_KEY_DONNERSTAG_ALLOW_LIGHTNING_TOGGLE_WITH_THORDFISH = "yearmarked-donnerstag-allow-lightning-toggle-with-thordfish";
-	public static final String CONFIG_KEY_DONNERSTAG_LIGHTNING_TOGGLE_OFF_WITH_THORDFISH_COST = "yearmarked-donnerstag-lightning-toggle-off-with-thordfish-cost";
-	public static final String CONFIG_KEY_DONNERSTAG_LIGHTNING_TOGGLE_ON_WITH_THORDFISH_COST = "yearmarked-donnerstag-lightning-toggle-on-with-thordfish-cost";
-
-	public static final String CONFIG_KEY_DONNERSTAG_ALLOW_SUPER_CREEPER_SPAWN_WITH_FISH_SWORD = "yearmarked-donnerstag-allow-super-creeper-spawn-with-fish-sword";
-	public static final String CONFIG_KEY_DONNERSTAG_SUPER_CREEPER_SPAWN_WITH_FISH_SWORD_PERCENT_CHANCE = "yearmarked-donnerstag-super-creeper-spawn-with-fish-sword-percent-chance";
-	public static final String CONFIG_KEY_DONNERSTAG_SUPER_CREEPER_SPAWN_DROPS_DIAMOND_PERCENT_CHANCE = "yearmarked-donnerstag-super-creeper-drops-diamond-percent-chance";
-	public static final String CONFIG_KEY_DONNERSTAG_SUPER_CREEPER_SPAWN_DROPS_EMERALD_PERCENT_CHANCE = "yearmarked-donnerstag-super-creeper-drops-emerald-percent-chance";
-	public static final String CONFIG_KEY_DONNERSTAG_SUPER_CREEPER_SPAWN_DROPS_THORDFISH_PERCENT_CHANCE = "yearmarked-donnerstag-super-creeper-drops-thordfish-percent-chance";
-	public static final String CONFIG_KEY_DONNERSTAG_SUPER_CREEPER_OP_LUCK = "yearmarked-donnerstag-super-creeper-op-luck";
-
-	// FISHFRYDAY
-	public static final String CONFIG_KEY_FISHFRYDAY = "yearmarked-fishfryday";
-	public static final String CONFIG_KEY_FISHFRYDAY_BINUS_XP_MULTIPLIER = "yearmarked-fishfryday-bonus-xp-multiplier";
-	public static final String CONFIG_KEY_FISHFRYDAY_PERCENT_CHANCE_DIAMOND = "yearmarked-fishfryday-percent-chance-diamond";
-	public static final String CONFIG_KEY_FISHFRYDAY_PERCENT_CHANCE_EMERALD = "yearmarked-fishfryday-percent-chance-emerald";
-	public static final String CONFIG_KEY_FISHFRYDAY_PERCENT_CHANCE_GRASS = "yearmarked-fishfryday-percent-chance-grass";
-	public static final String CONFIG_KEY_FISHFRYDAY_PERCENT_CHANCE_THORDFISH = "yearmarked-fishfryday-percent-chance-thordfish";
-	public static final String CONFIG_KEY_FISHFRYDAY_OP_LUCK = "yearmarked-fishfryday-op-luck";
-
-	// DIAMONDAY
-	public static final String CONFIG_KEY_DIAMONDAY = "yearmarked-diamonday";
-	public static final String CONFIG_KEY_DIAMONDAY_BONUS_DIAMONDS = "yearmarked-diamonday-bonus-diamonds";
-	public static final String CONFIG_KEY_DIAMONDAY_BONUS_DIAMONDS_RANGE_HIGH = "yearmarked-diamonday-bonus-diamonds-range-high";
-	public static final String CONFIG_KEY_DIAMONDAY_BONUS_DIAMONDS_RANGE_LOW = "yearmarked-diamonday-bonus-diamonds-range-low";
-
-	// FEATHERSDAY
-	public static final String CONFIG_KEY_FEATHERSDAY = "yearmarked-feathersday";
-	public static final String CONFIG_KEY_FEATHERSDAY_PREVENT_FALL_DAMAGE = "yearmarked-feathersday-prevent-fall-damage";
-	public static final String CONFIG_KEY_FEATHERSDAY_BOUNCE = "yearmarked-feathersday-bounce";
-	public static final String CONFIG_KEY_FEATHERSDAY_BOUNCE_XZ_MULTIPLIER = "yearmarked-feathersday-bounce-xz-multiplier";
-
-	// RECIPES
-	public static final String RECIPE_THORDFISH = "recipe.thord-fish.name";
-	public static final String RECIPE_FISH_SWORD = "recipe.fish-sword.name";
-	public static final String RECIPE_FISH_ARROW = "recipe.fish-arrow.name";
 
 	int checkTimeInterval = 5;// sec
 
@@ -111,18 +49,18 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 		super.onEnable();
 		createConfig();
 		
-		info("MONSOONDAY=" + getConfig().getString(CONFIG_KEY_MONSOONDAY));
-		info("EARTHDAY=" + getConfig().getString(CONFIG_KEY_EARTHDAY));
-		info("WORTAG=" + getConfig().getString(CONFIG_KEY_WORTAG));
-		info("DONNERSTAG=" + getConfig().getString(CONFIG_KEY_DONNERSTAG));
-		info("FISHFRYDAY=" + getConfig().getString(CONFIG_KEY_FISHFRYDAY));
-		info("DIAMONDAY=" + getConfig().getString(CONFIG_KEY_DIAMONDAY));
-		info("FEATHERSDAY=" + getConfig().getString(CONFIG_KEY_FEATHERSDAY));
+		info("MONSOONDAY=" + getConfig().getString(ConfigKeyEnum.MONSOONDAY.getKey()));
+		info("EARTHDAY=" + getConfig().getString(ConfigKeyEnum.EARTHDAY.getKey()));
+		info("WORTAG=" + getConfig().getString(ConfigKeyEnum.WORTAG.getKey()));
+		info("DONNERSTAG=" + getConfig().getString(ConfigKeyEnum.DONNERSTAG.getKey()));
+		info("FISHFRYDAY=" + getConfig().getString(ConfigKeyEnum.FISHFRYDAY.getKey()));
+		info("DIAMONDAY=" + getConfig().getString(ConfigKeyEnum.DIAMONDAY.getKey()));
+		info("FEATHERSDAY=" + getConfig().getString(ConfigKeyEnum.FEATHERSDAY.getKey()));
 
 		getServer().getPluginManager().registerEvents(this, this);
 
 		info(getLocalizedMessage(LocalizedMessageEnum.WORLDS.getKey()) + ": ");
-		worlds = getConfig().getStringList(CONFIG_KEY_WORLDS);
+		worlds = getConfig().getStringList(ConfigKeyEnum.WORLDS.getKey());
 		if (worlds != null) {
 			if (worlds.isEmpty()) {
 				info("[empty]");
@@ -144,9 +82,9 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 
 		info("starting world monitors");
 
-		nameOfThordfish = getConfig().getString(YearmarkedPlugin.RECIPE_THORDFISH);
-		nameOfFishSword = getConfig().getString(YearmarkedPlugin.RECIPE_FISH_SWORD);
-		nameOfFishArrow = getConfig().getString(YearmarkedPlugin.RECIPE_FISH_ARROW);
+		nameOfThordfish = getConfig().getString(ConfigKeyEnum.RECIPE_THORDFISH.getKey());
+		nameOfFishSword = getConfig().getString(ConfigKeyEnum.RECIPE_FISH_SWORD.getKey());
+		nameOfFishArrow = getConfig().getString(ConfigKeyEnum.RECIPE_FISH_ARROW.getKey());
 
 		startWorldMonitors();
 		registerListeners();

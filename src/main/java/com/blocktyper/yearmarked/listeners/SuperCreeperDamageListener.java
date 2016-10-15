@@ -13,6 +13,7 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.blocktyper.yearmarked.ConfigKeyEnum;
 import com.blocktyper.yearmarked.LocalizedMessageEnum;
 import com.blocktyper.yearmarked.YearmarkedPlugin;
 
@@ -156,16 +157,16 @@ public class SuperCreeperDamageListener extends AbstractListener {
 		}
 
 		boolean isOpLucky = player.isOp()
-				&& plugin.getConfig().getBoolean(YearmarkedPlugin.CONFIG_KEY_DONNERSTAG_SUPER_CREEPER_OP_LUCK, true);
+				&& plugin.getConfig().getBoolean(ConfigKeyEnum.DONNERSTAG_SUPER_CREEPER_OP_LUCK.getKey(), true);
 
 		player.sendMessage(ChatColor.GOLD + "OP!");
 
 		double dropDiamondPercent = plugin.getConfig()
-				.getDouble(YearmarkedPlugin.CONFIG_KEY_DONNERSTAG_SUPER_CREEPER_SPAWN_DROPS_DIAMOND_PERCENT_CHANCE, 5);
+				.getDouble(ConfigKeyEnum.DONNERSTAG_SUPER_CREEPER_SPAWN_DROPS_DIAMOND_PERCENT_CHANCE.getKey(), 5);
 		double dropEmeraldPercent = plugin.getConfig()
-				.getDouble(YearmarkedPlugin.CONFIG_KEY_DONNERSTAG_SUPER_CREEPER_SPAWN_DROPS_DIAMOND_PERCENT_CHANCE, 10);
+				.getDouble(ConfigKeyEnum.DONNERSTAG_SUPER_CREEPER_SPAWN_DROPS_DIAMOND_PERCENT_CHANCE.getKey(), 10);
 		double dropThordfishPercent = plugin.getConfig()
-				.getDouble(YearmarkedPlugin.CONFIG_KEY_DONNERSTAG_SUPER_CREEPER_SPAWN_DROPS_DIAMOND_PERCENT_CHANCE, 15);
+				.getDouble(ConfigKeyEnum.DONNERSTAG_SUPER_CREEPER_SPAWN_DROPS_DIAMOND_PERCENT_CHANCE.getKey(), 15);
 
 		// boolean spawnCreeper = plugin.rollTrueOrFalse(dropDiamondPercent);
 

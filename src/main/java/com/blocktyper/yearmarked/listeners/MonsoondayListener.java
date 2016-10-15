@@ -8,6 +8,7 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.blocktyper.yearmarked.YearmarkedCalendar;
+import com.blocktyper.yearmarked.ConfigKeyEnum;
 import com.blocktyper.yearmarked.DayOfWeekEnum;
 import com.blocktyper.yearmarked.YearmarkedPlugin;
 
@@ -31,8 +32,8 @@ public class MonsoondayListener extends AbstractListener {
 		if (!worldEnabled(player.getWorld().getName(), plugin.getConfig().getString(DayOfWeekEnum.MONSOONDAY.getDisplayKey()))) {
 			return;
 		}
-		if (!plugin.getConfig().getBoolean(YearmarkedPlugin.CONFIG_KEY_MONSOONDAY_RAIN, true)) {
-			plugin.debugInfo(YearmarkedPlugin.CONFIG_KEY_MONSOONDAY_RAIN + ": false");
+		if (!plugin.getConfig().getBoolean(ConfigKeyEnum.MONSOONDAY_RAIN.getKey(), true)) {
+			plugin.debugInfo(ConfigKeyEnum.MONSOONDAY_RAIN.getKey() + ": false");
 			return;
 		}
 		YearmarkedCalendar cal = new YearmarkedCalendar(player.getWorld().getFullTime());

@@ -10,6 +10,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.material.Crops;
 
+import com.blocktyper.yearmarked.ConfigKeyEnum;
 import com.blocktyper.yearmarked.DayOfWeekEnum;
 import com.blocktyper.yearmarked.LocalizedMessageEnum;
 import com.blocktyper.yearmarked.YearmarkedCalendar;
@@ -39,8 +40,8 @@ public class EarthdayListener extends AbstractListener {
 			return;
 		}
 
-		if (!plugin.getConfig().getBoolean(YearmarkedPlugin.CONFIG_KEY_EARTHDAY_BONUS_CROPS, true)) {
-			plugin.debugInfo(YearmarkedPlugin.CONFIG_KEY_EARTHDAY_BONUS_CROPS + ": false");
+		if (!plugin.getConfig().getBoolean(ConfigKeyEnum.EARTHDAY_BONUS_CROPS.getKey(), true)) {
+			plugin.debugInfo(ConfigKeyEnum.EARTHDAY_BONUS_CROPS.getKey() + ": false");
 			return;
 		}
 
@@ -59,8 +60,8 @@ public class EarthdayListener extends AbstractListener {
 		}
 		
 
-		int high = plugin.getConfig().getInt(YearmarkedPlugin.CONFIG_KEY_EARTHDAY_BONUS_CROPS_RANGE_HIGH, 3);
-		int low = plugin.getConfig().getInt(YearmarkedPlugin.CONFIG_KEY_EARTHDAY_BONUS_CROPS_RANGE_LOW, 1);
+		int high = plugin.getConfig().getInt(ConfigKeyEnum.EARTHDAY_BONUS_CROPS_RANGE_HIGH.getKey(), 3);
+		int low = plugin.getConfig().getInt(ConfigKeyEnum.EARTHDAY_BONUS_CROPS_RANGE_LOW.getKey(), 1);
 
 		int rewardCount = random.nextInt(high + 1);
 
@@ -94,6 +95,6 @@ public class EarthdayListener extends AbstractListener {
 		}
 
 		dropItemsInStacks(block.getLocation(), reward, rewardCount,
-				plugin.getConfig().getString(YearmarkedPlugin.CONFIG_KEY_EARTHDAY) + " " + reward.name());
+				plugin.getConfig().getString(ConfigKeyEnum.EARTHDAY.getKey()) + " " + reward.name());
 	}
 }

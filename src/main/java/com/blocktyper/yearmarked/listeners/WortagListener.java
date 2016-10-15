@@ -11,6 +11,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.material.Crops;
 
+import com.blocktyper.yearmarked.ConfigKeyEnum;
 import com.blocktyper.yearmarked.DayOfWeekEnum;
 import com.blocktyper.yearmarked.LocalizedMessageEnum;
 import com.blocktyper.yearmarked.YearmarkedCalendar;
@@ -45,8 +46,8 @@ public class WortagListener extends AbstractListener {
 			return;
 		}
 		
-		int high = plugin.getConfig().getInt(YearmarkedPlugin.CONFIG_KEY_WORTAG_BONUS_CROPS_RANGE_HIGH, 3);
-		int low = plugin.getConfig().getInt(YearmarkedPlugin.CONFIG_KEY_WORTAG_BONUS_CROPS_RANGE_LOW, 1);
+		int high = plugin.getConfig().getInt(ConfigKeyEnum.WORTAG_BONUS_CROPS_RANGE_HIGH.getKey(), 3);
+		int low = plugin.getConfig().getInt(ConfigKeyEnum.WORTAG_BONUS_CROPS_RANGE_LOW.getKey(), 1);
 
 		int rewardCount = random.nextInt(high + 1);
 
@@ -59,7 +60,7 @@ public class WortagListener extends AbstractListener {
 			event.getPlayer().sendMessage(
 					ChatColor.DARK_PURPLE + bonus + "[x" + rewardCount + "] " + block.getType().toString());
 			dropItemsInStacks(block.getLocation(), Material.NETHER_WARTS, rewardCount,
-					plugin.getConfig().getString(YearmarkedPlugin.CONFIG_KEY_EARTHDAY) + " "
+					plugin.getConfig().getString(ConfigKeyEnum.EARTHDAY.getKey()) + " "
 							+ Material.NETHER_WARTS.name());
 		} else {
 			plugin.debugInfo("No luck on Wortag");

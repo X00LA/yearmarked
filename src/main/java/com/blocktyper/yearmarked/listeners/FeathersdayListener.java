@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import com.blocktyper.yearmarked.YearmarkedCalendar;
+import com.blocktyper.yearmarked.ConfigKeyEnum;
 import com.blocktyper.yearmarked.DayOfWeekEnum;
 import com.blocktyper.yearmarked.LocalizedMessageEnum;
 import com.blocktyper.yearmarked.YearmarkedPlugin;
@@ -34,8 +35,8 @@ public class FeathersdayListener extends AbstractListener {
 		Player player = (Player) event.getEntity();
 		if (event.getCause() == DamageCause.FALL) {
 			
-			if (!plugin.getConfig().getBoolean(YearmarkedPlugin.CONFIG_KEY_FEATHERSDAY_PREVENT_FALL_DAMAGE, true)) {
-				plugin.debugInfo(YearmarkedPlugin.CONFIG_KEY_FEATHERSDAY_PREVENT_FALL_DAMAGE + ": false");
+			if (!plugin.getConfig().getBoolean(ConfigKeyEnum.FEATHERSDAY_PREVENT_FALL_DAMAGE.getKey(), true)) {
+				plugin.debugInfo(ConfigKeyEnum.FEATHERSDAY_PREVENT_FALL_DAMAGE.getKey() + ": false");
 				return;
 			}
 			
@@ -48,11 +49,11 @@ public class FeathersdayListener extends AbstractListener {
 			player.sendMessage(ChatColor.YELLOW + fallDamagePrevented);
 			event.setCancelled(true);
 
-			if (!plugin.getConfig().getBoolean(YearmarkedPlugin.CONFIG_KEY_FEATHERSDAY_BOUNCE, true)) {
-				plugin.debugInfo(YearmarkedPlugin.CONFIG_KEY_FEATHERSDAY_BOUNCE + ": false");
+			if (!plugin.getConfig().getBoolean(ConfigKeyEnum.FEATHERSDAY_BOUNCE.getKey(), true)) {
+				plugin.debugInfo(ConfigKeyEnum.FEATHERSDAY_BOUNCE.getKey() + ": false");
 				return;
 			}
-			String nameOfFishSword = plugin.getConfig().getString(YearmarkedPlugin.RECIPE_FISH_SWORD);
+			String nameOfFishSword = plugin.getConfig().getString(ConfigKeyEnum.RECIPE_FISH_SWORD.getKey());
 
 			if (nameOfFishSword == null) {
 				plugin.debugInfo("No Fish sword defined in config");
@@ -77,7 +78,7 @@ public class FeathersdayListener extends AbstractListener {
 			}
 
 			Double amoundToSpeedXAndZ = plugin.getConfig()
-					.getDouble(YearmarkedPlugin.CONFIG_KEY_FEATHERSDAY_BOUNCE_XZ_MULTIPLIER, 2.5);
+					.getDouble(ConfigKeyEnum.FEATHERSDAY_BOUNCE_XZ_MULTIPLIER.getKey(), 2.5);
 
 			Vector velocity = player.getVelocity();
 			velocity.setY(10.0);

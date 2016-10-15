@@ -14,6 +14,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.inventory.ItemStack;
 
+import com.blocktyper.yearmarked.ConfigKeyEnum;
 import com.blocktyper.yearmarked.DayOfWeekEnum;
 import com.blocktyper.yearmarked.LocalizedMessageEnum;
 import com.blocktyper.yearmarked.YearmarkedCalendar;
@@ -31,7 +32,7 @@ public class ThordfishListener extends AbstractListener {
 		plugin.debugInfo("BlockDamageEvent - Material " + event.getBlock().getType().name());
 
 		if (plugin.getNameOfThordfish() == null || plugin.getNameOfThordfish().isEmpty()) {
-			plugin.debugInfo("There is no recipe defined for " + YearmarkedPlugin.RECIPE_THORDFISH);
+			plugin.debugInfo("There is no recipe defined for " + ConfigKeyEnum.RECIPE_THORDFISH.getKey());
 			return;
 		}
 		
@@ -78,13 +79,13 @@ public class ThordfishListener extends AbstractListener {
 			if (event.getPlayer().getPlayerWeather().equals(WeatherType.CLEAR)) {
 
 				int toggleCost = plugin.getConfig()
-						.getInt(YearmarkedPlugin.CONFIG_KEY_MONSOONDAY_RAIN_TOGGLE_ON_WITH_THORDFISH_COST, 0);
+						.getInt(ConfigKeyEnum.MONSOONDAY_RAIN_TOGGLE_ON_WITH_THORDFISH_COST.getKey(), 0);
 
 				if (spendThorfish(event.getPlayer(), itemInHand, toggleCost)) {
 					if (!plugin.getConfig().getBoolean(
-							YearmarkedPlugin.CONFIG_KEY_MONSOONDAY_ALLOW_RAIN_TOGGLE_WITH_THORDFISH, true)) {
+							ConfigKeyEnum.MONSOONDAY_ALLOW_RAIN_TOGGLE_WITH_THORDFISH.getKey(), true)) {
 						plugin.debugInfo(
-								YearmarkedPlugin.CONFIG_KEY_MONSOONDAY_ALLOW_RAIN_TOGGLE_WITH_THORDFISH + ": false");
+								ConfigKeyEnum.MONSOONDAY_ALLOW_RAIN_TOGGLE_WITH_THORDFISH.getKey() + ": false");
 						return;
 					}
 					event.getPlayer().sendMessage(ChatColor.DARK_BLUE + ":(");
@@ -98,7 +99,7 @@ public class ThordfishListener extends AbstractListener {
 			} else {
 
 				int toggleCost = plugin.getConfig()
-						.getInt(YearmarkedPlugin.CONFIG_KEY_MONSOONDAY_RAIN_TOGGLE_OFF_WITH_THORDFISH_COST, 0);
+						.getInt(ConfigKeyEnum.MONSOONDAY_RAIN_TOGGLE_OFF_WITH_THORDFISH_COST.getKey(), 0);
 
 				if (spendThorfish(event.getPlayer(), itemInHand, toggleCost)) {
 					event.getPlayer().sendMessage(ChatColor.AQUA + ":)");
@@ -112,9 +113,9 @@ public class ThordfishListener extends AbstractListener {
 
 		} else if (dayOfWeekEnum.equals(DayOfWeekEnum.DONNERSTAG)) {
 			if (!plugin.getConfig()
-					.getBoolean(YearmarkedPlugin.CONFIG_KEY_DONNERSTAG_ALLOW_LIGHTNING_TOGGLE_WITH_THORDFISH, true)) {
+					.getBoolean(ConfigKeyEnum.DONNERSTAG_ALLOW_LIGHTNING_TOGGLE_WITH_THORDFISH.getKey(), true)) {
 				plugin.debugInfo(
-						YearmarkedPlugin.CONFIG_KEY_DONNERSTAG_ALLOW_LIGHTNING_TOGGLE_WITH_THORDFISH + ": false");
+						ConfigKeyEnum.DONNERSTAG_ALLOW_LIGHTNING_TOGGLE_WITH_THORDFISH.getKey() + ": false");
 				return;
 			}
 
@@ -125,7 +126,7 @@ public class ThordfishListener extends AbstractListener {
 			if (playerExemptFromLightning.contains(event.getPlayer().getName())) {
 
 				int toggleCost = plugin.getConfig()
-						.getInt(YearmarkedPlugin.CONFIG_KEY_DONNERSTAG_LIGHTNING_TOGGLE_ON_WITH_THORDFISH_COST, 0);
+						.getInt(ConfigKeyEnum.DONNERSTAG_LIGHTNING_TOGGLE_ON_WITH_THORDFISH_COST.getKey(), 0);
 
 				plugin.debugInfo("toggleCost: " + toggleCost);
 				if (spendThorfish(event.getPlayer(), itemInHand, toggleCost)) {
@@ -141,7 +142,7 @@ public class ThordfishListener extends AbstractListener {
 			} else {
 
 				int toggleCost = plugin.getConfig()
-						.getInt(YearmarkedPlugin.CONFIG_KEY_DONNERSTAG_LIGHTNING_TOGGLE_OFF_WITH_THORDFISH_COST, 1);
+						.getInt(ConfigKeyEnum.DONNERSTAG_LIGHTNING_TOGGLE_OFF_WITH_THORDFISH_COST.getKey(), 1);
 
 				plugin.debugInfo("toggleCost: " + toggleCost);
 				if (spendThorfish(event.getPlayer(), itemInHand, toggleCost)) {

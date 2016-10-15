@@ -12,6 +12,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.blocktyper.yearmarked.YearmarkedCalendar;
+import com.blocktyper.yearmarked.ConfigKeyEnum;
 import com.blocktyper.yearmarked.DayOfWeekEnum;
 import com.blocktyper.yearmarked.LocalizedMessageEnum;
 import com.blocktyper.yearmarked.YearmarkedPlugin;
@@ -39,8 +40,8 @@ public class DiamondayListener extends AbstractListener {
 			return;
 		}
 		
-		if(!plugin.getConfig().getBoolean(YearmarkedPlugin.CONFIG_KEY_DIAMONDAY_BONUS_DIAMONDS, true)){
-			plugin.debugInfo(YearmarkedPlugin.CONFIG_KEY_DIAMONDAY_BONUS_DIAMONDS + ": false");
+		if(!plugin.getConfig().getBoolean(ConfigKeyEnum.DIAMONDAY_BONUS_DIAMONDS.getKey(), true)){
+			plugin.debugInfo(ConfigKeyEnum.DIAMONDAY_BONUS_DIAMONDS.getKey() + ": false");
 			return;
 		}
 		
@@ -54,8 +55,8 @@ public class DiamondayListener extends AbstractListener {
 			return;
 		}
 		
-		int high = plugin.getConfig().getInt(YearmarkedPlugin.CONFIG_KEY_DIAMONDAY_BONUS_DIAMONDS_RANGE_HIGH, 3);
-		int low = plugin.getConfig().getInt(YearmarkedPlugin.CONFIG_KEY_DIAMONDAY_BONUS_DIAMONDS_RANGE_LOW, 1);
+		int high = plugin.getConfig().getInt(ConfigKeyEnum.DIAMONDAY_BONUS_DIAMONDS_RANGE_HIGH.getKey(), 3);
+		int low = plugin.getConfig().getInt(ConfigKeyEnum.DIAMONDAY_BONUS_DIAMONDS_RANGE_LOW.getKey(), 1);
 
 		int rewardCount = random.nextInt(high + 1);
 		
@@ -67,7 +68,7 @@ public class DiamondayListener extends AbstractListener {
 		
 		if(rewardCount > 0){
 			event.getPlayer().sendMessage(ChatColor.BLUE + bonus + "[x" + rewardCount + "] " + block.getType().toString());
-			dropItemsInStacks(block.getLocation(), Material.DIAMOND, rewardCount, plugin.getConfig().getString(YearmarkedPlugin.CONFIG_KEY_DIAMONDAY) + " " + Material.DIAMOND.name());
+			dropItemsInStacks(block.getLocation(), Material.DIAMOND, rewardCount, plugin.getConfig().getString(ConfigKeyEnum.DIAMONDAY.getKey()) + " " + Material.DIAMOND.name());
 		}else{
 			plugin.debugInfo("No luck on Diamonday");
 			event.getPlayer().sendMessage(ChatColor.RED + ":(");

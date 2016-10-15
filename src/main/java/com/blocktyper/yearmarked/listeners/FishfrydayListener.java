@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.blocktyper.yearmarked.ConfigKeyEnum;
 import com.blocktyper.yearmarked.DayOfWeekEnum;
 import com.blocktyper.yearmarked.LocalizedMessageEnum;
 import com.blocktyper.yearmarked.YearmarkedCalendar;
@@ -38,34 +39,34 @@ public class FishfrydayListener extends AbstractListener {
 			event.setExpToDrop(event.getExpToDrop() * 2);
 
 			boolean isOpLucky = event.getPlayer().isOp()
-					&& plugin.getConfig().getBoolean(YearmarkedPlugin.CONFIG_KEY_FISHFRYDAY_OP_LUCK, true);
+					&& plugin.getConfig().getBoolean(ConfigKeyEnum.FISHFRYDAY_OP_LUCK.getKey(), true);
 
 			int percentChanceOfDiamond = plugin.getConfig()
-					.getInt(YearmarkedPlugin.CONFIG_KEY_FISHFRYDAY_PERCENT_CHANCE_DIAMOND, 1);
+					.getInt(ConfigKeyEnum.FISHFRYDAY_PERCENT_CHANCE_DIAMOND.getKey(), 1);
 			int percentChanceOfEmerald = plugin.getConfig()
-					.getInt(YearmarkedPlugin.CONFIG_KEY_FISHFRYDAY_PERCENT_CHANCE_EMERALD, 10);
+					.getInt(ConfigKeyEnum.FISHFRYDAY_PERCENT_CHANCE_EMERALD.getKey(), 10);
 			int percentChanceOfGrass = plugin.getConfig()
-					.getInt(YearmarkedPlugin.CONFIG_KEY_FISHFRYDAY_PERCENT_CHANCE_GRASS, 10);
+					.getInt(ConfigKeyEnum.FISHFRYDAY_PERCENT_CHANCE_GRASS.getKey(), 10);
 			int percentChanceOfThordfish = plugin.getConfig()
-					.getInt(YearmarkedPlugin.CONFIG_KEY_FISHFRYDAY_PERCENT_CHANCE_THORDFISH, 10);
+					.getInt(ConfigKeyEnum.FISHFRYDAY_PERCENT_CHANCE_THORDFISH.getKey(), 10);
 
 			if (isOpLucky || plugin.rollIsLucky(percentChanceOfDiamond)) {
 				String message = plugin.getLocalizedMessage(LocalizedMessageEnum.FISH_HAD_DIAMOND.getKey());
 				doReward(event.getPlayer(), Material.DIAMOND, message, ChatColor.BLUE,
-						plugin.getConfig().getString(YearmarkedPlugin.CONFIG_KEY_FISHFRYDAY) + " "
+						plugin.getConfig().getString(ConfigKeyEnum.FISHFRYDAY.getKey()) + " "
 								+ Material.DIAMOND.name());
 			}
 
 			if (isOpLucky || plugin.rollIsLucky(percentChanceOfEmerald)) {
 				String message = plugin.getLocalizedMessage(LocalizedMessageEnum.FISH_HAD_EMERALD.getKey());
 				doReward(event.getPlayer(), Material.EMERALD, message, ChatColor.GREEN,
-						plugin.getConfig().getString(YearmarkedPlugin.CONFIG_KEY_FISHFRYDAY) + " "
+						plugin.getConfig().getString(ConfigKeyEnum.FISHFRYDAY.getKey()) + " "
 								+ Material.EMERALD.name());
 			}
 
 			if (isOpLucky || plugin.rollIsLucky(percentChanceOfGrass)) {
 				doReward(event.getPlayer(), Material.GRASS, null, ChatColor.GREEN,
-						plugin.getConfig().getString(YearmarkedPlugin.CONFIG_KEY_FISHFRYDAY) + " "
+						plugin.getConfig().getString(ConfigKeyEnum.FISHFRYDAY.getKey()) + " "
 								+ Material.GRASS.name());
 			}
 

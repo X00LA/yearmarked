@@ -83,7 +83,7 @@ public class TimeMonitor extends BukkitRunnable {
 
 		
 		
-		if (plugin.getConfig().getBoolean(YearmarkedPlugin.CONFIG_KEY_MONSOONDAY_RAIN, true)) {
+		if (plugin.getConfig().getBoolean(ConfigKeyEnum.MONSOONDAY_RAIN.getKey(), true)) {
 			boolean isMonsoonday = cal.getDayOfWeekEnum().equals(DayOfWeekEnum.MONSOONDAY);
 			if (world.getPlayers() != null) {
 				for (Player player : world.getPlayers()) {
@@ -118,12 +118,12 @@ public class TimeMonitor extends BukkitRunnable {
 					Location newLocation = new Location(world, x, loc.getBlockY(), z);
 					world.strikeLightning(newLocation);
 
-					if(!plugin.getConfig().getBoolean(YearmarkedPlugin.CONFIG_KEY_DONNERSTAG_ALLOW_SUPER_CREEPER_SPAWN_WITH_FISH_SWORD, true)){
-						plugin.debugInfo(YearmarkedPlugin.CONFIG_KEY_DONNERSTAG_ALLOW_SUPER_CREEPER_SPAWN_WITH_FISH_SWORD + ": false");
+					if(!plugin.getConfig().getBoolean(ConfigKeyEnum.DONNERSTAG_ALLOW_SUPER_CREEPER_SPAWN_WITH_FISH_SWORD.getKey(), true)){
+						plugin.debugInfo(ConfigKeyEnum.DONNERSTAG_ALLOW_SUPER_CREEPER_SPAWN_WITH_FISH_SWORD.getKey() + ": false");
 						return;
 					}
 					
-					double creeperSpawnPercentChance = plugin.getConfig().getDouble(YearmarkedPlugin.CONFIG_KEY_DONNERSTAG_SUPER_CREEPER_SPAWN_WITH_FISH_SWORD_PERCENT_CHANCE, 100);
+					double creeperSpawnPercentChance = plugin.getConfig().getDouble(ConfigKeyEnum.DONNERSTAG_SUPER_CREEPER_SPAWN_WITH_FISH_SWORD_PERCENT_CHANCE.getKey(), 100);
 					
 					boolean spawnCreeper = plugin.rollIsLucky(creeperSpawnPercentChance);
 					if(!spawnCreeper){
