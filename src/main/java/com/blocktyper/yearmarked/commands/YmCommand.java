@@ -134,9 +134,8 @@ public class YmCommand implements CommandExecutor {
 		player.sendMessage("  - /ym -1 					#Moves world's fulltime backwards exactly 24000x1 units");
 		player.sendMessage("  - /ym (5) 				#Moves world's fulltime forward to the exact start of the day 5 from *now");
 		player.sendMessage("  - /ym (-2) 				#Moves world's fulltime backwards to the exact start of the day 2 *ago");
-		player.sendMessage("  - /ym date yyy-mm-dd 		#Moves to the date you specify in the Yearmarked calendar");
 		player.sendMessage("  - /ym day 1				#Moves to day one through 7. Before you change the time, your current fulltime is stored in server RAM and allows you to toggle back where you were before running the command (see '/ym return')");
-		player.sendMessage("  - /ym return				#Moves the world's full time to where the user was before they ran the 'ym day' command or the 'ym date' command.");
+		player.sendMessage("  - /ym return				#Moves the world's full time to where the user was before they ran the 'ym day' command.");
 
 		return false;
 	}
@@ -147,10 +146,7 @@ public class YmCommand implements CommandExecutor {
 			return false;
 		}
 		
-		if (args[0].equals("date")) {
-			plugin.debugInfo("'date' 1st arg");
-			return handleDateArgument(args, player);
-		} else if (args[0].equals("day")) {
+		if (args[0].equals("day")) {
 			plugin.debugInfo("'day' 1st arg");
 			return handleDayArgument(args, player);
 		} else if (args[0].equals("return")) {
@@ -168,73 +164,6 @@ public class YmCommand implements CommandExecutor {
 		
 		return true;
 	}
-
-	private boolean handleDateArgument(String[] args, Player player) {
-		
-		if(!validateSecondArg(args, player)){
-			player.sendMessage(ChatColor.RED + "supply a number must be 1-7");
-			return false;
-		}
-		
-		String rawDate = args[1];
-		
-	    Date parsedDate = null;
-	    
-	    try {
-	    	parsedDate = sdf.parse(rawDate);
-		} catch (ParseException e) {
-			player.sendMessage(ChatColor.RED + "There was an error parsing the date you provided ["+rawDate+"].");
-			plugin.debugWarning("Error parsing date ["+rawDate+"]: " + e.getMessage());
-			return false;
-		}
-	    
-	    
-	    if(parsedDate == null){
-	    	player.sendMessage(ChatColor.RED + "There was anunexpected error parsing the date you provided ["+rawDate+"].");
-	    	plugin.debugWarning("parsedDate null");
-	    	return false;
-	    }
-	    
-	    Calendar cal = Calendar.getInstance();
-	    cal.setTime(parsedDate);
-	    int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-	    
-	    if(dayOfMonth > 28 || dayOfMonth < 1){
-	    	player.sendMessage(ChatColor.RED + "All Yearmarked months have 28 days. " + dayOfMonth + " is not accepted");
-	    	return false;
-	    }
-	    
-	    int year = cal.get(Calendar.YEAR);
-	    
-	    if(year < 1){
-	    	player.sendMessage(ChatColor.RED + "Yearmarked years start at 1. " + year + " is not accepted.");
-	    	return false;
-	    }
-	    
-	    int month = cal.get(Calendar.MONTH);
-	    
-	    if(month < 1 || month > 12){
-	    	player.sendMessage(ChatColor.RED + "There are 12 Yearmarked months in each year. " + month + " is not accepted.");
-	    	return false;
-	    }
-	    
-	    int ticksInDay = 24000;
-	    
-	    long newFulltime = dayOfMonth*ticksInDay;
-	    
-	    newFulltime += (month * 28 * ticksInDay);
-	    
-	    newFulltime += (year * (28*12) * ticksInDay);
-	    
-	    setReturnValueForPlayer(player);
-	    
-	    player.getWorld().setFullTime(newFulltime);
-	    
-	    player.sendMessage("/time set " + newFulltime);
-	    
-		return true;
-	}
-	
 	
 
 	private boolean handleDayArgument(String[] args, Player player) {
