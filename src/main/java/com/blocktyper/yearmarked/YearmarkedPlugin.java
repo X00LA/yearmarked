@@ -1,6 +1,7 @@
 package com.blocktyper.yearmarked;
 
 import java.io.File;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -15,7 +16,7 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.blocktyper.plugin.BlockTyperPlugin;
-import com.blocktyper.yearmarked.commands.ChangeTimeCommand;
+import com.blocktyper.yearmarked.commands.YmCommand;
 import com.blocktyper.yearmarked.listeners.DiamondayListener;
 import com.blocktyper.yearmarked.listeners.EarthdayListener;
 import com.blocktyper.yearmarked.listeners.FeathersdayListener;
@@ -24,6 +25,8 @@ import com.blocktyper.yearmarked.listeners.MonsoondayListener;
 import com.blocktyper.yearmarked.listeners.SuperCreeperDamageListener;
 import com.blocktyper.yearmarked.listeners.ThordfishListener;
 import com.blocktyper.yearmarked.listeners.WortagListener;
+
+import net.md_5.bungee.api.ChatColor;
 
 public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 
@@ -79,13 +82,13 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 			info("adding default world: " + DEFAULT_WORLD);
 			worlds.add("world");
 		}
-
-		info("starting world monitors");
-
+		
 		nameOfThordfish = getConfig().getString(ConfigKeyEnum.RECIPE_THORDFISH.getKey());
 		nameOfFishSword = getConfig().getString(ConfigKeyEnum.RECIPE_FISH_SWORD.getKey());
 		nameOfFishArrow = getConfig().getString(ConfigKeyEnum.RECIPE_FISH_ARROW.getKey());
 
+		info("starting world monitors");
+		
 		startWorldMonitors();
 		registerListeners();
 		registerCommands();
@@ -120,7 +123,7 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 		TimeMonitor timeMonitor = new TimeMonitor(this, world);
 
 		if (timeMonitor.getWorld() == null) {
-			warning("   -" + world + " was no recognized");
+			warning("   -" + world + " was not recognized");
 			return;
 		} else {
 			info("   -" + world + " was loaded");
@@ -129,7 +132,7 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 		YearmarkedCalendar cal = new YearmarkedCalendar(timeMonitor.getWorld());
 
 		try {
-			timeMonitor.sendDayInfo(cal, timeMonitor.getWorld().getPlayers());
+			sendDayInfo(cal, timeMonitor.getWorld().getPlayers());
 		} catch (Exception e) {
 			this.warning("Errors while sending day info. Message: " + e.getMessage());
 			return;
@@ -143,11 +146,11 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 	}
 
 	private void registerCommands() {
-		ChangeTimeCommand changeTimeCommand = new ChangeTimeCommand(this);
-		this.getCommand("yearmarked").setExecutor(changeTimeCommand);
-		this.getCommand("ym").setExecutor(changeTimeCommand);
-		getLogger().info("'/yearmarked' registered to ChangeTimeCommand");
-		getLogger().info("'/ym' registered to ChangeTimeCommand");
+		YmCommand yearmarkedCommand = new YmCommand(this);
+		this.getCommand("yearmarked").setExecutor(yearmarkedCommand);
+		this.getCommand("ym").setExecutor(yearmarkedCommand);
+		getLogger().info("'/yearmarked' registered to YmCommand");
+		getLogger().info("'/ym' registered to YmCommand");
 	}
 
 	private void registerListeners() {
@@ -186,7 +189,7 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 			List<Player> playerInAList = new ArrayList<Player>();
 			playerInAList.add(player);
 			TimeMonitor timeMonitor = new TimeMonitor(this, player.getWorld().getName());
-			timeMonitor.sendDayInfo(cal, playerInAList);
+			sendDayInfo(cal, playerInAList);
 		}
 	}
 
@@ -234,6 +237,25 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 	
 	public boolean worldEnabled(String world){
 		return worlds != null && worlds.contains(world);
+	}
+	
+	
+	public void sendDayInfo(YearmarkedCalendar cal, List<Player> players) {
+
+		plugin.debugInfo("sendDayInfo --> displayKey: " + cal.getDayOfWeekEnum().getDisplayKey());
+		String dayName = plugin.getConfig().getString(cal.getDayOfWeekEnum().getDisplayKey(), "A DAY");
+		plugin.debugInfo("sendDayInfo --> dayName: " + dayName);
+		String todayIs = String.format(plugin.getLocalizedMessage(LocalizedMessageEnum.TODAY_IS.getKey()), dayName);
+		String dayOfMonthMessage = new MessageFormat(
+				plugin.getLocalizedMessage(LocalizedMessageEnum.IT_IS_DAY_NUMBER.getKey())).format(
+						new Object[] { cal.getDayOfMonth() + "", cal.getMonthOfYear() + "", cal.getYear() + "" });
+
+		if (players != null && !players.isEmpty()) {
+			for (Player player : players) {
+				player.sendMessage(ChatColor.YELLOW + todayIs);
+				player.sendMessage(dayOfMonthMessage);
+			}
+		}
 	}
 	
 	

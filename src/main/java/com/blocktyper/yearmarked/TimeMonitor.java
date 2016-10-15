@@ -1,8 +1,6 @@
 package com.blocktyper.yearmarked;
 
-import java.text.MessageFormat;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Location;
@@ -34,7 +32,7 @@ public class TimeMonitor extends BukkitRunnable {
 
 	// BEGIN BukkitRunnable
 	public void run() {
-		if(!plugin.worldEnabled(world.getName())){
+		if (!plugin.worldEnabled(world.getName())) {
 			plugin.debugInfo("no time monitor. world not enabled.");
 			return;
 		}
@@ -46,25 +44,6 @@ public class TimeMonitor extends BukkitRunnable {
 		checkForConstantLightning(cal);
 	}
 	// END BukkitRunnable
-
-	// BEGIN Public Utility Methods
-	public void sendDayInfo(YearmarkedCalendar cal, List<Player> players) {
-
-		plugin.debugInfo("sendDayInfo --> displayKey: " + cal.getDayOfWeekEnum().getDisplayKey());
-		String dayName = plugin.getConfig().getString(cal.getDayOfWeekEnum().getDisplayKey(), "A DAY");
-		plugin.debugInfo("sendDayInfo --> dayName: " + dayName);
-		String todayIs = String.format(plugin.getLocalizedMessage(LocalizedMessageEnum.TODAY_IS.getKey()), dayName);
-		String dayOfMonthMessage = new MessageFormat(
-				plugin.getLocalizedMessage(LocalizedMessageEnum.IT_IS_DAY_NUMBER.getKey())).format(
-						new Object[] { cal.getDayOfMonth() + "", cal.getMonthOfYear() + "", cal.getYear() + "" });
-
-		if (players != null && !players.isEmpty()) {
-			for (Player player : players) {
-				player.sendMessage(ChatColor.YELLOW + todayIs);
-				player.sendMessage(dayOfMonthMessage);
-			}
-		}
-	}
 
 	public void checkForDayChange(YearmarkedCalendar cal) {
 		if (cal.getDay() != previousDay) {
@@ -78,11 +57,9 @@ public class TimeMonitor extends BukkitRunnable {
 	private void changeDay(YearmarkedCalendar cal) {
 
 		previousDay = cal.getDay();
-		sendDayInfo(cal, world.getPlayers());
+		plugin.sendDayInfo(cal, world.getPlayers());
 		plugin.setPlayersExemptFromLightning(new HashSet<String>());
 
-		
-		
 		if (plugin.getConfig().getBoolean(ConfigKeyEnum.MONSOONDAY_RAIN.getKey(), true)) {
 			boolean isMonsoonday = cal.getDayOfWeekEnum().equals(DayOfWeekEnum.MONSOONDAY);
 			if (world.getPlayers() != null) {
@@ -118,22 +95,26 @@ public class TimeMonitor extends BukkitRunnable {
 					Location newLocation = new Location(world, x, loc.getBlockY(), z);
 					world.strikeLightning(newLocation);
 
-					if(!plugin.getConfig().getBoolean(ConfigKeyEnum.DONNERSTAG_ALLOW_SUPER_CREEPER_SPAWN_WITH_FISH_SWORD.getKey(), true)){
-						plugin.debugInfo(ConfigKeyEnum.DONNERSTAG_ALLOW_SUPER_CREEPER_SPAWN_WITH_FISH_SWORD.getKey() + ": false");
+					if (!plugin.getConfig().getBoolean(
+							ConfigKeyEnum.DONNERSTAG_ALLOW_SUPER_CREEPER_SPAWN_WITH_FISH_SWORD.getKey(), true)) {
+						plugin.debugInfo(ConfigKeyEnum.DONNERSTAG_ALLOW_SUPER_CREEPER_SPAWN_WITH_FISH_SWORD.getKey()
+								+ ": false");
 						return;
 					}
-					
-					double creeperSpawnPercentChance = plugin.getConfig().getDouble(ConfigKeyEnum.DONNERSTAG_SUPER_CREEPER_SPAWN_WITH_FISH_SWORD_PERCENT_CHANCE.getKey(), 100);
-					
+
+					double creeperSpawnPercentChance = plugin.getConfig().getDouble(
+							ConfigKeyEnum.DONNERSTAG_SUPER_CREEPER_SPAWN_WITH_FISH_SWORD_PERCENT_CHANCE.getKey(), 100);
+
 					boolean spawnCreeper = plugin.rollIsLucky(creeperSpawnPercentChance);
-					if(!spawnCreeper){
+					if (!spawnCreeper) {
 						plugin.debugInfo("no super creeper spawns due to good luck");
 						return;
 					}
-					
+
 					ItemStack itemInHand = plugin.getPlayerHelper().getItemInHand(player);
 
-					if (itemInHand == null || itemInHand.getItemMeta() == null || itemInHand.getItemMeta().getDisplayName() == null) {
+					if (itemInHand == null || itemInHand.getItemMeta() == null
+							|| itemInHand.getItemMeta().getDisplayName() == null) {
 						plugin.debugInfo("Player does not have a named item in hand during lightning strike.");
 						continue;
 					}
@@ -143,9 +124,9 @@ public class TimeMonitor extends BukkitRunnable {
 								+ "' in hand during lightning strike.");
 						continue;
 					}
-					
+
 					player.sendMessage(ChatColor.RED + "Creeper!");
-					new SuperCreeperDelaySpawner(plugin, world, newLocation).runTaskLater(plugin, 20L*1);
+					new SuperCreeperDelaySpawner(plugin, world, newLocation).runTaskLater(plugin, 20L * 1);
 
 				}
 			}
