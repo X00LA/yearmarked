@@ -138,14 +138,15 @@ public class SuperCreeperDamageListener extends AbstractListener {
 		boolean isOpLucky = player.isOp()
 				&& plugin.getConfig().getBoolean(ConfigKeyEnum.DONNERSTAG_SUPER_CREEPER_OP_LUCK.getKey(), true);
 
-		player.sendMessage(ChatColor.GOLD + "OP!");
+		if(isOpLucky)
+			player.sendMessage(ChatColor.GOLD + "OP!");
 
 		double dropDiamondPercent = plugin.getConfig()
 				.getDouble(ConfigKeyEnum.DONNERSTAG_SUPER_CREEPER_SPAWN_DROPS_DIAMOND_PERCENT_CHANCE.getKey(), 5);
 		double dropEmeraldPercent = plugin.getConfig()
-				.getDouble(ConfigKeyEnum.DONNERSTAG_SUPER_CREEPER_SPAWN_DROPS_DIAMOND_PERCENT_CHANCE.getKey(), 10);
+				.getDouble(ConfigKeyEnum.DONNERSTAG_SUPER_CREEPER_SPAWN_DROPS_EMERALD_PERCENT_CHANCE.getKey(), 10);
 		double dropThordfishPercent = plugin.getConfig()
-				.getDouble(ConfigKeyEnum.DONNERSTAG_SUPER_CREEPER_SPAWN_DROPS_DIAMOND_PERCENT_CHANCE.getKey(), 15);
+				.getDouble(ConfigKeyEnum.DONNERSTAG_SUPER_CREEPER_SPAWN_DROPS_THORDFISH_PERCENT_CHANCE.getKey(), 15);
 
 		// boolean spawnCreeper = plugin.rollTrueOrFalse(dropDiamondPercent);
 

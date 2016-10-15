@@ -38,10 +38,10 @@ yearmarked-donnerstag-super-creeper-spawn-with-fish-sword-percent-chance: 100
 yearmarked-donnerstag-super-creeper-drops-diamond-percent-chance: 5
 yearmarked-donnerstag-super-creeper-drops-emerald-percent-chance: 10
 yearmarked-donnerstag-super-creeper-drops-thordfish-percent-chance: 15
+yearmarked-donnerstag-super-creeper-op-luck: true
 
 
 #FISHFRYTAG
-yearmarked-fishfryday-donnerstag-super-creeper-op-luck: true
 yearmarked-fishfryday: Fishfryday
 yearmarked-fishfryday-bonus-xp-multiplier: 2
 yearmarked-fishfryday-percent-chance-diamond: 1
