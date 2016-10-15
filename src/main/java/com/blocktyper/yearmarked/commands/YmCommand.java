@@ -136,7 +136,7 @@ public class YmCommand implements CommandExecutor {
 		player.sendMessage("  - /ym (-2) 				#Moves world's fulltime backwards to the exact start of the day 2 *ago");
 		player.sendMessage("  - /ym date yyy-mm-dd 		#Moves to the date you specify in the Yearmarked calendar");
 		player.sendMessage("  - /ym day 1				#Moves to day one through 7. Before you change the time, your current fulltime is stored in server RAM and allows you to toggle back where you were before running the command (see '/ym return')");
-		player.sendMessage("  - /ym return				#Moves the world's full time to where the user was before they ran the 'ym day' command.");
+		player.sendMessage("  - /ym return				#Moves the world's full time to where the user was before they ran the 'ym day' command or the 'ym date' command.");
 
 		return false;
 	}
