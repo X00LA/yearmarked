@@ -72,6 +72,7 @@ recipes-worlds:
 
 recipes: 
   - thord-fish
+  - diamond-day-sword
   - fish-sword
   - fish-arrow
   
@@ -90,6 +91,8 @@ recipe.thord-fish.output: RAW_FISH
 
 recipe.thord-fish.op.only: false
 
+
+#FISH NEEDLE
 recipe.fish-sword.name: Needle
 
 recipe.fish-sword.rows: 
@@ -106,6 +109,27 @@ recipe.fish-sword.output: STONE_SWORD
 
 recipe.fish-sword.item.starts.with:
   - 4=Thordfish
+
+
+#DIAMOND NEEDLE
+recipe.diamond-day-sword.name: Needle
+
+recipe.diamond-day-sword.rows: 
+  - ADA
+  - ANA
+  - ASA
+  
+recipe.diamond-day-sword.mats: 
+  - D=DIAMOND
+  - N=STONE_SWORD
+  - A=AIR
+  - S=STICK
+  
+recipe.diamond-day-sword.output: DIAMOND_SWORD
+
+recipe.diamond-day-sword.item.starts.with:
+  - 1=Diamonday DIAMOND
+  - 4=Needle
   
 #FISH ARROW
 recipe.fish-arrow.name: Fishbone Arrow

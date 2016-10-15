@@ -36,43 +36,22 @@ public class SuperCreeperDamageListener extends AbstractListener {
 			return;
 		}
 
-		ItemStack firstArrowStack = null;
+		ItemStack firstArrowStack = plugin.getPlayerHelper().getFirstArrowStack(player);
 
-		if (player.getInventory().getStorageContents() != null) {
-			int i = 0;
-			for (ItemStack item : player.getInventory().getStorageContents()) {
-				i++;
-				if (item == null)
-					continue;
+		if (firstArrowStack != null) {
+			plugin.debugInfo("arrow stack located. size: " + firstArrowStack.getAmount());
 
-				Material material = item.getType();
-				String log = i + " - " + material.name() + " - ["
-						+ (item.getItemMeta() != null && item.getItemMeta().getDisplayName() != null
-								? item.getItemMeta().getDisplayName() : "")
-						+ "]";
-				plugin.debugInfo(log);
-
-				if (material.equals(Material.ARROW)) {
-					firstArrowStack = item;
-					break;
-				}
+			if (firstArrowStack.getItemMeta() == null || firstArrowStack.getItemMeta().getDisplayName() == null) {
+				plugin.debugInfo("arrows have no display name");
+				return;
 			}
 
-			if (firstArrowStack != null) {
-				plugin.debugInfo("arrow stack located. size: " + firstArrowStack.getAmount());
-
-				if (firstArrowStack.getItemMeta() == null || firstArrowStack.getItemMeta().getDisplayName() == null) {
-					plugin.debugInfo("arrows have no display name");
-					return;
-				}
-
-				// name it whatever the item stack is named
-				// we will worry about if it is configured in the
-				// EntityDamageByEntityEvent handler playerKillSuperCreeper
-				event.getProjectile().setCustomName(firstArrowStack.getItemMeta().getDisplayName());
-			} else {
-				plugin.debugInfo("no arrows found");
-			}
+			// name it whatever the item stack is named
+			// we will worry about if it is configured in the
+			// EntityDamageByEntityEvent handler playerKillSuperCreeper
+			event.getProjectile().setCustomName(firstArrowStack.getItemMeta().getDisplayName());
+		} else {
+			plugin.debugInfo("no arrows found");
 		}
 
 	}

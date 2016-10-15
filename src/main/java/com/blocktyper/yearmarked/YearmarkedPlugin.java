@@ -3,6 +3,7 @@ package com.blocktyper.yearmarked;
 import java.io.File;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -188,7 +189,6 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 			info("really sending day info to " + player.getName());
 			List<Player> playerInAList = new ArrayList<Player>();
 			playerInAList.add(player);
-			TimeMonitor timeMonitor = new TimeMonitor(this, player.getWorld().getName());
 			sendDayInfo(cal, playerInAList);
 		}
 	}
@@ -239,7 +239,6 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 		return worlds != null && worlds.contains(world);
 	}
 	
-	
 	public void sendDayInfo(YearmarkedCalendar cal, List<Player> players) {
 
 		plugin.debugInfo("sendDayInfo --> displayKey: " + cal.getDayOfWeekEnum().getDisplayKey());
@@ -252,8 +251,12 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 
 		if (players != null && !players.isEmpty()) {
 			for (Player player : players) {
+				player.sendMessage(ChatColor.GREEN + "#----------------");
+				player.sendMessage(ChatColor.GREEN + "#----------------");
 				player.sendMessage(ChatColor.YELLOW + todayIs);
 				player.sendMessage(dayOfMonthMessage);
+				player.sendMessage(ChatColor.GREEN + "#----------------");
+				player.sendMessage(ChatColor.GREEN + "#----------------");
 			}
 		}
 	}

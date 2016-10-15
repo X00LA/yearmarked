@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Random;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.WeatherType;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -92,7 +93,7 @@ public class TimeMonitor extends BukkitRunnable {
 					Location loc = player.getLocation();
 					int x = loc.getBlockX() + random.nextInt(15) * (random.nextBoolean() ? -1 : 1);
 					int z = loc.getBlockZ() + random.nextInt(15) * (random.nextBoolean() ? -1 : 1);
-					Location newLocation = new Location(world, x, loc.getBlockY(), z);
+					Location newLocation = new Location(world, x, loc.getBlockY()+2, z);
 					world.strikeLightning(newLocation);
 
 					if (!plugin.getConfig().getBoolean(
@@ -110,19 +111,47 @@ public class TimeMonitor extends BukkitRunnable {
 						plugin.debugInfo("no super creeper spawns due to good luck");
 						return;
 					}
-
+					
 					ItemStack itemInHand = plugin.getPlayerHelper().getItemInHand(player);
+					
+					
+					//spawn a creeper if they are holdong the fish sword or a bow with Fishbone arrows active
+					if(itemInHand.getType().equals(Material.BOW)){
+						
+						ItemStack firstArrowStack = plugin.getPlayerHelper().getFirstArrowStack(player);
 
-					if (itemInHand == null || itemInHand.getItemMeta() == null
-							|| itemInHand.getItemMeta().getDisplayName() == null) {
-						plugin.debugInfo("Player does not have a named item in hand during lightning strike.");
-						continue;
-					}
+						if (firstArrowStack != null) {
+							plugin.debugInfo("arrow stack located. size: " + firstArrowStack.getAmount());
 
-					if (!itemInHand.getItemMeta().getDisplayName().equals(plugin.getNameOfFishSword())) {
-						plugin.debugInfo("Player does not have an item named '" + plugin.getNameOfFishSword()
-								+ "' in hand during lightning strike.");
-						continue;
+							if (firstArrowStack.getItemMeta() == null || firstArrowStack.getItemMeta().getDisplayName() == null) {
+								plugin.debugInfo("arrows have no display name");
+								continue;
+							}
+							
+						} else {
+							plugin.debugInfo("no arrows found");
+							continue;
+						}
+						
+					}else{
+						
+						if (itemInHand == null || itemInHand.getItemMeta() == null
+								|| itemInHand.getItemMeta().getDisplayName() == null) {
+							plugin.debugInfo("Player does not have a named item in hand during lightning strike.");
+							continue;
+						}
+						
+						if (itemInHand.getItemMeta() == null
+								|| itemInHand.getItemMeta().getDisplayName() == null) {
+							plugin.debugInfo("Player does not have a named item in hand during lightning strike.");
+							continue;
+						}
+
+						if (!itemInHand.getItemMeta().getDisplayName().equals(plugin.getNameOfFishSword())) {
+							plugin.debugInfo("Player does not have an item named '" + plugin.getNameOfFishSword()
+									+ "' in hand during lightning strike.");
+							continue;
+						}
 					}
 
 					player.sendMessage(ChatColor.RED + "Creeper!");
