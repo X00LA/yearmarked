@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,7 +15,6 @@ import com.blocktyper.yearmarked.LocalizedMessageEnum;
 import com.blocktyper.yearmarked.YearmarkedCalendar;
 import com.blocktyper.yearmarked.YearmarkedPlugin;
 
-import net.md_5.bungee.api.ChatColor;
 
 public class YmCommand implements CommandExecutor {
 
@@ -217,7 +217,6 @@ public class YmCommand implements CommandExecutor {
 	}
 
 	private void setReturnValueForPlayer(Player player) {
-		player.sendMessage(ChatColor.WHITE + "Return value.");
 		setReturnValueForPlayer(player, player.getWorld().getFullTime());
 	}
 

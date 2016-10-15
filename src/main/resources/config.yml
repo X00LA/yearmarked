@@ -116,20 +116,20 @@ recipe.diamond-day-sword.name: Needle
 
 recipe.diamond-day-sword.rows: 
   - ADA
+  - ADA
   - ANA
-  - ASA
   
 recipe.diamond-day-sword.mats: 
   - D=DIAMOND
   - N=STONE_SWORD
   - A=AIR
-  - S=STICK
   
 recipe.diamond-day-sword.output: DIAMOND_SWORD
 
 recipe.diamond-day-sword.item.starts.with:
   - 1=Diamonday DIAMOND
-  - 4=Needle
+  - 4=Diamonday DIAMOND
+  - 7=Needle
   
 #FISH ARROW
 recipe.fish-arrow.name: Fishbone Arrow
