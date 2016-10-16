@@ -22,8 +22,8 @@ public class TimeMonitor extends BukkitRunnable {
 
 	private long previousDay = 1;
 
-	public static int DAY_TIME = (24000 / 4);
-	public static int NIGHT_TIME = (24000 / 4) * 3;
+	public static int DAY_TIME = (YearmarkedCalendar.TICKS_IN_A_DAY / 4);
+	public static int NIGHT_TIME = (YearmarkedCalendar.TICKS_IN_A_DAY / 4) * 3;
 
 	public TimeMonitor(YearmarkedPlugin plugin, String world) {
 		super();
@@ -115,7 +115,7 @@ public class TimeMonitor extends BukkitRunnable {
 					ItemStack itemInHand = plugin.getPlayerHelper().getItemInHand(player);
 					
 					
-					//spawn a creeper if they are holdong the fish sword or a bow with Fishbone arrows active
+					//spawn a creeper if they are holding the fish sword or a bow with Fishbone arrows active
 					if(itemInHand.getType().equals(Material.BOW)){
 						
 						ItemStack firstArrowStack = plugin.getPlayerHelper().getFirstArrowStack(player);

@@ -4,6 +4,8 @@ import org.bukkit.World;
 
 public class YearmarkedCalendar {
 	
+	public static final Integer TICKS_IN_A_DAY = 24000;
+	
 	private Long day;
 	private Long week;
 	private Long month;
@@ -25,7 +27,7 @@ public class YearmarkedCalendar {
 	}
 	
 	public void calc(long fullTime){
-		Double preciseDay = fullTime / (24000.0);
+		Double preciseDay = fullTime / (YearmarkedCalendar.TICKS_IN_A_DAY.doubleValue());
 		day = preciseDay.longValue() + 1;
 		week = (day / 7) + (day % 7 > 0 ? 1 : 0);
 		month = (week / 4) + (week % 4 > 0 ? 1 : 0);
