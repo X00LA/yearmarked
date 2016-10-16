@@ -6,6 +6,7 @@ public enum LocalizedMessageEnum {
 	WORLDS("yearmarked.worlds"),
 	WORLD_NOT_ENABLED("yearmarked.word.not.enabled"),
 	ONLY_FOR_OP("yearmarked.only.for.op"),
+	NO_PERMISSION("yearmarked.no.permission"),
 	YM_COMMAND_NOT_A_VALID_NUMBER("yearmarked.ym.command.not.a.valid.number"),
 	
 	BONUS("yearmarked.bonus"),
