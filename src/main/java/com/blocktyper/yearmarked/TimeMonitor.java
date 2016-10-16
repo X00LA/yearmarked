@@ -22,9 +22,6 @@ public class TimeMonitor extends BukkitRunnable {
 
 	private long previousDay = 1;
 
-	public static int DAY_TIME = (YearmarkedCalendar.TICKS_IN_A_DAY / 4);
-	public static int NIGHT_TIME = (YearmarkedCalendar.TICKS_IN_A_DAY / 4) * 3;
-
 	public TimeMonitor(YearmarkedPlugin plugin, String world) {
 		super();
 		this.plugin = plugin;
