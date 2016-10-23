@@ -75,6 +75,7 @@ recipes:
   - diamond-day-sword
   - fish-sword
   - fish-arrow
+  - earth-day-pot-pie
   
 recipe.thord-fish.name: Thordfish
 
@@ -147,4 +148,30 @@ recipe.fish-arrow.output: ARROW
 recipe.fish-arrow.amount: 16
 recipe.fish-arrow.item.starts.with: 
   - 4=Thordfish
+  
+
+#EARTHDAY POT PIE
+recipe.earth-day-pot-pie.name: Earthday Pot Pie
+
+recipe.earth-day-pot-pie.rows: 
+  - CCC
+  - PPP
+  - WWW
+  
+recipe.earth-day-pot-pie.mats: 
+  - C=CARROT_ITEM
+  - P=POTATO_ITEM
+  - W=WHEAT
+recipe.earth-day-pot-pie.output: PUMPKIN_PIE
+recipe.earth-day-pot-pie.amount: 1
+recipe.earth-day-pot-pie.item.starts.with: 
+  - 0={{yearmarked-earthday}}
+  - 1={{yearmarked-earthday}}
+  - 2={{yearmarked-earthday}}
+  - 3={{yearmarked-earthday}}
+  - 4={{yearmarked-earthday}}
+  - 5={{yearmarked-earthday}}
+  - 6={{yearmarked-earthday}}
+  - 7={{yearmarked-earthday}}
+  - 8={{yearmarked-earthday}}
   
