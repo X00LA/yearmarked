@@ -46,6 +46,7 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 	private String nameOfThordfish = null;
 	private String nameOfFishSword = null;
 	private String nameOfFishArrow = null;
+	private String nameOfEarthdayPotPie = null;
 
 	
 	public void onEnable() {
@@ -83,6 +84,7 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 			worlds.add("world");
 		}
 		
+		nameOfEarthdayPotPie = getConfig().getString(ConfigKeyEnum.RECIPE_EARTHDAY_POT_PIE.getKey());
 		nameOfThordfish = getConfig().getString(ConfigKeyEnum.RECIPE_THORDFISH.getKey());
 		nameOfFishSword = getConfig().getString(ConfigKeyEnum.RECIPE_FISH_SWORD.getKey());
 		nameOfFishArrow = getConfig().getString(ConfigKeyEnum.RECIPE_FISH_ARROW.getKey());
@@ -207,6 +209,11 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 
 	public void setPlayersExemptFromLightning(Set<String> playersExemptFromLightning) {
 		this.playersExemptFromLightning = playersExemptFromLightning;
+	}
+	
+
+	public String getNameOfEarthdayPotPie() {
+		return nameOfEarthdayPotPie;
 	}
 
 	public String getNameOfThordfish() {

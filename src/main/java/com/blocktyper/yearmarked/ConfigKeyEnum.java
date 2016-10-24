@@ -61,7 +61,8 @@ public enum ConfigKeyEnum {
 	//RECIPES
 	RECIPE_THORDFISH("recipe.thord-fish.name"),
 	RECIPE_FISH_SWORD("recipe.fish-sword.name"),
-	RECIPE_FISH_ARROW("recipe.fish-arrow.name");
+	RECIPE_FISH_ARROW("recipe.fish-arrow.name"),
+	RECIPE_EARTHDAY_POT_PIE("recipe.earth-day-pot-pie.name");
 
 
 	private String key;

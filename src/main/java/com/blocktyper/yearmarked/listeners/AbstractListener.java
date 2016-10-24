@@ -44,7 +44,7 @@ public class AbstractListener implements Listener {
 	protected boolean worldEnabled(String worldName, String rewardNameToLog) {
 		boolean enabled = plugin.worldEnabled(worldName);
 		if (!enabled && rewardNameToLog != null)
-			plugin.debugInfo("No " + rewardNameToLog + " rewards enabled in the current world: " + worldName);
+			plugin.debugInfo("Feature '" + rewardNameToLog + "' not enabled in the current world: " + worldName);
 
 		return enabled;
 	}
