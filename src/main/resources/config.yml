@@ -20,6 +20,19 @@ yearmarked-earthday-bonus-crops: true
 yearmarked-earthday-bonus-crops-range-high: 3
 yearmarked-earthday-bonus-crops-range-low: 1
 
+yearmarked-earthday-pot-pie-buff-duration-sec: 20
+yearmarked-earthday-pot-pie-buff-magnitude: 5
+yearmarked-earthday-pot-pie-affect-entity-arrows-duration-sec: 60
+yearmarked-earthday-allow-entity-arrows: true
+yearmarked-earthday-entity-arrows-costs: 
+  - COW=1
+  - HORSE=1
+  - PIG=1
+  - SHEEP=1
+  - CHICKEN=1
+  - RABBIT=1
+  - ZOMBIE=5
+
 #WORTTAG
 yearmarked-wortag: Wortag
 yearmarked-wortag-bonus-crops: true

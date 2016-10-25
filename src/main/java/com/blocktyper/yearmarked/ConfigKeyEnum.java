@@ -16,7 +16,12 @@ public enum ConfigKeyEnum {
 	EARTHDAY_BONUS_CROPS("yearmarked-earthday-bonus-crops"),
 	EARTHDAY_BONUS_CROPS_RANGE_HIGH("yearmarked-earthday-bonus-crops-range-high"),
 	EARTHDAY_BONUS_CROPS_RANGE_LOW("yearmarked-earthday-bonus-crops-range-low"),
-
+	EARTHDAY_POT_PIE_BUFF_DURATION_SEC("yearmarked-earthday-pot-pie-buff-duration-sec"),
+	EARTHDAY_POT_PIE_BUFF_MAGNITUDE("yearmarked-earthday-pot-pie-buff-magnitude"),
+	EARTHDAY_POT_PIE_AFFECT_ARROWS_DURATION_SEC("yearmarked-earthday-pot-pie-affect-entity-arrows-duration-sec"),
+	EARTHDAY_ALLOW_ENTITY_ARROWS("yearmarked-earthday-allow-entity-arrows"),
+	EARTHDAY_ALLOW_ENTITY_ARROWS_COSTS("yearmarked-earthday-entity-arrows-costs"),
+	
 	// WORTAG 
 	WORTAG("yearmarked-wortag"),
 	WORTAG_BONUS_CROPS("yearmarked-wortag-bonus-crops"),
