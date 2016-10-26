@@ -1,4 +1,5 @@
 debug: false
+log.recipes.enable: false
 data.backup.frequency.sec: -1
 locale: en
 
@@ -52,7 +53,7 @@ yearmarked-donnerstag-super-creeper-drops-diamond-percent-chance: 5
 yearmarked-donnerstag-super-creeper-drops-emerald-percent-chance: 10
 yearmarked-donnerstag-super-creeper-drops-thordfish-percent-chance: 15
 yearmarked-donnerstag-super-creeper-op-luck: true
-
+yearmarked-donnerstag-lightning-inhibitor-range: 25
 
 #FISHFRYTAG
 yearmarked-fishfryday: Fishfryday
@@ -187,4 +188,25 @@ recipe.earth-day-pot-pie.item.starts.with:
   - 6={{yearmarked-earthday}}
   - 7={{yearmarked-earthday}}
   - 8={{yearmarked-earthday}}
+
+
+#LIGHTNING INHIBITOR
+recipe.lightning-inhibitor.name: Lightning Inhibitor
+recipe.lightning-inhibitor.rows: 
+  - DDD
+  - ASA
+  - DDD
+  
+recipe.lightning-inhibitor.mats: 
+  - D=DIAMOND
+  - A=AIR
+  - S=STONE_SWORD
+recipe.lightning-inhibitor.output: FISHING_ROD
+recipe.lightning-inhibitor.amount: 1
+recipe.lightning-inhibitor.item.starts.with: 
+  - 4={{recipe.fish-sword.name}}
+recipe.lightning-inhibitor.keep: 
+  - NNN
+  - NYN
+  - NNN
   

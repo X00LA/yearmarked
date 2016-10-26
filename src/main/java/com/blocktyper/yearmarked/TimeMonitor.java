@@ -7,7 +7,10 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.WeatherType;
 import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -90,7 +93,15 @@ public class TimeMonitor extends BukkitRunnable {
 					Location loc = player.getLocation();
 					int x = loc.getBlockX() + random.nextInt(15) * (random.nextBoolean() ? -1 : 1);
 					int z = loc.getBlockZ() + random.nextInt(15) * (random.nextBoolean() ? -1 : 1);
-					Location newLocation = new Location(world, x, loc.getBlockY()+2, z);
+
+					if (isInhibitorNear(world, x, z)) {
+						plugin.debugInfo("Lightning inhibited.");
+						continue;
+					} else {
+						plugin.debugInfo("Lightning NOT inhibited.");
+					}
+
+					Location newLocation = new Location(world, x, loc.getBlockY() + 2, z);
 					world.strikeLightning(newLocation);
 
 					if (!plugin.getConfig().getBoolean(
@@ -108,38 +119,38 @@ public class TimeMonitor extends BukkitRunnable {
 						plugin.debugInfo("no super creeper spawns due to good luck");
 						return;
 					}
-					
+
 					ItemStack itemInHand = plugin.getPlayerHelper().getItemInHand(player);
-					
-					
-					//spawn a creeper if they are holding the fish sword or a bow with Fishbone arrows active
-					if(itemInHand.getType().equals(Material.BOW)){
-						
+
+					// spawn a creeper if they are holding the fish sword or a
+					// bow with Fishbone arrows active
+					if (itemInHand.getType().equals(Material.BOW)) {
+
 						ItemStack firstArrowStack = plugin.getPlayerHelper().getFirstArrowStack(player);
 
 						if (firstArrowStack != null) {
 							plugin.debugInfo("arrow stack located. size: " + firstArrowStack.getAmount());
 
-							if (firstArrowStack.getItemMeta() == null || firstArrowStack.getItemMeta().getDisplayName() == null) {
+							if (firstArrowStack.getItemMeta() == null
+									|| firstArrowStack.getItemMeta().getDisplayName() == null) {
 								plugin.debugInfo("arrows have no display name");
 								continue;
 							}
-							
+
 						} else {
 							plugin.debugInfo("no arrows found");
 							continue;
 						}
-						
-					}else{
-						
+
+					} else {
+
 						if (itemInHand == null || itemInHand.getItemMeta() == null
 								|| itemInHand.getItemMeta().getDisplayName() == null) {
 							plugin.debugInfo("Player does not have a named item in hand during lightning strike.");
 							continue;
 						}
-						
-						if (itemInHand.getItemMeta() == null
-								|| itemInHand.getItemMeta().getDisplayName() == null) {
+
+						if (itemInHand.getItemMeta() == null || itemInHand.getItemMeta().getDisplayName() == null) {
 							plugin.debugInfo("Player does not have a named item in hand during lightning strike.");
 							continue;
 						}
@@ -159,6 +170,48 @@ public class TimeMonitor extends BukkitRunnable {
 		}
 	}
 	// END Private Utility Methods
+
+	private boolean isInhibitorNear(World world, int xOfStrike, int zOfStrike) {
+
+		int radius = plugin.getConfig().getInt(ConfigKeyEnum.DONNERSTAG_LIGHTNING_INHIBITOR_RANGE.getKey(), 25);
+
+		if (radius <= 0)
+			return false;
+
+		String nameOfLightningInhibitor = plugin.getNameOfLightningInhibitor();
+
+		if (nameOfLightningInhibitor == null || nameOfLightningInhibitor.isEmpty())
+			return false;
+
+		for (int x = xOfStrike - radius; x < xOfStrike + radius; x++) {
+			for (int z = zOfStrike - radius; z < zOfStrike + radius; z++) {
+				Block block = world.getHighestBlockAt(x, z);
+
+				if (block == null)
+					continue;
+
+				if (block.getType().equals(Material.CHEST)) {
+
+					Chest chest = (Chest) block.getState();
+
+					Inventory inventory = chest != null ? chest.getBlockInventory() : null;
+
+					ItemStack[] items = inventory != null ? inventory.getContents() : null;
+
+					if (items != null && items.length > 0) {
+						for (ItemStack item : items) {
+							if (item != null && item.getItemMeta() != null
+									&& nameOfLightningInhibitor.equals(item.getItemMeta().getDisplayName())) {
+								return true;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return false;
+	}
 
 	// BEGIN Getters and Setters
 	public World getWorld() {

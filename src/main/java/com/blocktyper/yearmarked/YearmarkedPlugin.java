@@ -47,6 +47,7 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 	private String nameOfFishSword = null;
 	private String nameOfFishArrow = null;
 	private String nameOfEarthdayPotPie = null;
+	private String nameOfLightningInhibitor = null;
 
 	
 	public void onEnable() {
@@ -88,7 +89,7 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 		nameOfThordfish = getConfig().getString(ConfigKeyEnum.RECIPE_THORDFISH.getKey());
 		nameOfFishSword = getConfig().getString(ConfigKeyEnum.RECIPE_FISH_SWORD.getKey());
 		nameOfFishArrow = getConfig().getString(ConfigKeyEnum.RECIPE_FISH_ARROW.getKey());
-
+		nameOfLightningInhibitor = getConfig().getString(ConfigKeyEnum.RECIPE_LIGHTNING_INHIBITOR.getKey());
 		info("starting world monitors");
 		
 		startWorldMonitors();
@@ -211,6 +212,11 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 		this.playersExemptFromLightning = playersExemptFromLightning;
 	}
 	
+	
+
+	public String getNameOfLightningInhibitor() {
+		return nameOfLightningInhibitor;
+	}
 
 	public String getNameOfEarthdayPotPie() {
 		return nameOfEarthdayPotPie;
@@ -247,12 +253,12 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 	
 	public void sendDayInfo(YearmarkedCalendar cal, List<Player> players) {
 
-		plugin.debugInfo("sendDayInfo --> displayKey: " + cal.getDayOfWeekEnum().getDisplayKey());
-		String dayName = plugin.getConfig().getString(cal.getDayOfWeekEnum().getDisplayKey(), "A DAY");
-		plugin.debugInfo("sendDayInfo --> dayName: " + dayName);
-		String todayIs = String.format(plugin.getLocalizedMessage(LocalizedMessageEnum.TODAY_IS.getKey()), dayName);
+		plugin.get(getName()).debugInfo("sendDayInfo --> displayKey: " + cal.getDayOfWeekEnum().getDisplayKey());
+		String dayName = plugin.get(getName()).getConfig().getString(cal.getDayOfWeekEnum().getDisplayKey(), "A DAY");
+		plugin.get(getName()).debugInfo("sendDayInfo --> dayName: " + dayName);
+		String todayIs = String.format(plugin.get(getName()).getLocalizedMessage(LocalizedMessageEnum.TODAY_IS.getKey()), dayName);
 		String dayOfMonthMessage = new MessageFormat(
-				plugin.getLocalizedMessage(LocalizedMessageEnum.IT_IS_DAY_NUMBER.getKey())).format(
+				plugin.get(getName()).getLocalizedMessage(LocalizedMessageEnum.IT_IS_DAY_NUMBER.getKey())).format(
 						new Object[] { cal.getDayOfMonth() + "", cal.getMonthOfYear() + "", cal.getYear() + "" });
 
 		if (players != null && !players.isEmpty()) {

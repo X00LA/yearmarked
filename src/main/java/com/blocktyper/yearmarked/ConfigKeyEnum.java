@@ -41,6 +41,7 @@ public enum ConfigKeyEnum {
 	DONNERSTAG_SUPER_CREEPER_SPAWN_DROPS_EMERALD_PERCENT_CHANCE("yearmarked-donnerstag-super-creeper-drops-emerald-percent-chance"),
 	DONNERSTAG_SUPER_CREEPER_SPAWN_DROPS_THORDFISH_PERCENT_CHANCE("yearmarked-donnerstag-super-creeper-drops-thordfish-percent-chance"),
 	DONNERSTAG_SUPER_CREEPER_OP_LUCK("yearmarked-donnerstag-super-creeper-op-luck"),
+	DONNERSTAG_LIGHTNING_INHIBITOR_RANGE("yearmarked-donnerstag-lightning-inhibitor-range"),
 
 	// FISHFRYDAY
 	FISHFRYDAY("yearmarked-fishfryday"),
@@ -67,7 +68,8 @@ public enum ConfigKeyEnum {
 	RECIPE_THORDFISH("recipe.thord-fish.name"),
 	RECIPE_FISH_SWORD("recipe.fish-sword.name"),
 	RECIPE_FISH_ARROW("recipe.fish-arrow.name"),
-	RECIPE_EARTHDAY_POT_PIE("recipe.earth-day-pot-pie.name");
+	RECIPE_EARTHDAY_POT_PIE("recipe.earth-day-pot-pie.name"),
+	RECIPE_LIGHTNING_INHIBITOR("recipe.lightning-inhibitor.name");
 
 
 	private String key;
