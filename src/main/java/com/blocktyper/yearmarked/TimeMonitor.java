@@ -91,8 +91,32 @@ public class TimeMonitor extends BukkitRunnable {
 				boolean doStrike = (strikeForOddPlayers && i % 2 > 0) || (!strikeForOddPlayers && i % 2 == 0);
 				if (doStrike) {
 					Location loc = player.getLocation();
-					int x = loc.getBlockX() + random.nextInt(15) * (random.nextBoolean() ? -1 : 1);
-					int z = loc.getBlockZ() + random.nextInt(15) * (random.nextBoolean() ? -1 : 1);
+					
+					int xDelta = random.nextInt(15);
+					int zDelta = random.nextInt(15);
+					
+					if(plugin.getNameOfLightningInhibitor() != null){
+						int lightningInhibitorPersonalRange = plugin.getConfig().getInt(ConfigKeyEnum.DONNERSTAG_LIGHTNING_INHIBITOR_PERSONAL_RANGE.getKey(), 5);
+						if(lightningInhibitorPersonalRange > 0){
+							if(xDelta < lightningInhibitorPersonalRange && zDelta < lightningInhibitorPersonalRange){
+								if(player.getInventory() != null && player.getInventory().getContents() != null)
+								for(ItemStack item : player.getInventory().getContents()){
+									if(item != null && item.getItemMeta() != null && plugin.getNameOfLightningInhibitor().equals(item.getItemMeta().getDisplayName())){
+										plugin.debugInfo("Personal lightning inhibitor trigger.");
+										if(random.nextBoolean()){
+											xDelta = lightningInhibitorPersonalRange;
+										}else{
+											zDelta = lightningInhibitorPersonalRange;
+										}
+									}
+								}
+							}
+						}
+					}
+					
+					
+					int x = loc.getBlockX() + (xDelta*(random.nextBoolean() ? -1 : 1));
+					int z = loc.getBlockZ() + (zDelta*(random.nextBoolean() ? -1 : 1));
 
 					if (isInhibitorNear(world, x, z)) {
 						plugin.debugInfo("Lightning inhibited.");

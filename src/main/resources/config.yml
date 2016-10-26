@@ -54,6 +54,7 @@ yearmarked-donnerstag-super-creeper-drops-emerald-percent-chance: 10
 yearmarked-donnerstag-super-creeper-drops-thordfish-percent-chance: 15
 yearmarked-donnerstag-super-creeper-op-luck: true
 yearmarked-donnerstag-lightning-inhibitor-range: 25
+yearmarked-donnerstag-lightning-inhibitor-personal-range: 5
 
 #FISHFRYTAG
 yearmarked-fishfryday: Fishfryday
@@ -90,6 +91,7 @@ recipes:
   - fish-sword
   - fish-arrow
   - earth-day-pot-pie
+  - lightning-inhibitor
   
 recipe.thord-fish.name: Thordfish
 

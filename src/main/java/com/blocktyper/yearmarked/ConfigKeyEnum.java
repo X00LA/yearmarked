@@ -42,6 +42,7 @@ public enum ConfigKeyEnum {
 	DONNERSTAG_SUPER_CREEPER_SPAWN_DROPS_THORDFISH_PERCENT_CHANCE("yearmarked-donnerstag-super-creeper-drops-thordfish-percent-chance"),
 	DONNERSTAG_SUPER_CREEPER_OP_LUCK("yearmarked-donnerstag-super-creeper-op-luck"),
 	DONNERSTAG_LIGHTNING_INHIBITOR_RANGE("yearmarked-donnerstag-lightning-inhibitor-range"),
+	DONNERSTAG_LIGHTNING_INHIBITOR_PERSONAL_RANGE("yearmarked-donnerstag-lightning-inhibitor-personal-range"),
 
 	// FISHFRYDAY
 	FISHFRYDAY("yearmarked-fishfryday"),
