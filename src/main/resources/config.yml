@@ -1,4 +1,4 @@
-debug: true
+debug: false
 log.recipes.enable: false
 data.backup.frequency.sec: -1
 locale: en
