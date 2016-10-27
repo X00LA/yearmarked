@@ -10,6 +10,10 @@ import org.bukkit.WeatherType;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
+import org.bukkit.entity.Creeper;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -92,37 +96,40 @@ public class TimeMonitor extends BukkitRunnable {
 				boolean doStrike = (strikeForOddPlayers && i % 2 > 0) || (!strikeForOddPlayers && i % 2 == 0);
 				if (doStrike) {
 					Location loc = player.getLocation();
-					
+
 					int xDelta = random.nextInt(15);
 					int zDelta = random.nextInt(15);
-					
-					if(plugin.getNameOfLightningInhibitor() != null){
-						int lightningInhibitorPersonalRange = plugin.getConfig().getInt(ConfigKeyEnum.DONNERSTAG_LIGHTNING_INHIBITOR_PERSONAL_RANGE.getKey(), 5);
-						if(lightningInhibitorPersonalRange > 0){
-							if(xDelta < lightningInhibitorPersonalRange && zDelta < lightningInhibitorPersonalRange){
-								if(player.getInventory() != null && player.getInventory().getContents() != null)
-								for(ItemStack item : player.getInventory().getContents()){
-									if(item != null && item.getItemMeta() != null && plugin.getNameOfLightningInhibitor().equals(item.getItemMeta().getDisplayName())){
-										plugin.debugInfo("Personal lightning inhibitor trigger.");
-										if(random.nextBoolean()){
-											xDelta = lightningInhibitorPersonalRange;
-										}else{
-											zDelta = lightningInhibitorPersonalRange;
+
+					if (plugin.getNameOfLightningInhibitor() != null) {
+						int lightningInhibitorPersonalRange = plugin.getConfig()
+								.getInt(ConfigKeyEnum.DONNERSTAG_LIGHTNING_INHIBITOR_PERSONAL_RANGE.getKey(), 5);
+						if (lightningInhibitorPersonalRange > 0) {
+							if (xDelta < lightningInhibitorPersonalRange && zDelta < lightningInhibitorPersonalRange) {
+								if (player.getInventory() != null && player.getInventory().getContents() != null)
+									for (ItemStack item : player.getInventory().getContents()) {
+										if (item != null && item.getItemMeta() != null
+												&& plugin.getNameOfLightningInhibitor()
+														.equals(item.getItemMeta().getDisplayName())) {
+											plugin.debugInfo("Personal lightning inhibitor trigger.");
+											if (random.nextBoolean()) {
+												xDelta = lightningInhibitorPersonalRange;
+											} else {
+												zDelta = lightningInhibitorPersonalRange;
+											}
 										}
 									}
-								}
 							}
 						}
 					}
-					
-					
-					int x = loc.getBlockX() + (xDelta*(random.nextBoolean() ? -1 : 1));
-					int z = loc.getBlockZ() + (zDelta*(random.nextBoolean() ? -1 : 1));
 
-					if (isStrikeInSafeZone(world, player.getLocation().getBlockX(), player.getLocation().getBlockZ(), x, z)) {
+					int x = loc.getBlockX() + (xDelta * (random.nextBoolean() ? -1 : 1));
+					int z = loc.getBlockZ() + (zDelta * (random.nextBoolean() ? -1 : 1));
+
+					if (isStrikeInSafeZone(world, player.getLocation().getBlockX(), player.getLocation().getBlockZ(), x,
+							z)) {
 						plugin.debugInfo("Lightning in safe zone.");
 						continue;
-					}else if (isInhibitorNear(world, x, z)) {
+					} else if (isInhibitorNear(world, x, z)) {
 						plugin.debugInfo("Lightning inhibited.");
 						continue;
 					} else {
@@ -130,7 +137,12 @@ public class TimeMonitor extends BukkitRunnable {
 					}
 
 					Location newLocation = new Location(world, x, loc.getBlockY() + 2, z);
-					world.strikeLightning(newLocation);
+
+					if (plugin.getConfig().getBoolean(ConfigKeyEnum.DONNERSTAG_NO_FIRE_LIGHTNING.getKey(), false)) {
+						strikeFakeLightning(newLocation);
+					} else {
+						world.strikeLightning(newLocation);
+					}
 
 					if (!plugin.getConfig().getBoolean(
 							ConfigKeyEnum.DONNERSTAG_ALLOW_SUPER_CREEPER_SPAWN_WITH_FISH_SWORD.getKey(), true)) {
@@ -197,62 +209,89 @@ public class TimeMonitor extends BukkitRunnable {
 			}
 		}
 	}
-	// END Private Utility Methods
 
-	private boolean isStrikeInSafeZone(World world, int playerX, int playerZ, int strikeX, int strikeZ) {
-		List<String> safeZoneStrings = plugin.getConfig().getStringList(ConfigKeyEnum.DONNERSTAG_NO_LIGHTNING_ZONES.getKey());
-		
-		if(safeZoneStrings == null || safeZoneStrings.isEmpty())
-			return false;
-		
-		for(String safeZoneString : safeZoneStrings){
-			try {
-				if(safeZoneString == null)
-					continue;
-				safeZoneString = safeZoneString.replace(" ", "");
-				
-				if(!safeZoneString.contains(")("))
-					continue;
-				
-				String point1String = safeZoneString.substring(0, safeZoneString.indexOf(")("));
-				String point2String = safeZoneString.substring(safeZoneString.indexOf(")(") + 2);
-				
-				point1String = point1String.replace("(", "");
-				
-				point2String = point2String.replace(")", "");
-				
-				int x1 = Integer.parseInt(point1String.substring(0, point1String.indexOf(",")));
-				int z1 = Integer.parseInt(point1String.substring(point1String.indexOf(",") + 1));
-				
-				int x2 = Integer.parseInt(point2String.substring(0, point2String.indexOf(",")));
-				int z2 = Integer.parseInt(point2String.substring(point2String.indexOf(",") + 1));
-				
-				if(x1 == x2 || z1 == z2)
-					continue;
-				
-				int xLeft = x1 < x2 ? x1 : x2;
-				int xRight = x2 > x1 ? x2 : x1;
-				
-				int zBottom = z1 < z2 ? z1 : z2;
-				int zTop = z2 > z1 ? z2 : z1;
-				
-				if(playerX >= xLeft && playerX <= xRight && strikeZ >= zBottom && strikeZ <= zTop){
-					plugin.debugInfo("Player was in safe zone during lightning strike. " + safeZoneString);
-					return true;
-				}else if(strikeX >= xLeft && strikeX <= xRight && playerZ >= zBottom && playerZ <= zTop){
-					plugin.debugInfo("Lighting strike would have landed in safe zone. "  + safeZoneString);
-					return true;
-				}else{
-					plugin.debugInfo("Player and lighting strike not in safe zone. "  + safeZoneString);
+	private void strikeFakeLightning(Location location) {
+		plugin.debugInfo("No fire Lightning strike.");
+
+		int damageHearts = plugin.getConfig().getInt(ConfigKeyEnum.DONNERSTAG_NO_FIRE_LIGHTNING_DAMAGE_HEARTS.getKey(),
+				3);
+		location.getWorld().strikeLightningEffect(location);
+		for (LivingEntity entity : location.getWorld().getLivingEntities()) {
+			if (entity.getLocation().distance(location) < 3D) {
+
+				if (entity.getType().equals(EntityType.PIG)) {
+					PigZombie pigZombie = (PigZombie) entity.getWorld().spawnEntity(entity.getLocation(),
+							EntityType.PIG_ZOMBIE);
+					entity.remove();
+					pigZombie.damage(damageHearts * 2);
+				} else if (entity.getType().equals(EntityType.CREEPER)) {
+					Creeper creeper = (Creeper) entity;
+					creeper.setPowered(true);
+					creeper.damage(damageHearts * 2);
+				} else {
+					entity.damage(damageHearts * 2);
 				}
-				
-			} catch (Exception e) {
-				plugin.warning("Error parsing lighting safe zone string ["+safeZoneString+"]. Message: " + e.getMessage());
 			}
 		}
-		
+	}
+
+	private boolean isStrikeInSafeZone(World world, int playerX, int playerZ, int strikeX, int strikeZ) {
+		List<String> safeZoneStrings = plugin.getConfig()
+				.getStringList(ConfigKeyEnum.DONNERSTAG_NO_LIGHTNING_ZONES.getKey());
+
+		if (safeZoneStrings == null || safeZoneStrings.isEmpty())
+			return false;
+
+		for (String safeZoneString : safeZoneStrings) {
+			try {
+				if (safeZoneString == null)
+					continue;
+				safeZoneString = safeZoneString.replace(" ", "");
+
+				if (!safeZoneString.contains(")("))
+					continue;
+
+				String point1String = safeZoneString.substring(0, safeZoneString.indexOf(")("));
+				String point2String = safeZoneString.substring(safeZoneString.indexOf(")(") + 2);
+
+				point1String = point1String.replace("(", "");
+
+				point2String = point2String.replace(")", "");
+
+				int x1 = Integer.parseInt(point1String.substring(0, point1String.indexOf(",")));
+				int z1 = Integer.parseInt(point1String.substring(point1String.indexOf(",") + 1));
+
+				int x2 = Integer.parseInt(point2String.substring(0, point2String.indexOf(",")));
+				int z2 = Integer.parseInt(point2String.substring(point2String.indexOf(",") + 1));
+
+				if (x1 == x2 || z1 == z2)
+					continue;
+
+				int xLeft = x1 < x2 ? x1 : x2;
+				int xRight = x2 > x1 ? x2 : x1;
+
+				int zBottom = z1 < z2 ? z1 : z2;
+				int zTop = z2 > z1 ? z2 : z1;
+
+				if (playerX >= xLeft && playerX <= xRight && strikeZ >= zBottom && strikeZ <= zTop) {
+					plugin.debugInfo("Player was in safe zone during lightning strike. " + safeZoneString);
+					return true;
+				} else if (strikeX >= xLeft && strikeX <= xRight && playerZ >= zBottom && playerZ <= zTop) {
+					plugin.debugInfo("Lighting strike would have landed in safe zone. " + safeZoneString);
+					return true;
+				} else {
+					plugin.debugInfo("Player and lighting strike not in safe zone. " + safeZoneString);
+				}
+
+			} catch (Exception e) {
+				plugin.warning(
+						"Error parsing lighting safe zone string [" + safeZoneString + "]. Message: " + e.getMessage());
+			}
+		}
+
 		return false;
 	}
+
 	private boolean isInhibitorNear(World world, int xOfStrike, int zOfStrike) {
 
 		int radius = plugin.getConfig().getInt(ConfigKeyEnum.DONNERSTAG_LIGHTNING_INHIBITOR_RANGE.getKey(), 25);
@@ -294,6 +333,7 @@ public class TimeMonitor extends BukkitRunnable {
 
 		return false;
 	}
+	// END Private Utility Methods
 
 	// BEGIN Getters and Setters
 	public World getWorld() {

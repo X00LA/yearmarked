@@ -181,9 +181,7 @@ public class EarthdayListener extends AbstractListener {
 	 */
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = false)
 	public void playerHitsAnimalWithEarthdayCrop(EntityDamageByEntityEvent event) {
-
-		plugin.debugInfo("EntityDamageByEntityEvent - playerHitsAnimalWithEarthdayCrop");
-
+		
 		if (!worldEnabled(event.getDamager().getWorld().getName(), "earth-day-pot-pie")) {
 			plugin.debugInfo("earth-day-pot-pie not enabled.");
 			return;

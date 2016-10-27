@@ -59,8 +59,6 @@ public class SuperCreeperDamageListener extends AbstractListener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = false)
 	public void playerKillSuperCreeper(EntityDamageByEntityEvent event) {
 
-		plugin.debugInfo("EntityDamageByEntityEvent");
-		
 		if (!worldEnabled(event.getDamager().getWorld().getName(), "Super Creeper hit")) {
 			return;
 		}
@@ -69,16 +67,11 @@ public class SuperCreeperDamageListener extends AbstractListener {
 		boolean fishArrowDamage = false;
 
 		if (!(event.getDamager() instanceof Player)) {
-			plugin.debugInfo("[playerKillSuperCreeper] EntityDamageByEntityEvent - Not a player");
 
 			if (plugin.getNameOfFishArrow() == null) {
-				plugin.debugInfo(
-						"[playerKillSuperCreeper] Name of fish arrow is not defined and the damager is not a player.");
 				return;
 			} else {
 				if (event.getCause().equals(DamageCause.PROJECTILE)) {
-					plugin.debugInfo(
-							"[playerKillSuperCreeper] EntityDamageByEntityEvent - Damage was from projectile. ");
 
 					if (event.getDamager() instanceof Projectile
 							&& plugin.getNameOfFishArrow().equals(((Projectile) event.getDamager()).getCustomName())) {
@@ -89,14 +82,9 @@ public class SuperCreeperDamageListener extends AbstractListener {
 							player = (Player) ((Projectile) event.getDamager()).getShooter();
 						}
 					}
-
-					if (player == null) {
-						plugin.debugInfo("[playerKillSuperCreeper] Shooter is not a player");
-					}
 				}
 
 				if (!fishArrowDamage) {
-					plugin.debugInfo("[playerKillSuperCreeper] damage NOT from:" + plugin.getNameOfFishArrow());
 					return;
 				}
 			}
@@ -106,13 +94,11 @@ public class SuperCreeperDamageListener extends AbstractListener {
 		}
 
 		if (!(event.getEntity() instanceof Creeper)) {
-			plugin.debugInfo("[playerKillSuperCreeper] EntityDamageByEntityEvent - Not a creeper");
 			return;
 		}
 
 		Creeper creeper = (Creeper) event.getEntity();
 		if (!creeper.isPowered()) {
-			plugin.debugInfo("[playerKillSuperCreeper] EntityDamageByEntityEvent - Not a super creeper");
 			return;
 		}
 
@@ -120,18 +106,15 @@ public class SuperCreeperDamageListener extends AbstractListener {
 			ItemStack itemInHand = plugin.getPlayerHelper().getItemInHand(player);
 
 			if (itemInHand == null) {
-				plugin.debugInfo("[playerKillSuperCreeper] EntityDamageByEntityEvent - No item in hand");
 				return;
 			}
 
 			if (itemInHand.getItemMeta() == null || itemInHand.getItemMeta().getDisplayName() == null) {
-				plugin.debugInfo("[playerKillSuperCreeper] EntityDamageByEntityEvent - No named item in hand");
 				return;
 			}
 		}
 
 		if (event.getFinalDamage() < creeper.getHealth()) {
-			plugin.debugInfo("[playerKillSuperCreeper] EntityDamageByEntityEvent - Not a killing blow");
 			return;
 		}
 

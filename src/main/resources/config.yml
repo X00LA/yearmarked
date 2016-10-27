@@ -1,4 +1,4 @@
-debug: false
+debug: true
 log.recipes.enable: false
 data.backup.frequency.sec: -1
 locale: en
@@ -57,6 +57,8 @@ yearmarked-donnerstag-lightning-inhibitor-range: 25
 yearmarked-donnerstag-lightning-inhibitor-personal-range: 5
 yearmarked-donnerstag-no-lightning-zones: 
   - (-10,10)(10,-10)
+yearmarked-donnerstag-no-fire-lightning: true
+yearmarked-donnerstag-no-fire-lightning-damage-hearts: 3
 
 #FISHFRYTAG
 yearmarked-fishfryday: Fishfryday

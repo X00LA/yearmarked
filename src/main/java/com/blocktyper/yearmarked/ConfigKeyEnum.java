@@ -44,6 +44,9 @@ public enum ConfigKeyEnum {
 	DONNERSTAG_LIGHTNING_INHIBITOR_RANGE("yearmarked-donnerstag-lightning-inhibitor-range"),
 	DONNERSTAG_LIGHTNING_INHIBITOR_PERSONAL_RANGE("yearmarked-donnerstag-lightning-inhibitor-personal-range"),
 	DONNERSTAG_NO_LIGHTNING_ZONES("yearmarked-donnerstag-no-lightning-zones"),
+	DONNERSTAG_NO_FIRE_LIGHTNING("yearmarked-donnerstag-no-fire-lightning"),
+	DONNERSTAG_NO_FIRE_LIGHTNING_DAMAGE_HEARTS("yearmarked-donnerstag-no-fire-lightning-damage-hearts"),
+	
 
 	// FISHFRYDAY
 	FISHFRYDAY("yearmarked-fishfryday"),
