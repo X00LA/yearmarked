@@ -55,6 +55,8 @@ yearmarked-donnerstag-super-creeper-drops-thordfish-percent-chance: 15
 yearmarked-donnerstag-super-creeper-op-luck: true
 yearmarked-donnerstag-lightning-inhibitor-range: 25
 yearmarked-donnerstag-lightning-inhibitor-personal-range: 5
+yearmarked-donnerstag-no-lightning-zones: 
+  - (-10,10)(10,-10)
 
 #FISHFRYTAG
 yearmarked-fishfryday: Fishfryday

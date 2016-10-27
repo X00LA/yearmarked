@@ -43,6 +43,7 @@ public enum ConfigKeyEnum {
 	DONNERSTAG_SUPER_CREEPER_OP_LUCK("yearmarked-donnerstag-super-creeper-op-luck"),
 	DONNERSTAG_LIGHTNING_INHIBITOR_RANGE("yearmarked-donnerstag-lightning-inhibitor-range"),
 	DONNERSTAG_LIGHTNING_INHIBITOR_PERSONAL_RANGE("yearmarked-donnerstag-lightning-inhibitor-personal-range"),
+	DONNERSTAG_NO_LIGHTNING_ZONES("yearmarked-donnerstag-no-lightning-zones"),
 
 	// FISHFRYDAY
 	FISHFRYDAY("yearmarked-fishfryday"),

@@ -1,6 +1,7 @@
 package com.blocktyper.yearmarked;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Location;
@@ -118,7 +119,10 @@ public class TimeMonitor extends BukkitRunnable {
 					int x = loc.getBlockX() + (xDelta*(random.nextBoolean() ? -1 : 1));
 					int z = loc.getBlockZ() + (zDelta*(random.nextBoolean() ? -1 : 1));
 
-					if (isInhibitorNear(world, x, z)) {
+					if (isStrikeInSafeZone(world, player.getLocation().getBlockX(), player.getLocation().getBlockZ(), x, z)) {
+						plugin.debugInfo("Lightning in safe zone.");
+						continue;
+					}else if (isInhibitorNear(world, x, z)) {
 						plugin.debugInfo("Lightning inhibited.");
 						continue;
 					} else {
@@ -195,6 +199,60 @@ public class TimeMonitor extends BukkitRunnable {
 	}
 	// END Private Utility Methods
 
+	private boolean isStrikeInSafeZone(World world, int playerX, int playerZ, int strikeX, int strikeZ) {
+		List<String> safeZoneStrings = plugin.getConfig().getStringList(ConfigKeyEnum.DONNERSTAG_NO_LIGHTNING_ZONES.getKey());
+		
+		if(safeZoneStrings == null || safeZoneStrings.isEmpty())
+			return false;
+		
+		for(String safeZoneString : safeZoneStrings){
+			try {
+				if(safeZoneString == null)
+					continue;
+				safeZoneString = safeZoneString.replace(" ", "");
+				
+				if(!safeZoneString.contains(")("))
+					continue;
+				
+				String point1String = safeZoneString.substring(0, safeZoneString.indexOf(")("));
+				String point2String = safeZoneString.substring(safeZoneString.indexOf(")(") + 2);
+				
+				point1String = point1String.replace("(", "");
+				
+				point2String = point2String.replace(")", "");
+				
+				int x1 = Integer.parseInt(point1String.substring(0, point1String.indexOf(",")));
+				int z1 = Integer.parseInt(point1String.substring(point1String.indexOf(",") + 1));
+				
+				int x2 = Integer.parseInt(point2String.substring(0, point2String.indexOf(",")));
+				int z2 = Integer.parseInt(point2String.substring(point2String.indexOf(",") + 1));
+				
+				if(x1 == x2 || z1 == z2)
+					continue;
+				
+				int xLeft = x1 < x2 ? x1 : x2;
+				int xRight = x2 > x1 ? x2 : x1;
+				
+				int zBottom = z1 < z2 ? z1 : z2;
+				int zTop = z2 > z1 ? z2 : z1;
+				
+				if(playerX >= xLeft && playerX <= xRight && strikeZ >= zBottom && strikeZ <= zTop){
+					plugin.debugInfo("Player was in safe zone during lightning strike. " + safeZoneString);
+					return true;
+				}else if(strikeX >= xLeft && strikeX <= xRight && playerZ >= zBottom && playerZ <= zTop){
+					plugin.debugInfo("Lighting strike would have landed in safe zone. "  + safeZoneString);
+					return true;
+				}else{
+					plugin.debugInfo("Player and lighting strike not in safe zone. "  + safeZoneString);
+				}
+				
+			} catch (Exception e) {
+				plugin.warning("Error parsing lighting safe zone string ["+safeZoneString+"]. Message: " + e.getMessage());
+			}
+		}
+		
+		return false;
+	}
 	private boolean isInhibitorNear(World world, int xOfStrike, int zOfStrike) {
 
 		int radius = plugin.getConfig().getInt(ConfigKeyEnum.DONNERSTAG_LIGHTNING_INHIBITOR_RANGE.getKey(), 25);
