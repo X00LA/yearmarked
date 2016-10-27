@@ -136,7 +136,7 @@ public class TimeMonitor extends BukkitRunnable {
 						plugin.debugInfo("Lightning NOT inhibited.");
 					}
 
-					Location newLocation = new Location(world, x, loc.getBlockY() + 2, z);
+					Location newLocation = new Location(world, x, loc.getBlockY(), z);
 
 					if (plugin.getConfig().getBoolean(ConfigKeyEnum.DONNERSTAG_NO_FIRE_LIGHTNING.getKey(), false)) {
 						strikeFakeLightning(newLocation);
@@ -202,6 +202,7 @@ public class TimeMonitor extends BukkitRunnable {
 						}
 					}
 
+					newLocation = new Location(world, newLocation.getBlockX(), newLocation.getBlockY() + 2, newLocation.getBlockZ());
 					player.sendMessage(ChatColor.RED + "Creeper!");
 					new SuperCreeperDelaySpawner(plugin, world, newLocation).runTaskLater(plugin, 20L * 1);
 
