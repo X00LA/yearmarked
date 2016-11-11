@@ -3,6 +3,8 @@ log.recipes.enable: false
 data.backup.frequency.sec: -1
 locale: en
 
+yearmarked-show-join-message: true
+
 yearmarked-worlds: 
   - world
 

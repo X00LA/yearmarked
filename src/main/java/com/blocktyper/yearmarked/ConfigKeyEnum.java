@@ -74,7 +74,10 @@ public enum ConfigKeyEnum {
 	RECIPE_FISH_SWORD("recipe.fish-sword.name"),
 	RECIPE_FISH_ARROW("recipe.fish-arrow.name"),
 	RECIPE_EARTHDAY_POT_PIE("recipe.earth-day-pot-pie.name"),
-	RECIPE_LIGHTNING_INHIBITOR("recipe.lightning-inhibitor.name");
+	RECIPE_LIGHTNING_INHIBITOR("recipe.lightning-inhibitor.name"),
+	
+	//MISC
+	SHOW_JOIN_MESSAGE("yearmarked-show-join-message");
 
 
 	private String key;

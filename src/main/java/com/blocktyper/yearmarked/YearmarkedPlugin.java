@@ -182,7 +182,8 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 
 	private void initPlayer(Player player) {
 		YearmarkedCalendar cal = new YearmarkedCalendar(player.getWorld().getFullTime());
-		sendPlayerDayInfo(player, cal);
+		if(getConfig().getBoolean(ConfigKeyEnum.SHOW_JOIN_MESSAGE.getKey(), true))
+			sendPlayerDayInfo(player, cal);
 	}
 
 	private void sendPlayerDayInfo(Player player, YearmarkedCalendar cal) {
