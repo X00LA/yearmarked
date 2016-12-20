@@ -1,5 +1,8 @@
 package com.blocktyper.yearmarked;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum LocalizedMessageEnum {
 	
 	WORLD("yearmarked.world"),
@@ -28,7 +31,15 @@ public enum LocalizedMessageEnum {
 	SUPER_CREEPER_HAD_AN_EMERALD("yearmarked.super.creeper.had.emerald"),
 	SUPER_CREEPER_HAD_A_THORDFISH("yearmarked.super.creeper.had.thordfish"),
 	
-	TOGGLE_EFFECT_WITH_THORDFISH_CANT_AFFORD("yearmarked.toggle.effect.with.thorfish.cant.afford");
+	TOGGLE_EFFECT_WITH_THORDFISH_CANT_AFFORD("yearmarked.toggle.effect.with.thorfish.cant.afford"),
+	
+	DESCRIPTION_MONSOONDAY("yearmarked.monsoonday.description"),
+	DESCRIPTION_EARTHDAY("yearmarked.earthday.description"),
+	DESCRIPTION_WORTAG("yearmarked.wortag.description"),
+	DESCRIPTION_DONNERSTAG("yearmarked.donnerstag.description"),
+	DESCRIPTION_FISHFRYDAY("yearmarked.fishfrytag.description"),
+	DESCRIPTION_DIAMONDAY("yearmarked.diamonday.description"),
+	DESCRIPTION_FEATHERSDAY("yearmarked.feathersday.description");
 
 
 	private String key;
@@ -43,6 +54,29 @@ public enum LocalizedMessageEnum {
 
 	public void setKey(String key) {
 		this.key = key;
+	}
+	
+	public static List<LocalizedMessageEnum> getDayDesciptions(DayOfWeekEnum dayOfWeekEnum){
+		List<LocalizedMessageEnum> returnList = new ArrayList<LocalizedMessageEnum>();
+		if(dayOfWeekEnum != null){
+			if(dayOfWeekEnum.equals(DayOfWeekEnum.MONSOONDAY)){
+				returnList.add(DESCRIPTION_MONSOONDAY);
+			}else if(dayOfWeekEnum.equals(DayOfWeekEnum.EARTHDAY)){
+				returnList.add(DESCRIPTION_EARTHDAY);
+			}else if(dayOfWeekEnum.equals(DayOfWeekEnum.WORTAG)){
+				returnList.add(DESCRIPTION_WORTAG);
+			}else if(dayOfWeekEnum.equals(DayOfWeekEnum.DONNERSTAG)){
+				returnList.add(DESCRIPTION_DONNERSTAG);
+			}else if(dayOfWeekEnum.equals(DayOfWeekEnum.FISHFRYDAY)){
+				returnList.add(DESCRIPTION_FISHFRYDAY);
+			}else if(dayOfWeekEnum.equals(DayOfWeekEnum.DIAMONDAY)){
+				returnList.add(DESCRIPTION_DIAMONDAY);
+			}else if(dayOfWeekEnum.equals(DayOfWeekEnum.FEATHERSDAY)){
+				returnList.add(DESCRIPTION_FEATHERSDAY);
+			}
+		}
+		
+		return returnList;
 	}
 
 }

@@ -8,12 +8,15 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.blocktyper.plugin.BlockTyperPlugin;
 import com.blocktyper.yearmarked.commands.YmCommand;
@@ -25,6 +28,10 @@ import com.blocktyper.yearmarked.listeners.MonsoondayListener;
 import com.blocktyper.yearmarked.listeners.SuperCreeperDamageListener;
 import com.blocktyper.yearmarked.listeners.ThordfishListener;
 import com.blocktyper.yearmarked.listeners.WortagListener;
+import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import com.gmail.filoghost.holographicdisplays.api.VisibilityManager;
+import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 
 import net.md_5.bungee.api.ChatColor;
 
@@ -48,6 +55,9 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 	private String nameOfFishArrow = null;
 	private String nameOfEarthdayPotPie = null;
 	private String nameOfLightningInhibitor = null;
+	
+	boolean holographicDisplaysEnabled = false;
+	boolean showHolographicDisplaysOnDayChange = false;
 
 	
 	public void onEnable() {
@@ -96,7 +106,16 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 		registerListeners();
 		registerCommands();
 
+		if (!getServer().getPluginManager().isPluginEnabled("HolographicDisplays")) {
+	        getLogger().severe("*** HolographicDisplays is not installed or not enabled. ***");
+	    }else{
+	    	holographicDisplaysEnabled = true;
+	    	showHolographicDisplaysOnDayChange = getConfig().getBoolean(ConfigKeyEnum.HOLOGRAPHIC_DISPLAYS_SHOW_DAY_CHANGE_MESSAGE.getKey());
+	    	BukkitRunnable hologramDeleter = new HolographicDisplayMonitor(this);
+	    	hologramDeleter.runTaskTimer(this, 30 * 20L, 30 * 20L);//twice a minute
+	    }
 	}
+	
 
 	private void startWorldMonitors() {
 
@@ -187,9 +206,7 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 	}
 
 	private void sendPlayerDayInfo(Player player, YearmarkedCalendar cal) {
-		info("sending day info to " + player.getName());
 		if (worlds.contains(player.getWorld().getName())) {
-			info("really sending day info to " + player.getName());
 			List<Player> playerInAList = new ArrayList<Player>();
 			playerInAList.add(player);
 			sendDayInfo(cal, playerInAList);
@@ -252,6 +269,7 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 		return worlds != null && worlds.contains(world);
 	}
 	
+	
 	public void sendDayInfo(YearmarkedCalendar cal, List<Player> players) {
 
 		plugin.get(getName()).debugInfo("sendDayInfo --> displayKey: " + cal.getDayOfWeekEnum().getDisplayKey());
@@ -270,6 +288,26 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 				player.sendMessage(dayOfMonthMessage);
 				player.sendMessage(ChatColor.GREEN + "#----------------");
 				player.sendMessage(ChatColor.GREEN + "#----------------");
+				
+				if(showHolographicDisplaysOnDayChange){
+					Location where = player.getLocation();
+					where.setY(where.getY() + 2);
+					Hologram hologram = HologramsAPI.createHologram(this, where);
+					
+					VisibilityManager visibilityManager = hologram.getVisibilityManager();
+					visibilityManager.showTo(player);
+					visibilityManager.setVisibleByDefault(false);
+					hologram.appendTextLine(ChatColor.YELLOW + todayIs);
+					
+					List<LocalizedMessageEnum> descriptions = LocalizedMessageEnum.getDayDesciptions(cal.getDayOfWeekEnum());
+					
+					if(descriptions != null && !descriptions.isEmpty()){
+						for(LocalizedMessageEnum localizedMessageEnum : descriptions){
+							String message = getLocalizedMessage(localizedMessageEnum.getKey());
+							hologram.appendTextLine(ChatColor.GREEN + message);
+						}
+					}
+				}
 			}
 		}
 	}

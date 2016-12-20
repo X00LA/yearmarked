@@ -4,6 +4,7 @@ data.backup.frequency.sec: -1
 locale: en
 
 yearmarked-show-join-message: true
+yearmarked-show-holograms-on-day-change: true
 
 yearmarked-worlds: 
   - world

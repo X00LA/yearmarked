@@ -76,6 +76,9 @@ public enum ConfigKeyEnum {
 	RECIPE_EARTHDAY_POT_PIE("recipe.earth-day-pot-pie.name"),
 	RECIPE_LIGHTNING_INHIBITOR("recipe.lightning-inhibitor.name"),
 	
+	//HOLOGRAPHIC_DISPLAYS
+	HOLOGRAPHIC_DISPLAYS_SHOW_DAY_CHANGE_MESSAGE("yearmarked-show-holograms-on-day-change"),
+	
 	//MISC
 	SHOW_JOIN_MESSAGE("yearmarked-show-join-message");
 

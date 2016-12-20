@@ -5,6 +5,7 @@ author: spaarkimus
 website: blocktyper.com
 database: false
 description: Keeps track of days/months/years and triggers special events in game
+softdepend: [HolographicDisplays]
 
 commands:
   yearmarked: 
