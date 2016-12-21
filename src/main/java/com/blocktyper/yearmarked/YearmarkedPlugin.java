@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,7 +16,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.blocktyper.plugin.BlockTyperPlugin;
@@ -31,9 +31,7 @@ import com.blocktyper.yearmarked.listeners.WortagListener;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.gmail.filoghost.holographicdisplays.api.VisibilityManager;
-import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 
-import net.md_5.bungee.api.ChatColor;
 
 public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 
