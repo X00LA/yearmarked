@@ -25,7 +25,7 @@ public class WortagListener extends AbstractListener {
 		super(plugin);
 	}
 
-	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = false)
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onCropsBreak(BlockBreakEvent event) {
 		final Block block = event.getBlock();
 

@@ -47,9 +47,8 @@ public class EarthdayListener extends AbstractListener {
 	public EarthdayListener(YearmarkedPlugin plugin) {
 		super(plugin);
 	}
-
 	
-	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = false)
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onCropsBreak(BlockBreakEvent event) {
 		final Block block = event.getBlock();
 
@@ -179,7 +178,7 @@ public class EarthdayListener extends AbstractListener {
 	 *  on any entity with a cost defined under 'yearmarked-earthday-entity-arrows-costs'
 	 * @param event
 	 */
-	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = false)
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void playerHitsAnimalWithEarthdayCrop(EntityDamageByEntityEvent event) {
 		
 		if (!worldEnabled(event.getDamager().getWorld().getName(), "earth-day-pot-pie")) {
