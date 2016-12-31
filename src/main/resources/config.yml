@@ -62,6 +62,7 @@ yearmarked-donnerstag-no-lightning-zones:
   - (-10,10)(10,-10)
 yearmarked-donnerstag-no-fire-lightning: true
 yearmarked-donnerstag-no-fire-lightning-damage-hearts: 3
+yearmarked-donnerstag-strike-highest-blocks: true
 
 #FISHFRYTAG
 yearmarked-fishfryday: Fishfryday

@@ -46,6 +46,7 @@ public enum ConfigKeyEnum {
 	DONNERSTAG_NO_LIGHTNING_ZONES("yearmarked-donnerstag-no-lightning-zones"),
 	DONNERSTAG_NO_FIRE_LIGHTNING("yearmarked-donnerstag-no-fire-lightning"),
 	DONNERSTAG_NO_FIRE_LIGHTNING_DAMAGE_HEARTS("yearmarked-donnerstag-no-fire-lightning-damage-hearts"),
+	DONNERSTAG_STRIKE_HIGHEST_BLOCKS("yearmarked-donnerstag-strike-highest-blocks"),
 	
 
 	// FISHFRYDAY

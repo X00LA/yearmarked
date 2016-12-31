@@ -136,7 +136,14 @@ public class TimeMonitor extends BukkitRunnable {
 						plugin.debugInfo("Lightning NOT inhibited.");
 					}
 
-					Location newLocation = new Location(world, x, loc.getBlockY(), z);
+					double y = loc.getBlockY();
+					
+					if (plugin.getConfig().getBoolean(ConfigKeyEnum.DONNERSTAG_STRIKE_HIGHEST_BLOCKS.getKey(), false)) {
+						Block highestBlock = loc.getWorld().getHighestBlockAt(loc);
+						y = highestBlock.getY();
+					}
+					
+					Location newLocation = new Location(world, x, y, z);
 
 					if (plugin.getConfig().getBoolean(ConfigKeyEnum.DONNERSTAG_NO_FIRE_LIGHTNING.getKey(), false)) {
 						strikeFakeLightning(newLocation);
