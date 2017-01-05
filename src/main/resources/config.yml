@@ -1,4 +1,4 @@
-debug: false
+debug: true
 log.recipes.enable: false
 data.backup.frequency.sec: -1
 locale: en
@@ -42,6 +42,7 @@ yearmarked-wortag: Wortag
 yearmarked-wortag-bonus-crops: true
 yearmarked-wortag-bonus-crops-range-high: 3
 yearmarked-wortag-bonus-crops-range-low: 1
+yearmarked-wortag-teleportal-cration-cost: 2
 
 
 #DONNERSTAG

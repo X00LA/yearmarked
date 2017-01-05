@@ -73,7 +73,7 @@ public class ThordfishListener extends AbstractListener {
 			return;
 		}
 		
-		String localizedAndTokenizedAffordMessage = plugin.getLocalizedMessage(LocalizedMessageEnum.TOGGLE_EFFECT_WITH_THORDFISH_CANT_AFFORD.getKey());
+		String localizedAndTokenizedAffordMessage = plugin.getLocalizedMessage(LocalizedMessageEnum.CANT_AFFORD.getKey());
 
 		if (dayOfWeekEnum.equals(DayOfWeekEnum.MONSOONDAY)) {
 			if (event.getPlayer().getPlayerWeather().equals(WeatherType.CLEAR)) {
@@ -137,7 +137,7 @@ public class ThordfishListener extends AbstractListener {
 				} else {
 					event.getPlayer().sendMessage(
 							ChatColor.RED + new MessageFormat(localizedAndTokenizedAffordMessage)
-									.format(new Object[] { toggleCost + plugin.getNameOfThordfish(), }));
+									.format(new Object[] { toggleCost, plugin.getNameOfThordfish()}));
 				}
 			} else {
 
@@ -153,7 +153,7 @@ public class ThordfishListener extends AbstractListener {
 				} else {
 					event.getPlayer().sendMessage(
 							ChatColor.RED + new MessageFormat(localizedAndTokenizedAffordMessage)
-									.format(new Object[] { toggleCost + plugin.getNameOfThordfish(), }));
+									.format(new Object[] { toggleCost, plugin.getNameOfThordfish()}));
 				}
 			}
 			plugin.setPlayersExemptFromLightning(playerExemptFromLightning);

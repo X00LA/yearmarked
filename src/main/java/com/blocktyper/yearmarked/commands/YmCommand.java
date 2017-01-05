@@ -8,11 +8,14 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import com.blocktyper.yearmarked.LocalizedMessageEnum;
 import com.blocktyper.yearmarked.YearmarkedCalendar;
@@ -169,6 +172,14 @@ public class YmCommand implements CommandExecutor {
 
 			plugin.debugInfo("'day' 1st arg");
 			return handleDayArgument(args, player);
+		} else if (args[0].equals("wart")) {
+
+			if (!player.isOp()) {
+				return false;
+			}
+
+			plugin.debugInfo("'wart' 1st arg");
+			return handleWartArgument(args, player);
 		} else if (args[0].equals("return")) {
 
 			if (!playerCanDoAction(player, TIMELORD_PERMISSIONS)) {
@@ -247,6 +258,22 @@ public class YmCommand implements CommandExecutor {
 		} catch (NumberFormatException e) {
 			player.sendMessage(ChatColor.RED + "error while parsing [" + args[1] + "] as an integer");
 			plugin.debugInfo("issue parsing user input [" + args[1] + "] as integer: " + e.getMessage());
+			return false;
+		}
+	}
+
+	private boolean handleWartArgument(String[] args, Player player) {
+
+		try {
+			ItemStack item = new ItemStack(Material.NETHER_WARTS, 1);
+			ItemMeta itemMeta = item.getItemMeta();
+			itemMeta.setDisplayName(plugin.getNameOfWortagNetherwort());
+			item.setItemMeta(itemMeta);
+			plugin.debugInfo("Dropping item");
+			player.getWorld().dropItemNaturally(player.getLocation(), item);
+			return true;
+		} catch (Exception e) {
+			plugin.debugInfo("issue parsing user input. " + e.getMessage());
 			return false;
 		}
 	}

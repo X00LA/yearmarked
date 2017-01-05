@@ -3,13 +3,13 @@ package com.blocktyper.yearmarked.listeners;
 import java.util.Random;
 
 import org.bukkit.ChatColor;
-import org.bukkit.CropState;
 import org.bukkit.Material;
+import org.bukkit.NetherWartsState;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.material.Crops;
+import org.bukkit.material.NetherWarts;
 
 import com.blocktyper.yearmarked.ConfigKeyEnum;
 import com.blocktyper.yearmarked.DayOfWeekEnum;
@@ -38,14 +38,24 @@ public class WortagListener extends AbstractListener {
 			return;
 		}
 
-		if (((Crops) block.getState().getData()).getState() != CropState.RIPE) {
+		if (!(block.getState().getData() instanceof NetherWarts)) {
+			plugin.warning("Nethwart block did not have NetherWarts state data");
 			return;
+		}
+
+		NetherWarts netherWarts = (NetherWarts) block.getState().getData();
+
+		if (netherWarts.getState() != NetherWartsState.RIPE) {
+			plugin.debugInfo("Nethwarts were not ripe");
+			return;
+		} else {
+			plugin.debugInfo("Nethwarts were ripe");
 		}
 
 		if (!worldEnabled(event.getPlayer().getWorld().getName(), DayOfWeekEnum.WORTAG.getDisplayKey())) {
 			return;
 		}
-		
+
 		int high = plugin.getConfig().getInt(ConfigKeyEnum.WORTAG_BONUS_CROPS_RANGE_HIGH.getKey(), 3);
 		int low = plugin.getConfig().getInt(ConfigKeyEnum.WORTAG_BONUS_CROPS_RANGE_LOW.getKey(), 1);
 
@@ -59,9 +69,8 @@ public class WortagListener extends AbstractListener {
 			String bonus = plugin.getLocalizedMessage(LocalizedMessageEnum.BONUS.getKey());
 			event.getPlayer().sendMessage(
 					ChatColor.DARK_PURPLE + bonus + "[x" + rewardCount + "] " + block.getType().toString());
-			dropItemsInStacks(block.getLocation(), Material.NETHER_WARTS, rewardCount,
-					plugin.getConfig().getString(ConfigKeyEnum.EARTHDAY.getKey()) + " "
-							+ Material.NETHER_WARTS.name());
+			dropItemsInStacks(block.getLocation(), Material.NETHER_STALK, rewardCount,
+					plugin.getNameOfWortagNetherwort());
 		} else {
 			plugin.debugInfo("No luck on Wortag");
 			event.getPlayer().sendMessage(ChatColor.RED + ":(");

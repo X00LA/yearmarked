@@ -31,7 +31,7 @@ public enum LocalizedMessageEnum {
 	SUPER_CREEPER_HAD_AN_EMERALD("yearmarked.super.creeper.had.emerald"),
 	SUPER_CREEPER_HAD_A_THORDFISH("yearmarked.super.creeper.had.thordfish"),
 	
-	TOGGLE_EFFECT_WITH_THORDFISH_CANT_AFFORD("yearmarked.toggle.effect.with.thorfish.cant.afford"),
+	CANT_AFFORD("yearmarked.cant.afford"),
 	
 	DESCRIPTION_MONSOONDAY("yearmarked.monsoonday.description"),
 	DESCRIPTION_EARTHDAY("yearmarked.earthday.description"),

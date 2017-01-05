@@ -27,6 +27,7 @@ public enum ConfigKeyEnum {
 	WORTAG_BONUS_CROPS("yearmarked-wortag-bonus-crops"),
 	WORTAG_BONUS_CROPS_RANGE_HIGH("yearmarked-wortag-bonus-crops-range-high"),
 	WORTAG_BONUS_CROPS_RANGE_LOW("yearmarked-wortag-bonus-crops-range-low"),
+	WORTAG_TELEPORTAL_CREATION_COST("yearmarked-wortag-teleportal-cration-cost"),
 
 	// DONNERSTAG
 	DONNERSTAG("yearmarked-donnerstag"),
