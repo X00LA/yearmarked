@@ -31,11 +31,34 @@ yearmarked-earthday-allow-entity-arrows: true
 yearmarked-earthday-entity-arrows-costs: 
   - COW=1
   - HORSE=1
+  - DONKEY=2
+  - LLAMA=15
   - PIG=1
   - SHEEP=1
   - CHICKEN=1
   - RABBIT=1
+  - WOLF=10
+  - SQUID=1
+  - MULE=5
+  - BAT=5
+  - SPIDER=5
   - ZOMBIE=5
+  - ZOMBIE_HORSE=5
+  - ZOMBIE_VILLAGER=5
+  - PIG_ZOMBIE=5
+  - MUSHROOM_COW=5
+  - SKELETON=10
+  - SLIME=10
+  - CREEPER=10
+  - POLAR_BEAR=15
+  - SKELETON_HORSE=15
+  - CAVE_SPIDER=15
+  - OCELOT=15
+  - WITCH=15
+  - SNOWMAN=15
+  - SILVERFISH=20
+  - IRON_GOLEM=40
+  - VILLIAGER=60
 
 #WORTTAG
 yearmarked-wortag: Wortag

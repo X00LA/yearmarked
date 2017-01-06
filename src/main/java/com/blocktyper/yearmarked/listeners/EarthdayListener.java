@@ -1,17 +1,25 @@
 package com.blocktyper.yearmarked.listeners;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import org.bukkit.ChatColor;
 import org.bukkit.CropState;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Ageable;
+import org.bukkit.entity.ChestedHorse;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Tameable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -20,6 +28,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.Crops;
@@ -34,20 +43,35 @@ import com.blocktyper.yearmarked.LocalizedMessageEnum;
 import com.blocktyper.yearmarked.YearmarkedCalendar;
 import com.blocktyper.yearmarked.YearmarkedPlugin;
 
-
 public class EarthdayListener extends AbstractListener {
 
 	public static final String LAST_POT_PIE_TIME_KEY = "last-pot-pie-time";
 
+	public static final String TAMED = "♥";
+	public static final String NAMED = "➢";
+	public static final String CHESTED = "☐";
+
 	public static final List<EntityType> ANIMAL_ARROW_TYPES = Arrays.asList(EntityType.COW, EntityType.HORSE,
-			EntityType.CHICKEN, EntityType.SHEEP, EntityType.PIG, EntityType.SHEEP, EntityType.RABBIT);
+			EntityType.DONKEY, EntityType.CHICKEN, EntityType.SHEEP, EntityType.PIG, EntityType.SHEEP, EntityType.LLAMA,
+			EntityType.RABBIT, EntityType.WOLF);
 
 	private Random random = new Random();
+
+	private static ArrayList<Material> dropableEquipment;
+
+	static {
+		dropableEquipment = new ArrayList<>();
+		dropableEquipment.add(Material.DIAMOND_BARDING);
+		dropableEquipment.add(Material.GOLD_BARDING);
+		dropableEquipment.add(Material.IRON_BARDING);
+		dropableEquipment.add(Material.SADDLE);
+		dropableEquipment.add(Material.CARPET);
+	}
 
 	public EarthdayListener(YearmarkedPlugin plugin) {
 		super(plugin);
 	}
-	
+
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onCropsBreak(BlockBreakEvent event) {
 		final Block block = event.getBlock();
@@ -105,6 +129,7 @@ public class EarthdayListener extends AbstractListener {
 
 	/**
 	 * Drop the Earthday reward
+	 * 
 	 * @param block
 	 * @param rewardCount
 	 */
@@ -126,9 +151,12 @@ public class EarthdayListener extends AbstractListener {
 	}
 
 	/**
-	 * Eating an Earthday pot pie buffs the player with FAST_DIGGING, DAMAGE_RESISTANCE and SPEED for
-	 * a time and with a magnitude specified in the config file with the keys 
-	 * 'yearmarked-earthday-pot-pie-buff-duration-sec' and 'yearmarked-earthday-pot-pie-buff-magnitude' respectively.
+	 * Eating an Earthday pot pie buffs the player with FAST_DIGGING,
+	 * DAMAGE_RESISTANCE and SPEED for a time and with a magnitude specified in
+	 * the config file with the keys
+	 * 'yearmarked-earthday-pot-pie-buff-duration-sec' and
+	 * 'yearmarked-earthday-pot-pie-buff-magnitude' respectively.
+	 * 
 	 * @param event
 	 */
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = false)
@@ -168,24 +196,26 @@ public class EarthdayListener extends AbstractListener {
 		player.setMetadata(key, new FixedMetadataValue(plugin, value));
 	}
 
-	
 	/**
-	 * When a player hits an entity with an Earthday crop, that animal will be converted into an entity arrow
-	 * and the player will be charged a number of the Earthday crops specified in the config 
-	 * using a string list of 'equals expressions' under the key 'yearmarked-earthday-entity-arrows-costs'
-	 * The entity-arrow mechanic only works with specific combinations of crops and entities.
-	 * If the player has recently eaten an Earthday pot pie, then the player can use any Earthday crop
-	 *  on any entity with a cost defined under 'yearmarked-earthday-entity-arrows-costs'
+	 * When a player hits an entity with an Earthday crop, that animal will be
+	 * converted into an entity arrow and the player will be charged a number of
+	 * the Earthday crops specified in the config using a string list of 'equals
+	 * expressions' under the key 'yearmarked-earthday-entity-arrows-costs' The
+	 * entity-arrow mechanic only works with specific combinations of crops and
+	 * entities. If the player has recently eaten an Earthday pot pie, then the
+	 * player can use any Earthday crop on any entity with a cost defined under
+	 * 'yearmarked-earthday-entity-arrows-costs'
+	 * 
 	 * @param event
 	 */
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void playerHitsAnimalWithEarthdayCrop(EntityDamageByEntityEvent event) {
-		
+
 		if (!worldEnabled(event.getDamager().getWorld().getName(), "earth-day-pot-pie")) {
 			plugin.debugInfo("earth-day-pot-pie not enabled.");
 			return;
 		}
-		
+
 		if (event.getCause() != null && event.getCause().equals(DamageCause.PROJECTILE))
 			return;
 
@@ -222,11 +252,11 @@ public class EarthdayListener extends AbstractListener {
 			Date lastPotPieTimeDate = null;
 
 			try {
-				
+
 				long timePieWasLastEatenMS = lastPotPieTimeMetaList.get(0).asLong();
-				
+
 				lastPotPieTimeDate = new Date(timePieWasLastEatenMS);
-				
+
 				int lastPotPieTimeLimitSec = plugin.getConfig()
 						.getInt(ConfigKeyEnum.EARTHDAY_POT_PIE_AFFECT_ARROWS_DURATION_SEC.getKey(), 15);
 				if (lastPotPieTimeDate != null
@@ -250,29 +280,33 @@ public class EarthdayListener extends AbstractListener {
 
 		if (itemInHand.getType().equals(Material.POTATO_ITEM)) {
 			if (userHasPotPieBuff || (event.getEntity().getType().equals(EntityType.RABBIT)
-					|| event.getEntity().getType().equals(EntityType.CHICKEN))) {
+					|| event.getEntity().getType().equals(EntityType.CHICKEN)
+					|| event.getEntity().getType().equals(EntityType.WOLF))) {
 				replaceEntityWithEntityArrow(event.getEntity(), itemInHand, player);
 			}
 		} else if (itemInHand.getType().equals(Material.WHEAT)) {
 			if (userHasPotPieBuff || (event.getEntity().getType().equals(EntityType.COW)
-					|| event.getEntity().getType().equals(EntityType.SHEEP))) {
+					|| event.getEntity().getType().equals(EntityType.SHEEP)
+					|| event.getEntity().getType().equals(EntityType.LLAMA))) {
 				replaceEntityWithEntityArrow(event.getEntity(), itemInHand, player);
 			}
 		} else if (itemInHand.getType().equals(Material.CARROT_ITEM)) {
-			if (userHasPotPieBuff || (event.getEntity().getType().equals(EntityType.PIG)
-					|| event.getEntity().getType().equals(EntityType.HORSE))) {
+			if (userHasPotPieBuff
+					|| (event.getEntity().getType().equals(EntityType.PIG)
+							|| event.getEntity().getType().equals(EntityType.HORSE))
+					|| event.getEntity().getType().equals(EntityType.DONKEY)) {
 				replaceEntityWithEntityArrow(event.getEntity(), itemInHand, player);
 			}
 		} else {
 			plugin.debugInfo("playerHitsAnimalWithEarthdayCrop - not an earthday crop");
 		}
-
 	}
 
 	/**
-	 * Replaces entity with an arrow.  Charges the player a number of of the itemInHand determined by 
-	 * costs specified in the config using a string list of 'equals expressions' under 
-	 * the key 'yearmarked-earthday-entity-arrows-costs' 
+	 * Replaces entity with an arrow. Charges the player a number of of the
+	 * itemInHand determined by costs specified in the config using a string
+	 * list of 'equals expressions' under the key
+	 * 'yearmarked-earthday-entity-arrows-costs'
 	 * 
 	 * @param entity
 	 * @param itemInHand
@@ -281,8 +315,9 @@ public class EarthdayListener extends AbstractListener {
 	private void replaceEntityWithEntityArrow(Entity entity, ItemStack itemInHand, Player player) {
 
 		plugin.debugInfo("replaceEntityWithEntityArrow - Entity type: " + entity.getType());
-		//equals expressions for each entity type and the number of the itemInHand which will be 
-		//charged to convert the entity into an entity arrow
+		// equals expressions for each entity type and the number of the
+		// itemInHand which will be
+		// charged to convert the entity into an entity arrow
 		List<String> costs = plugin.getConfig()
 				.getStringList(ConfigKeyEnum.EARTHDAY_ALLOW_ENTITY_ARROWS_COSTS.getKey());
 
@@ -305,17 +340,21 @@ public class EarthdayListener extends AbstractListener {
 			}
 		}
 
-		//this only supports charging a player up to the max stack size for the given material
+		// this only supports charging a player up to the max stack size for the
+		// given material
 		if (cost == null || cost < 0) {
-			plugin.debugInfo("replaceEntityWithEntityArrow - missing or negative cost found for entity type: " + entity.getType());
+			plugin.debugInfo("replaceEntityWithEntityArrow - missing or negative cost found for entity type: "
+					+ entity.getType());
 			return;
 		} else if (cost == 0) {
 			plugin.debugInfo("replaceEntityWithEntityArrow - no cost for entity arrow type: " + entity.getType());
 		} else if (itemInHand.getAmount() == cost) {
-			plugin.debugInfo("replaceEntityWithEntityArrow - exact payment ["+cost+"] for entity arrow type: " + entity.getType());
+			plugin.debugInfo("replaceEntityWithEntityArrow - exact payment [" + cost + "] for entity arrow type: "
+					+ entity.getType());
 			player.getInventory().remove(itemInHand);
 		} else if (itemInHand.getAmount() < cost) {
-			plugin.debugInfo("replaceEntityWithEntityArrow - cant afford ["+cost+"] entity arrow type: " + entity.getType());
+			plugin.debugInfo(
+					"replaceEntityWithEntityArrow - cant afford [" + cost + "] entity arrow type: " + entity.getType());
 			String missingPayment = "";
 			for (int i = 0; i < cost - itemInHand.getAmount(); i++) {
 				missingPayment += "$";
@@ -323,7 +362,8 @@ public class EarthdayListener extends AbstractListener {
 			player.sendMessage(ChatColor.RED + missingPayment);
 			return;
 		} else if (itemInHand.getAmount() > cost) {
-			plugin.debugInfo("replaceEntityWithEntityArrow - more than enough ["+cost+"] for entity arrow type: " + entity.getType());
+			plugin.debugInfo("replaceEntityWithEntityArrow - more than enough [" + cost + "] for entity arrow type: "
+					+ entity.getType());
 			itemInHand.setAmount(itemInHand.getAmount() - cost);
 		} else {
 			plugin.warning("replaceEntityWithEntityArrow - Unexpected use case[ItemInHand: " + itemInHand.getAmount()
@@ -331,20 +371,76 @@ public class EarthdayListener extends AbstractListener {
 			return;
 		}
 
-		//create arrow for entity
+		// create arrow for entity
 		ItemStack arrow = new ItemStack(Material.ARROW);
 		ItemMeta meta = arrow.getItemMeta();
 		meta.setDisplayName(plugin.getConfig().getString(DayOfWeekEnum.EARTHDAY.getDisplayKey()) + " "
 				+ entity.getType().toString());
+
+		String customName = entity.getCustomName();
+
+		List<String> lore = new ArrayList<String>();
+		if (customName != null) {
+			lore.add(NAMED + customName);
+		}
+
+		String trueOrFalseMeta = "";
+		if (entity instanceof Tameable) {
+			if (((Tameable) entity).isTamed())
+				trueOrFalseMeta = trueOrFalseMeta + TAMED;
+		}
+		
+		boolean hasChest = entity instanceof ChestedHorse && ((ChestedHorse)entity).isCarryingChest();
+		if(hasChest){
+			trueOrFalseMeta = trueOrFalseMeta + CHESTED;
+		}
+		if(!trueOrFalseMeta.isEmpty())
+			lore.add(trueOrFalseMeta);
+		
+		meta.setLore(lore);
 		arrow.setItemMeta(meta);
-		
-		//drop the arrow
+
+		// drop the arrow
 		entity.getWorld().dropItem(entity.getLocation(), arrow);
+
 		
-		//remove the entity
+		if (entity instanceof InventoryHolder) {
+			hasChest = true;
+			InventoryHolder inventoryHolder = (InventoryHolder) entity;
+			if (inventoryHolder.getInventory() != null && inventoryHolder.getInventory().getContents() != null
+					&& inventoryHolder.getInventory().getContents().length > 0) {
+				final Location l = entity.getLocation();
+				final World w = entity.getWorld();
+				Arrays.asList(inventoryHolder.getInventory().getContents()).forEach(i -> drop(w, l, i));
+			}
+		}
+
+		if (entity instanceof LivingEntity) {
+			LivingEntity livingEntity = (LivingEntity) entity;
+			if (livingEntity.getEquipment() != null && livingEntity.getEquipment().getArmorContents() != null
+					&& livingEntity.getEquipment().getArmorContents().length > 0) {
+				final Location l = entity.getLocation();
+				final World w = entity.getWorld();
+				Arrays.asList(livingEntity.getEquipment().getArmorContents())
+						.forEach(i -> dropApporvedEquipment(w, l, i));
+			}
+		}
+
+		// remove the entity
 		entity.remove();
 
 		plugin.debugInfo("replaceEntityWithEntityArrow - arrow dropped");
+	}
+
+	private void dropApporvedEquipment(World w, Location l, ItemStack i) {
+		if (w != null && l != null && i != null && dropableEquipment.contains(i.getType())) {
+			w.dropItemNaturally(l, i);
+		}
+	}
+
+	private void drop(World w, Location l, ItemStack i) {
+		if (w != null && l != null && i != null)
+			w.dropItemNaturally(l, i);
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = false)
@@ -353,7 +449,7 @@ public class EarthdayListener extends AbstractListener {
 		if (!(event.getEntity().getShooter() instanceof Player))
 			return;
 
-		if (event.getEntity() == null || event.getEntity().getCustomName() == null){
+		if (event.getEntity() == null || event.getEntity().getCustomName() == null) {
 			plugin.debugInfo("onEntityArrowHit - not a named arrow");
 			return;
 		}
@@ -367,6 +463,9 @@ public class EarthdayListener extends AbstractListener {
 		String entityName = event.getEntity().getCustomName()
 				.replace(plugin.getConfig().getString(ConfigKeyEnum.EARTHDAY.getKey()), "").trim();
 
+		String customName = event.getEntity().hasMetadata(NAMED)
+				? event.getEntity().getMetadata(NAMED).get(0).asString() : null;
+
 		EntityType entityType = EntityType.valueOf(entityName);
 
 		if (entityType == null) {
@@ -374,7 +473,30 @@ public class EarthdayListener extends AbstractListener {
 			return;
 		}
 
-		event.getEntity().getWorld().spawnEntity(event.getEntity().getLocation(), entityType);
+		Entity spawnedEntity = event.getEntity().getWorld().spawnEntity(event.getEntity().getLocation(), entityType);
+		if (customName != null)
+			spawnedEntity.setCustomName(customName);
+
+		if (spawnedEntity instanceof Tameable) {
+			boolean isTamed = event.getEntity().hasMetadata(TAMED)
+					? event.getEntity().getMetadata(TAMED).get(0).asBoolean() : false;
+			if (isTamed) {
+				if (spawnedEntity instanceof Ageable){
+					((Ageable) spawnedEntity).setAdult();
+				}
+				((Tameable) spawnedEntity).setTamed(true);
+			}
+		}
+		
+		if (spawnedEntity instanceof ChestedHorse) {
+			boolean isChested = event.getEntity().hasMetadata(CHESTED)
+					? event.getEntity().getMetadata(CHESTED).get(0).asBoolean() : false;
+					
+			if (isChested) {
+				((ChestedHorse) spawnedEntity).setAdult();
+				((ChestedHorse) spawnedEntity).setCarryingChest(true);
+			}
+		}
 
 		plugin.debugInfo("onEntityArrowHit - animal spawned");
 
@@ -405,6 +527,32 @@ public class EarthdayListener extends AbstractListener {
 		}
 
 		event.getProjectile().setCustomName(firstArrowStack.getItemMeta().getDisplayName());
+
+		if(firstArrowStack.getItemMeta().getLore() != null){
+			Optional<String> nameOptional = firstArrowStack.getItemMeta().getLore().stream().filter(l -> l.startsWith(NAMED)).findFirst();
+			if (nameOptional != null && nameOptional.isPresent() && nameOptional.get() != null) {
+				String name = nameOptional.get();
+				plugin.debugInfo("Naming arrow: " + name);
+				int startIndex = name.indexOf(NAMED) + NAMED.length();
+				plugin.debugInfo("startIndex: " + startIndex);
+				name = name.substring(startIndex);
+				plugin.debugInfo("Named arrow: " + name);
+				MetadataValue mdv = new FixedMetadataValue(plugin, name);
+				event.getProjectile().setMetadata(NAMED, mdv);
+			}
+
+			if (firstArrowStack.getItemMeta().getLore().stream().anyMatch(l -> !l.startsWith(NAMED) && l.contains(TAMED))) {
+				MetadataValue mdv = new FixedMetadataValue(plugin, true);
+				event.getProjectile().setMetadata(TAMED, mdv);
+			}
+			
+			if (firstArrowStack.getItemMeta().getLore().stream().anyMatch(l -> !l.startsWith(NAMED) && l.contains(CHESTED))) {
+				MetadataValue mdv = new FixedMetadataValue(plugin, true);
+				event.getProjectile().setMetadata(CHESTED, mdv);
+			}
+		}
+		
+
 	}
 
 }
