@@ -13,6 +13,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Ageable;
 import org.bukkit.entity.ChestedHorse;
 import org.bukkit.entity.Entity;
@@ -208,7 +209,7 @@ public class EarthdayListener extends AbstractListener {
 	 * 
 	 * @param event
 	 */
-	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
 	public void playerHitsAnimalWithEarthdayCrop(EntityDamageByEntityEvent event) {
 
 		if (!worldEnabled(event.getDamager().getWorld().getName(), "earth-day-pot-pie")) {
@@ -389,21 +390,20 @@ public class EarthdayListener extends AbstractListener {
 			if (((Tameable) entity).isTamed())
 				trueOrFalseMeta = trueOrFalseMeta + TAMED;
 		}
-		
-		boolean hasChest = entity instanceof ChestedHorse && ((ChestedHorse)entity).isCarryingChest();
-		if(hasChest){
+
+		boolean hasChest = entity instanceof ChestedHorse && ((ChestedHorse) entity).isCarryingChest();
+		if (hasChest) {
 			trueOrFalseMeta = trueOrFalseMeta + CHESTED;
 		}
-		if(!trueOrFalseMeta.isEmpty())
+		if (!trueOrFalseMeta.isEmpty())
 			lore.add(trueOrFalseMeta);
-		
+
 		meta.setLore(lore);
 		arrow.setItemMeta(meta);
 
 		// drop the arrow
 		entity.getWorld().dropItem(entity.getLocation(), arrow);
 
-		
 		if (entity instanceof InventoryHolder) {
 			hasChest = true;
 			InventoryHolder inventoryHolder = (InventoryHolder) entity;
@@ -481,17 +481,17 @@ public class EarthdayListener extends AbstractListener {
 			boolean isTamed = event.getEntity().hasMetadata(TAMED)
 					? event.getEntity().getMetadata(TAMED).get(0).asBoolean() : false;
 			if (isTamed) {
-				if (spawnedEntity instanceof Ageable){
+				if (spawnedEntity instanceof Ageable) {
 					((Ageable) spawnedEntity).setAdult();
 				}
 				((Tameable) spawnedEntity).setTamed(true);
 			}
 		}
-		
+
 		if (spawnedEntity instanceof ChestedHorse) {
 			boolean isChested = event.getEntity().hasMetadata(CHESTED)
 					? event.getEntity().getMetadata(CHESTED).get(0).asBoolean() : false;
-					
+
 			if (isChested) {
 				((ChestedHorse) spawnedEntity).setAdult();
 				((ChestedHorse) spawnedEntity).setCarryingChest(true);
@@ -504,8 +504,8 @@ public class EarthdayListener extends AbstractListener {
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = false)
-	public void opPlayerShootEntityArrow(EntityShootBowEvent event) {
-
+	public void onPlayerShootEntityArrow(EntityShootBowEvent event) {
+		
 		if (!(event.getEntity() instanceof Player)) {
 			return;
 		}
@@ -516,45 +516,52 @@ public class EarthdayListener extends AbstractListener {
 
 		if (firstArrowStack == null || firstArrowStack.getItemMeta() == null
 				|| firstArrowStack.getItemMeta().getDisplayName() == null) {
-			plugin.debugInfo("opPlayerShootEntityArrow - not a named arrow");
+			plugin.debugInfo("onPlayerShootEntityArrow - not a named arrow");
 			return;
 		}
 
 		if (!firstArrowStack.getItemMeta().getDisplayName()
 				.startsWith(plugin.getConfig().getString(DayOfWeekEnum.EARTHDAY.getDisplayKey()))) {
-			plugin.debugInfo("opPlayerShootEntityArrow - not an earthday arrow");
+			plugin.debugInfo("onPlayerShootEntityArrow - not an earthday arrow");
 			return;
 		}
+		
+		ItemStack bow = plugin.getPlayerHelper().getItemInHand(player);
+		
+		if (plugin.getPlayerHelper().itemHasEnchantment(bow, Enchantment.ARROW_INFINITE)) {
+			plugin.debugInfo("Infinite enchantment not approved.");
+		} else {
+			event.getProjectile().setCustomName(firstArrowStack.getItemMeta().getDisplayName());
 
-		event.getProjectile().setCustomName(firstArrowStack.getItemMeta().getDisplayName());
+			if (firstArrowStack.getItemMeta().getLore() != null) {
+				Optional<String> nameOptional = firstArrowStack.getItemMeta().getLore().stream()
+						.filter(l -> l.startsWith(NAMED)).findFirst();
+				if (nameOptional != null && nameOptional.isPresent() && nameOptional.get() != null) {
+					String name = nameOptional.get();
+					plugin.debugInfo("Naming arrow: " + name);
+					int startIndex = name.indexOf(NAMED) + NAMED.length();
+					plugin.debugInfo("startIndex: " + startIndex);
+					name = name.substring(startIndex);
+					plugin.debugInfo("Named arrow: " + name);
+					MetadataValue mdv = new FixedMetadataValue(plugin, name);
+					event.getProjectile().setMetadata(NAMED, mdv);
+				}
 
-		if(firstArrowStack.getItemMeta().getLore() != null){
-			Optional<String> nameOptional = firstArrowStack.getItemMeta().getLore().stream().filter(l -> l.startsWith(NAMED)).findFirst();
-			if (nameOptional != null && nameOptional.isPresent() && nameOptional.get() != null) {
-				String name = nameOptional.get();
-				plugin.debugInfo("Naming arrow: " + name);
-				int startIndex = name.indexOf(NAMED) + NAMED.length();
-				plugin.debugInfo("startIndex: " + startIndex);
-				name = name.substring(startIndex);
-				plugin.debugInfo("Named arrow: " + name);
-				MetadataValue mdv = new FixedMetadataValue(plugin, name);
-				event.getProjectile().setMetadata(NAMED, mdv);
-			}
+				if (firstArrowStack.getItemMeta().getLore().stream()
+						.anyMatch(l -> !l.startsWith(NAMED) && l.contains(TAMED))) {
+					MetadataValue mdv = new FixedMetadataValue(plugin, true);
+					event.getProjectile().setMetadata(TAMED, mdv);
+				}
 
-			if (firstArrowStack.getItemMeta().getLore().stream().anyMatch(l -> !l.startsWith(NAMED) && l.contains(TAMED))) {
-				MetadataValue mdv = new FixedMetadataValue(plugin, true);
-				event.getProjectile().setMetadata(TAMED, mdv);
-			}
-			
-			if (firstArrowStack.getItemMeta().getLore().stream().anyMatch(l -> !l.startsWith(NAMED) && l.contains(CHESTED))) {
-				MetadataValue mdv = new FixedMetadataValue(plugin, true);
-				event.getProjectile().setMetadata(CHESTED, mdv);
+				if (firstArrowStack.getItemMeta().getLore().stream()
+						.anyMatch(l -> !l.startsWith(NAMED) && l.contains(CHESTED))) {
+					MetadataValue mdv = new FixedMetadataValue(plugin, true);
+					event.getProjectile().setMetadata(CHESTED, mdv);
+				}
 			}
 		}
-		
 
 	}
-
 }
 
 /*

@@ -2,6 +2,7 @@ package com.blocktyper.yearmarked.listeners;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -45,11 +46,17 @@ public class SuperCreeperDamageListener extends AbstractListener {
 				plugin.debugInfo("arrows have no display name");
 				return;
 			}
-
-			// name it whatever the item stack is named
-			// we will worry about if it is configured in the
-			// EntityDamageByEntityEvent handler playerKillSuperCreeper
-			event.getProjectile().setCustomName(firstArrowStack.getItemMeta().getDisplayName());
+			
+			ItemStack bow = plugin.getPlayerHelper().getItemInHand(player);
+			if(plugin.getPlayerHelper().itemHasEnchantment(bow, Enchantment.ARROW_INFINITE)){
+				plugin.debugInfo("Infinite enchantment not approved.");
+			}else{
+				// name it whatever the item stack is named
+				// we will worry about if it is configured in the
+				// EntityDamageByEntityEvent handler playerKillSuperCreeper
+				event.getProjectile().setCustomName(firstArrowStack.getItemMeta().getDisplayName());
+			}
+			
 		} else {
 			plugin.debugInfo("no arrows found");
 		}
