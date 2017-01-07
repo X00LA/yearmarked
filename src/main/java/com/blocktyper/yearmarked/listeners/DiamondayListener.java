@@ -64,7 +64,7 @@ public class DiamondayListener extends AbstractListener {
 			rewardCount = low;
 		}
 		
-		String bonus = plugin.getLocalizedMessage(LocalizedMessageEnum.BONUS.getKey());
+		String bonus = plugin.getLocalizedMessage(LocalizedMessageEnum.BONUS.getKey(), event.getPlayer());
 		
 		if(rewardCount > 0){
 			event.getPlayer().sendMessage(ChatColor.BLUE + bonus + "[x" + rewardCount + "] " + block.getType().toString());

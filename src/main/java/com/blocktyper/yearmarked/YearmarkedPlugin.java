@@ -4,6 +4,7 @@ import java.io.File;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -285,14 +286,15 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 		plugin.get(getName()).debugInfo("sendDayInfo --> displayKey: " + cal.getDayOfWeekEnum().getDisplayKey());
 		String dayName = plugin.get(getName()).getConfig().getString(cal.getDayOfWeekEnum().getDisplayKey(), "A DAY");
 		plugin.get(getName()).debugInfo("sendDayInfo --> dayName: " + dayName);
-		String todayIs = String
-				.format(plugin.get(getName()).getLocalizedMessage(LocalizedMessageEnum.TODAY_IS.getKey()), dayName);
-		String dayOfMonthMessage = new MessageFormat(
-				plugin.get(getName()).getLocalizedMessage(LocalizedMessageEnum.IT_IS_DAY_NUMBER.getKey())).format(
-						new Object[] { cal.getDayOfMonth() + "", cal.getMonthOfYear() + "", cal.getYear() + "" });
-
+		
 		if (players != null && !players.isEmpty()) {
 			for (Player player : players) {
+				String todayIs = String
+						.format(plugin.get(getName()).getLocalizedMessage(LocalizedMessageEnum.TODAY_IS.getKey(), player), dayName);
+				String dayOfMonthMessage = new MessageFormat(
+						plugin.get(getName()).getLocalizedMessage(LocalizedMessageEnum.IT_IS_DAY_NUMBER.getKey(), player)).format(
+								new Object[] { cal.getDayOfMonth() + "", cal.getMonthOfYear() + "", cal.getYear() + "" });
+				
 				player.sendMessage(ChatColor.GREEN + "#----------------");
 				player.sendMessage(ChatColor.GREEN + "#----------------");
 				player.sendMessage(ChatColor.YELLOW + todayIs);
@@ -310,13 +312,12 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 					visibilityManager.setVisibleByDefault(false);
 					hologram.appendTextLine(ChatColor.YELLOW + todayIs);
 
-					List<LocalizedMessageEnum> descriptions = LocalizedMessageEnum
-							.getDayDesciptions(cal.getDayOfWeekEnum());
+					List<String> descriptions = LocalizedMessageEnum
+							.getDayDesciptions(cal.getDayOfWeekEnum(), this, player);
 
 					if (descriptions != null && !descriptions.isEmpty()) {
-						for (LocalizedMessageEnum localizedMessageEnum : descriptions) {
-							String message = getLocalizedMessage(localizedMessageEnum.getKey());
-							hologram.appendTextLine(ChatColor.GREEN + message);
+						for (String description : descriptions) {
+							hologram.appendTextLine(ChatColor.GREEN + description);
 						}
 					}
 				}
@@ -324,15 +325,8 @@ public class YearmarkedPlugin extends BlockTyperPlugin implements Listener {
 		}
 	}
 
-	private ResourceBundle bundle = null;
-
-	public ResourceBundle getBundle() {
-		if (bundle == null)
-			bundle = ResourceBundle.getBundle(RESOURCE_NAME, locale);
-		return bundle;
+	@Override
+	public ResourceBundle getBundle(Locale locale) {
+		return ResourceBundle.getBundle(RESOURCE_NAME, locale);
 	}
-	///////////////////////////
-	// end localization ///////
-	///////////////////////////
-
 }

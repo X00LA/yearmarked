@@ -1,7 +1,10 @@
 package com.blocktyper.yearmarked;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.bukkit.entity.Player;
 
 public enum LocalizedMessageEnum {
 	
@@ -56,23 +59,32 @@ public enum LocalizedMessageEnum {
 		this.key = key;
 	}
 	
-	public static List<LocalizedMessageEnum> getDayDesciptions(DayOfWeekEnum dayOfWeekEnum){
-		List<LocalizedMessageEnum> returnList = new ArrayList<LocalizedMessageEnum>();
+	public static List<String> getDayDesciptions(DayOfWeekEnum dayOfWeekEnum, YearmarkedPlugin plugin, Player player){
+		List<String> returnList = new ArrayList<String>();
 		if(dayOfWeekEnum != null){
+			String message = null;
 			if(dayOfWeekEnum.equals(DayOfWeekEnum.MONSOONDAY)){
-				returnList.add(DESCRIPTION_MONSOONDAY);
+				message = plugin.getLocalizedMessage(DESCRIPTION_MONSOONDAY.getKey(), player);
+				message = new MessageFormat(message).format(new Object[]{plugin.getNameOfThordfish()});
+				returnList.add(message);
 			}else if(dayOfWeekEnum.equals(DayOfWeekEnum.EARTHDAY)){
-				returnList.add(DESCRIPTION_EARTHDAY);
+				returnList.add(plugin.getLocalizedMessage(DESCRIPTION_EARTHDAY.getKey(), player));
 			}else if(dayOfWeekEnum.equals(DayOfWeekEnum.WORTAG)){
-				returnList.add(DESCRIPTION_WORTAG);
+				returnList.add(plugin.getLocalizedMessage(DESCRIPTION_WORTAG.getKey(), player));
 			}else if(dayOfWeekEnum.equals(DayOfWeekEnum.DONNERSTAG)){
-				returnList.add(DESCRIPTION_DONNERSTAG);
+				message = plugin.getLocalizedMessage(DESCRIPTION_DONNERSTAG.getKey(), player);
+				message = new MessageFormat(message).format(new Object[]{plugin.getNameOfFishSword()});
+				returnList.add(message);
 			}else if(dayOfWeekEnum.equals(DayOfWeekEnum.FISHFRYDAY)){
-				returnList.add(DESCRIPTION_FISHFRYDAY);
+				message = plugin.getLocalizedMessage(DESCRIPTION_FISHFRYDAY.getKey(), player);
+				message = new MessageFormat(message).format(new Object[]{plugin.getNameOfThordfish(), plugin.getNameOfFishSword()});
+				returnList.add(message);
 			}else if(dayOfWeekEnum.equals(DayOfWeekEnum.DIAMONDAY)){
-				returnList.add(DESCRIPTION_DIAMONDAY);
+				returnList.add(plugin.getLocalizedMessage(DESCRIPTION_DIAMONDAY.getKey(), player));
 			}else if(dayOfWeekEnum.equals(DayOfWeekEnum.FEATHERSDAY)){
-				returnList.add(DESCRIPTION_FEATHERSDAY);
+				message = plugin.getLocalizedMessage(DESCRIPTION_FEATHERSDAY.getKey(), player);
+				message = new MessageFormat(message).format(new Object[]{plugin.getNameOfFishSword()});
+				returnList.add(message);
 			}
 		}
 		

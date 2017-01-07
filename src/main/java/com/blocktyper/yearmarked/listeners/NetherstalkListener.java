@@ -156,7 +156,7 @@ public class NetherstalkListener extends AbstractListener {
 
 				} else {
 					String localizedAndTokenizedAffordMessage = plugin
-							.getLocalizedMessage(LocalizedMessageEnum.CANT_AFFORD.getKey());
+							.getLocalizedMessage(LocalizedMessageEnum.CANT_AFFORD.getKey(), player);
 					String typeName = isEarthdayNetherwort ? plugin.getNameOfEarthdayNetherwort()
 							: plugin.getNameOfWortagNetherwort();
 					event.getPlayer().sendMessage(ChatColor.RED + new MessageFormat(localizedAndTokenizedAffordMessage)

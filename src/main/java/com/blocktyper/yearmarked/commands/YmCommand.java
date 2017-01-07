@@ -48,7 +48,7 @@ public class YmCommand implements CommandExecutor {
 		}
 
 		if (sendMessage) {
-			String message = plugin.getLocalizedMessage(LocalizedMessageEnum.NO_PERMISSION.getKey());
+			String message = plugin.getLocalizedMessage(LocalizedMessageEnum.NO_PERMISSION.getKey(), player);
 			player.sendMessage(ChatColor.RED
 					+ new MessageFormat(message).format(new Object[] { StringUtils.join(permissions, ",") }));
 		}
@@ -77,7 +77,7 @@ public class YmCommand implements CommandExecutor {
 
 			if (!plugin.worldEnabled(player.getWorld().getName())) {
 				plugin.debugInfo("no time commands. world not enabled.");
-				String message = plugin.getLocalizedMessage(LocalizedMessageEnum.WORLD_NOT_ENABLED.getKey());
+				String message = plugin.getLocalizedMessage(LocalizedMessageEnum.WORLD_NOT_ENABLED.getKey(), player);
 				player.sendMessage(new MessageFormat(message).format(new Object[] { player.getWorld().getName() }));
 				return false;
 			}

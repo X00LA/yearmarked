@@ -34,7 +34,7 @@ public class FishfrydayListener extends AbstractListener {
 		}
 
 		if (event.getState().equals(PlayerFishEvent.State.CAUGHT_FISH)) {
-			String doubleXp = plugin.getLocalizedMessage(LocalizedMessageEnum.DOUBLE_XP.getKey());
+			String doubleXp = plugin.getLocalizedMessage(LocalizedMessageEnum.DOUBLE_XP.getKey(), event.getPlayer());
 			event.getPlayer().sendMessage(ChatColor.DARK_GREEN + doubleXp);
 			event.setExpToDrop(event.getExpToDrop() * 2);
 
@@ -51,14 +51,14 @@ public class FishfrydayListener extends AbstractListener {
 					.getInt(ConfigKeyEnum.FISHFRYDAY_PERCENT_CHANCE_THORDFISH.getKey(), 10);
 
 			if (isOpLucky || plugin.rollIsLucky(percentChanceOfDiamond)) {
-				String message = plugin.getLocalizedMessage(LocalizedMessageEnum.FISH_HAD_DIAMOND.getKey());
+				String message = plugin.getLocalizedMessage(LocalizedMessageEnum.FISH_HAD_DIAMOND.getKey(), event.getPlayer());
 				doReward(event.getPlayer(), Material.DIAMOND, message, ChatColor.BLUE,
 						plugin.getConfig().getString(ConfigKeyEnum.FISHFRYDAY.getKey()) + " "
 								+ Material.DIAMOND.name());
 			}
 
 			if (isOpLucky || plugin.rollIsLucky(percentChanceOfEmerald)) {
-				String message = plugin.getLocalizedMessage(LocalizedMessageEnum.FISH_HAD_EMERALD.getKey());
+				String message = plugin.getLocalizedMessage(LocalizedMessageEnum.FISH_HAD_EMERALD.getKey(), event.getPlayer());
 				doReward(event.getPlayer(), Material.EMERALD, message, ChatColor.GREEN,
 						plugin.getConfig().getString(ConfigKeyEnum.FISHFRYDAY.getKey()) + " "
 								+ Material.EMERALD.name());

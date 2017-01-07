@@ -45,7 +45,7 @@ public class FeathersdayListener extends AbstractListener {
 			}
 			
 			String fallDamagePrevented = plugin
-					.getLocalizedMessage(LocalizedMessageEnum.FALL_DAMAGE_PREVENTED.getKey());
+					.getLocalizedMessage(LocalizedMessageEnum.FALL_DAMAGE_PREVENTED.getKey(), player);
 			player.sendMessage(ChatColor.YELLOW + fallDamagePrevented);
 			event.setCancelled(true);
 

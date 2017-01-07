@@ -66,7 +66,7 @@ public class WortagListener extends AbstractListener {
 		}
 
 		if (rewardCount > 0) {
-			String bonus = plugin.getLocalizedMessage(LocalizedMessageEnum.BONUS.getKey());
+			String bonus = plugin.getLocalizedMessage(LocalizedMessageEnum.BONUS.getKey(), event.getPlayer());
 			event.getPlayer().sendMessage(
 					ChatColor.DARK_PURPLE + bonus + "[x" + rewardCount + "] " + block.getType().toString());
 			dropItemsInStacks(block.getLocation(), Material.NETHER_STALK, rewardCount,

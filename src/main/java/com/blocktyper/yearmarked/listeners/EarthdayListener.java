@@ -117,7 +117,7 @@ public class EarthdayListener extends AbstractListener {
 		}
 
 		if (rewardCount > 0) {
-			String bonus = plugin.getLocalizedMessage(LocalizedMessageEnum.BONUS.getKey());
+			String bonus = plugin.getLocalizedMessage(LocalizedMessageEnum.BONUS.getKey(), event.getPlayer());
 			event.getPlayer()
 					.sendMessage(ChatColor.DARK_GREEN + bonus + "[x" + rewardCount + "] " + block.getType().toString());
 			reward(block, rewardCount);

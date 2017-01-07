@@ -142,20 +142,20 @@ public class SuperCreeperDamageListener extends AbstractListener {
 
 		if (isOpLucky || plugin.rollIsLucky(dropDiamondPercent)) {
 			Material reward = Material.DIAMOND;
-			String message = plugin.getLocalizedMessage(LocalizedMessageEnum.SUPER_CREEPER_HAD_DIAMOND.getKey());
+			String message = plugin.getLocalizedMessage(LocalizedMessageEnum.SUPER_CREEPER_HAD_DIAMOND.getKey(), player);
 			ChatColor color = ChatColor.BLUE;
 			doReward(creeper, player, reward, message, color);
 		}
 		if (isOpLucky || plugin.rollIsLucky(dropEmeraldPercent)) {
 			Material reward = Material.EMERALD;
-			String message = plugin.getLocalizedMessage(LocalizedMessageEnum.SUPER_CREEPER_HAD_EMERALD.getKey());
+			String message = plugin.getLocalizedMessage(LocalizedMessageEnum.SUPER_CREEPER_HAD_EMERALD.getKey(), player);
 			ChatColor color = ChatColor.GREEN;
 			doReward(creeper, player, reward, message, color);
 		}
 		if (isOpLucky || plugin.rollIsLucky(dropThordfishPercent)) {
 			if (plugin.getNameOfThordfish() != null) {
 				String message = String.format(
-						plugin.getLocalizedMessage(LocalizedMessageEnum.SUPER_CREEPER_HAD_THORDFISH.getKey()),
+						plugin.getLocalizedMessage(LocalizedMessageEnum.SUPER_CREEPER_HAD_THORDFISH.getKey(), player),
 						plugin.getNameOfThordfish());
 				doReward(creeper, player, Material.RAW_FISH, message, ChatColor.DARK_GREEN,
 						plugin.getNameOfThordfish());

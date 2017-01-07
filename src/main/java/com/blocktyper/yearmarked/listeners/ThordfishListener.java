@@ -73,7 +73,7 @@ public class ThordfishListener extends AbstractListener {
 			return;
 		}
 		
-		String localizedAndTokenizedAffordMessage = plugin.getLocalizedMessage(LocalizedMessageEnum.CANT_AFFORD.getKey());
+		String localizedAndTokenizedAffordMessage = plugin.getLocalizedMessage(LocalizedMessageEnum.CANT_AFFORD.getKey(), event.getPlayer());
 
 		if (dayOfWeekEnum.equals(DayOfWeekEnum.MONSOONDAY)) {
 			if (event.getPlayer().getPlayerWeather().equals(WeatherType.CLEAR)) {
